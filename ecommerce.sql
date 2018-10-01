@@ -1,76 +1,138 @@
-DROP TABLE PRODUCTCATEGORIES;
-DROP TABLE ORDERDETAILS;
-DROP TABLE ORDERS;
-DROP TABLE PRODUCTS;
-DROP TABLE USERS;
+-- ****************** SqlDBM: MySQL ******************;
+-- ***************************************************;
 
-CREATE TABLE USERS (
-    USERID int NOT NULL,
-    USERNAME VARCHAR(64) NOT NULL,
-    FNAME VARCHAR(64) NOT NULL,
-    LNAME VARCHAR(64),
-    EMAIL VARCHAR(200) NOT NULL,
-    PASSWORD VARCHAR(64) NOT NULL,
-    CITY VARCHAR(64),
-    USER_STATE VARCHAR(32),
-    ADDRESS VARCHAR(100),
-    COUNTRY VARCHAR(32),
-    ZIP_CODE VARCHAR(16),
-    PHONE_NUMBER VARCHAR(48),
-    REGISTER_DATE TIMESTAMP,
-    VERLIFY_CODE VARCHAR(16),
-    ACTIVATE_DATE TIMESTAMP,
-    PRIMARY KEY(USERID)
+DROP TABLE OrderDetails;
+
+
+DROP TABLE Orders;
+
+
+DROP TABLE Products;
+
+
+DROP TABLE ProductCategories;
+
+
+DROP TABLE Users;
+
+
+
+-- ************************************** ProductCategories
+
+CREATE TABLE ProductCategories
+(
+ Category_ID  INT NOT NULL ,
+ CategoryName VARCHAR(64) NOT NULL ,
+
+PRIMARY KEY (Category_ID)
 );
 
-CREATE TABLE PRODUCTS (
-    PRODUCTID int NOT NULL,
-    PRODUCT_NAME varchar(128) NOT NULL,
-    PRODUCT_PRICE float NOT NULL DEFAULT 0.00,
-    PRODUCT_DESC varchar(2048),
-    PRODUCT_IMAGE varchar(128),
-    PRODUCT_CATEGORYID int UNIQUE NOT NULL,
-    PRODUCT_UPDATEDATE timestamp NOT NULL,
-    PRODUCT_STOCK smallint NOT NULL,
-    PRODUCT_LIVE boolean NOT NULL,
-    PRODUCT_LOCATION varchar(250),
-    PRIMARY KEY(PRODUCTID)
+
+
+
+
+
+-- ************************************** Users
+
+CREATE TABLE Users
+(
+ UserId        INT NOT NULL ,
+ Username      VARCHAR(16) NOT NULL ,
+ FName         VARCHAR(32) NOT NULL ,
+ LName         VARCHAR(32) NOT NULL ,
+ Email         VARCHAR(256) NOT NULL ,
+ Password      VARCHAR(64) NOT NULL ,
+ City          VARCHAR(64) NOT NULL ,
+ User_State    VARCHAR(32) ,
+ Address       VARCHAR(100) ,
+ Country       VARCHAR(32) ,
+ ZIP_Code      VARCHAR(16) ,
+ Phone_Number  VARCHAR(48) ,
+ Register_Date TIMESTAMP NOT NULL ,
+ Verify_Code   VARCHAR(16) ,
+ Activate_Date TIMESTAMP ,
+
+PRIMARY KEY (UserId)
 );
 
-CREATE TABLE PRODUCTCATEGORIES (
-    CATEGORY_ID int NOT NULL,
-    CATEGORYNAME varchar(64),
-    PRIMARY KEY(CATEGORY_ID),
-    FOREIGN KEY(CATEGORY_ID) REFERENCES PRODUCTS(PRODUCT_CATEGORYID)
+
+
+
+
+
+-- ************************************** Orders
+
+CREATE TABLE Orders
+(
+ Order_ID           INT NOT NULL ,
+ Order_UserID       INT NOT NULL ,
+ Order_Amount       INT NOT NULL ,
+ Order_ShipName     VARCHAR(128) NOT NULL ,
+ Order_ShipAddress  VARCHAR(128) NOT NULL ,
+ Order_ShipAddress2 VARCHAR(128) NOT NULL ,
+ Order_City         VARCHAR(64) NOT NULL ,
+ Order_State        VARCHAR(32) NOT NULL ,
+ Order_Zip          VARCHAR(16) NOT NULL ,
+ Order_Address      VARCHAR(100) NOT NULL ,
+ Order_Phone        VARCHAR(48) NOT NULL ,
+ Order_Tax          FLOAT NOT NULL ,
+ Order_Email        VARCHAR(100) NOT NULL ,
+ Order_Date         TIMESTAMP NOT NULL ,
+ Order_Shipped      BOOLEAN NOT NULL ,
+
+PRIMARY KEY (Order_ID),
+FOREIGN KEY (Order_UserID) REFERENCES Users (UserId)
 );
 
-CREATE TABLE ORDERS (
-    ORDER_ID INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1001, INCREMENT BY 1),
-    ORDER_USERID INT NOT NULL,
-    ORDER_AMOUNT INT NOT NULL DEFAULT 1,
-    ORDER_SHIPNAME VARCHAR(128) NOT NULL,
-    ORDER_SHIPADDRESS VARCHAR(128),
-    ORDER_SHIPADDRESS2 VARCHAR(128),
-    ORDER_CITY VARCHAR(64),
-    ORDER_STATE VARCHAR(32),
-    ORDER_ZIP VARCHAR(16),
-    ORDER_ADDRESS VARCHAR(100),
-    ORDER_PHONE VARCHAR(48),
-    ORDER_TAX FLOAT NOT NULL,
-    ORDER_EMAIL VARCHAR(100),
-    ORDER_DATE TIMESTAMP NOT NULL,
-    ORDER_SHIPPED BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY(ORDER_ID),
-    FOREIGN KEY(ORDER_USERID) REFERENCES USERS(USERID)
+
+
+
+
+
+-- ************************************** Products
+
+CREATE TABLE Products
+(
+ Product_ID         INT NOT NULL ,
+ Product_Name       VARCHAR(128) NOT NULL ,
+ Product_Price      FLOAT NOT NULL ,
+ Product_Desc       VARCHAR(2048) NOT NULL ,
+ Product_Image      VARCHAR(1024) NOT NULL ,
+ Product_CategotyID INT NOT NULL ,
+ Product_UpdateDate TIMESTAMP NOT NULL ,
+ Product_Stock      SMALLINT NOT NULL ,
+ Product_Live       BOOLEAN NOT NULL ,
+ Product_Locaton    VARCHAR(256) NOT NULL ,
+ Category_ID        INT NOT NULL ,
+
+PRIMARY KEY (Product_ID),
+FOREIGN KEY (Product_CategotyID) REFERENCES ProductCategories (Category_ID)
 );
 
-CREATE TABLE ORDERDETAILS (
-    DETAILID INT NOT NULL,
-    DETAILORDERID INT NOT NULL,
-    DETAILPRODUCTID INT NOT NULL,
-    DETAILNAME VARCHAR(256),
-    DETAILPRICE FLOAT,
-    DETAILQUANTITY INT,
-    PRIMARY KEY(DETAILID),
-    FOREIGN KEY(DETAILORDERID) REFERENCES ORDERS(ORDER_ID)
+
+
+
+
+
+-- ************************************** OrderDetails
+
+CREATE TABLE OrderDetails
+(
+ DetailID         INT NOT NULL ,
+ Detail_OrderID   INT NOT NULL ,
+ Detail_ProductID INT NOT NULL ,
+ Detail_Name      VARCHAR(256) NOT NULL ,
+ Detail_Price     FLOAT NOT NULL ,
+ Detail_Quantity  INT NOT NULL ,
+ Product_ID       INT NOT NULL ,
+ Order_ID         INT NOT NULL ,
+
+PRIMARY KEY (DetailID),
+FOREIGN KEY (Detail_ProductID) REFERENCES Products (Product_ID),
+FOREIGN KEY (Detail_OrderID) REFERENCES Orders (Order_ID)
 );
+
+
+
+
+
