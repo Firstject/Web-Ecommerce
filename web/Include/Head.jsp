@@ -6,7 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
+<link rel="shortcut icon" type="image/x-icon" href="https://secureservercdn.net/ip-ad.mwp2.iad2.secureserver.net/ope.c2b.godaddywp.com/wp-content/uploads/2017/01/retail-ecommerce-icon-300x300.png" />
+<link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
 <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
 <script src="https://bootswatch.com/_vendor/popper.js/dist/umd/popper.min.js"></script>
 <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.min.js"></script>
