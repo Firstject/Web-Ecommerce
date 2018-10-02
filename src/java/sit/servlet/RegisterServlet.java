@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sit.model.EmailMsgManager;
 import sit.model.SendMail;
 
 /**
@@ -38,17 +39,13 @@ public class RegisterServlet extends HttpServlet {
 //        -------------------------------
         String subject = "";
         String message = "";
+        EmailMsgManager emm = new EmailMsgManager();
         
         if (username != null && username.trim().length() > 4 &&
                 email != null) {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
             subject = "Welcome to Cart-Commerce!";
-            message = "Hello, " + username + "!\n\n\n"
-                    + "Thank you for registering to Cart-Commerce!\n\n"
-                    + "You can now use Cart-Commerce for all your purchases and get 100% guarantee.\n"
-                    + "We'll instantly refund you if your order does not arrive, is damaged, or is substantially different from what was described.\n\n"
-                    + "Regards,\n\n"
-                    + "Cart-Commerce Support Team";
+            message = emm.regisSuccess(username);
             SendMail.send(email, subject, message);
             getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
             return;
