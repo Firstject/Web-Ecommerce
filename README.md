@@ -12,5 +12,5 @@ Web Programming Project - Private
 | Password      | `none`        |
 
 # Email sending process is real
-- Make sure you typed in a correct information in the register page, which will be used for account activation.
+- Make sure you enter a correct information in the register page, which will be used for account activation.
 - If you don't receive message in gmail, please check in spam folder.
