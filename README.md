@@ -1,7 +1,7 @@
 # Web-Ecommerce
 Web Programming Project - Private
 
-#How to download and set project as your work repository? View Readme.md!!
+# How to download and set project as your work repository? View Readme.md!!
 
 # SQL is available. Download SQL first and create database for the project
 - Database are kept as seperate work-group.
