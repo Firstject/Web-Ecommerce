@@ -10,3 +10,7 @@ Web Programming Project - Private
 | JavaDB name   | WareModel     |
 | User          | `none`        |
 | Password      | `none`        |
+
+# Email sending process is real
+- Make sure you typed in a correct information in the register page, which will be used for account activation.
+- If you don't receive message in gmail, please check in spam folder.
