@@ -12,5 +12,6 @@ Web Programming Project - Private
 | Password      | `none`        |
 
 # Email sending process is real
+- Email sender address is <b>cartcommerce.noreply</b>
 - Make sure you enter a correct information in the register page, which will be used for account activation.
 - If you don't receive message in gmail, please check in spam folder.
