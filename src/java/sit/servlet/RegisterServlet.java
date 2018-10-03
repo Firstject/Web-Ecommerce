@@ -40,13 +40,18 @@ public class RegisterServlet extends HttpServlet {
         String subject = "";
         String message = "";
         EmailMsgManager emm = new EmailMsgManager();
+        boolean isMailSent = false;
         
-        if (username != null && username.trim().length() > 4 &&
+        if (username != null && username.trim().length() >= 4 &&
                 email != null) {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
-            subject = "Welcome to Cart-Commerce!";
+            subject = "Please confirm your email address";
             message = emm.regisSuccess(username);
-            SendMail.send(email, subject, message);
+            int sendResult = SendMail.send(email, subject, message); //SEND MAIL!
+            if (sendResult == 0) { //IS SENDING EMAIL successful?
+                isMailSent = true;
+            }
+            request.setAttribute("isMailSent", isMailSent);
             getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
             return;
         }
