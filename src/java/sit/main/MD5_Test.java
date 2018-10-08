@@ -5,7 +5,7 @@
  */
 package sit.main;
 
-import sit.model.MD5;
+import sit.javaModel.MD5;
 
 /**
  *

@@ -8,19 +8,28 @@ package sit.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.ProcessBuilder.Redirect.to;
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sit.model.EmailMsgManager;
-import sit.model.SendMail;
+import javax.transaction.UserTransaction;
+import sit.javaModel.EmailMsgManager;
+import sit.javaModel.SendMail;
 
 /**
  *
  * @author Firsty
  */
 public class RegisterServlet extends HttpServlet {
-
+    
+    @PersistenceUnit(unitName = "ECommerce_WebPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
