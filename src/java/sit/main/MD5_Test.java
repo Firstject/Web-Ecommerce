@@ -18,10 +18,18 @@ public class MD5_Test {
      */
     public static void main(String[] args) {
         MD5 md = new MD5();
-        String encPass = md.cryptWithMD5("24681357abc*");
-        String encPassCut = md.cryptWithMD5("24681357abc*").replace("1", "").replace("2", "").replace("e", "").replace("c", "");
-        System.out.println(encPass);
-        System.out.println(encPassCut);
+//        String encPass = md.cryptWithMD5("24681357abc*");
+//        String encPassCut = md.cryptWithMD5("24681357abc*").replace("1", "").replace("2", "").replace("e", "").replace("c", "");
+//        System.out.println(encPass);
+//        System.out.println(encPassCut);
+        String username = "RealWhtie";
+        boolean containsWhitespace = false;
+        for (int i = 0; i < username.length() && !containsWhitespace; i++) {
+            if (Character.isWhitespace(username.charAt(i))) {
+                containsWhitespace = true;
+            }
+        }
+        System.out.println("String contains whitespace: " + containsWhitespace);
     }
     
 }

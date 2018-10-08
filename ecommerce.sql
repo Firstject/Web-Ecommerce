@@ -36,7 +36,7 @@ PRIMARY KEY (Category_ID)
 
 CREATE TABLE Users
 (
- UserId        INT NOT NULL ,
+ UserId        INT NOT NULL,
  Username      VARCHAR(16) NOT NULL ,
  FName         VARCHAR(32) ,
  LName         VARCHAR(32) ,

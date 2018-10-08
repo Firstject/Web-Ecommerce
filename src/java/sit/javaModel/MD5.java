@@ -7,6 +7,7 @@ package sit.javaModel;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 /**
  *
@@ -32,5 +33,9 @@ public class MD5 {
             System.out.println(ex);
         }
         return null;
+    }
+    
+    public String generateVerificationCode() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

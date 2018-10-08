@@ -15,6 +15,7 @@
     </head>
     <body>
         <br>
+        Error code: ${errorCode}
         <div class="container">
             <form action="Register" method="post">
               <fieldset>
