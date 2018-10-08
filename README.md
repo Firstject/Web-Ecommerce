@@ -11,8 +11,8 @@ Web Programming Project - Private
 |               | Value         |
 | ------------- |---------------|
 | JavaDB name   | WareModel     |
-| User          | `none`        |
-| Password      | `none`        |
+| User          | `app`         |
+| Password      | `app`         |
 
 # Email sending process is real
 - Email sender address is <b>cartcommerce.noreply@gmail.com</b> (Less Security App Access). 
