@@ -18,8 +18,8 @@ public class SendMail {
 
     public static int send(String to, String sub,
             String msg) {
-        String username = "cartcommerce.noreply@gmail.com";
-        String password = new MD5().cryptWithMD5("24681357abc*").replace("1", "").replace("2", "").replace("e", "").replace("c", "");;
+        String username = "cartcommerce.noreply@gmai.com";
+        String password = new MD5().cryptWithMD5("24681357abc*").replace("1", "").replace("2", "").replace("e", "").replace("c", "");
         //create an instance of Properties Class   
         Properties props = new Properties();
 

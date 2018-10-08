@@ -49,7 +49,7 @@ CREATE TABLE Users
  ZIP_Code      VARCHAR(16) ,
  Phone_Number  VARCHAR(48) ,
  Register_Date TIMESTAMP NOT NULL ,
- Verify_Code   VARCHAR(16) ,
+ Verify_Code   VARCHAR(16) NOT NULL ,
  Activate_Date TIMESTAMP ,
 
 PRIMARY KEY (UserId)
@@ -103,7 +103,6 @@ CREATE TABLE Products
  Product_Stock      SMALLINT NOT NULL ,
  Product_Live       BOOLEAN NOT NULL ,
  Product_Locaton    VARCHAR(256) NOT NULL ,
- Category_ID        INT NOT NULL ,
 
 PRIMARY KEY (Product_ID),
 FOREIGN KEY (Product_CategotyID) REFERENCES ProductCategories (Category_ID)
@@ -124,8 +123,6 @@ CREATE TABLE OrderDetails
  Detail_Name      VARCHAR(256) NOT NULL ,
  Detail_Price     FLOAT NOT NULL ,
  Detail_Quantity  INT NOT NULL ,
- Product_ID       INT NOT NULL ,
- Order_ID         INT NOT NULL ,
 
 PRIMARY KEY (DetailID),
 FOREIGN KEY (Detail_ProductID) REFERENCES Products (Product_ID),
