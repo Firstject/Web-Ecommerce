@@ -63,12 +63,12 @@ public class Products implements Serializable {
     private double productPrice;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2048)
+    @Size(min = 1, max = 255)
     @Column(name = "PRODUCT_DESC")
     private String productDesc;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1024)
+    @Size(min = 1, max = 255)
     @Column(name = "PRODUCT_IMAGE")
     private String productImage;
     @Basic(optional = false)
@@ -86,7 +86,7 @@ public class Products implements Serializable {
     private Boolean productLive;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 256)
+    @Size(min = 1, max = 255)
     @Column(name = "PRODUCT_LOCATON")
     private String productLocaton;
     @JoinColumn(name = "PRODUCT_CATEGOTYID", referencedColumnName = "CATEGORY_ID")

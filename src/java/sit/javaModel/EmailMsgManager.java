@@ -16,7 +16,7 @@ public class EmailMsgManager {
     public EmailMsgManager() {
     }
     
-    public String regisSuccess(String username) {
+    public String regisSuccess(String username, String verifyCode, int id) {
         msg = "<div style=\"background-color: #e7fffc; padding: 4px;\">\n" +
                 "    <div style=\"max-width:600px; margin: 8px auto;\">\n" +
                 "        <div style=\"background-color: white; border-radius: 8px; padding: 8px;\">\n" +
@@ -32,7 +32,7 @@ public class EmailMsgManager {
                 "                <p>Hello " + username + ",</p>\n" +
                 "                <p>Thank you for registering at Cart-Commerce. To verify your e-mail address, please click on the button below.</p>\n" +
                 "                <div align=\"center\" style=\"margin: 32px;\">\n" +
-                "                    <a href=\"http://localhost:8080/Web-Ecommerce/AccountVerify?a=28462b3a477aff1d0b944ffbd22\" target=\"_blank\" style=\"padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;\">\n" +
+                "                    <a href=\"http://localhost:8080/Web-Ecommerce/AccountVerify?a=" + verifyCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;\">\n" +
                 "                        <b>Verify Address</b>\n" +
                 "                    </a>\n" +
                 "                </div>\n" +

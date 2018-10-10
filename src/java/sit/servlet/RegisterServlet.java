@@ -8,6 +8,7 @@ package sit.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.ProcessBuilder.Redirect.to;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,11 +21,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
+import sit.controller.OrderdetailsJpaController;
+import sit.controller.OrdersJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.EmailMsgManager;
 import sit.javaModel.MD5;
 import sit.javaModel.SendMail;
+import sit.model.Orderdetails;
+import sit.model.Orders;
 import sit.model.Users;
 
 /**
@@ -49,12 +54,13 @@ public class RegisterServlet extends HttpServlet {
      */
     
     /*Error codes:
-        1 - username length is too short
-        2 - username contains whitespace
-        3 - either password 1 or 2 is null
-        4 - password does not matches
-        5 - Username already exists
-        6 - Email already in use
+        -1  username length is too long
+        1   username length is too short
+        2   username contains whitespace
+        3   either password 1 or 2 is null
+        4   password does not matches
+        5   Username already exists
+        6   Email already in use
     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, RollbackFailureException, Exception {
@@ -63,9 +69,12 @@ public class RegisterServlet extends HttpServlet {
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        OrdersJpaController ordersCtrl = new OrdersJpaController(utx, emf);
+        OrderdetailsJpaController orderdetailsCtrl = new OrderdetailsJpaController(utx, emf);
         MD5 md = new MD5();
 //        -------------------------------
         String verifyCode = "";
+        int userId; //Used for sending email. For easily verification pointer
         String subject = "";
         String message = "";
         EmailMsgManager emm = new EmailMsgManager();
@@ -75,8 +84,13 @@ public class RegisterServlet extends HttpServlet {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
             email = email.trim(); //Trim to remove whitespace on both left and right sides.
             //Check length of username
-            if (username.length() < 4 || email.length() < 4) {
+            if (username.length() < 4) {
                 request.setAttribute("errorCode", 1); //Username length is too short
+                getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
+                return;
+            }
+            if (username.length() > 16) {
+                request.setAttribute("errorCode", -1); //Username length is too long
                 getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
                 return;
             }
@@ -121,15 +135,20 @@ public class RegisterServlet extends HttpServlet {
             
             //If everything met requirements, begin creating a user to the database
             verifyCode = md.generateVerificationCode();
-            Users user = new Users(usersCtrl.getUsersCount() + 1001);
+            userId = usersCtrl.getUsersCount() + 1;
+            
+            Users user = new Users(userId);
             user.setUsername(username);
             user.setEmail(email);
             user.setPassword(md.cryptWithMD5(password1));
             user.setVerifyCode(verifyCode);
             user.setRegisterDate(new Date());
+            
+            //Create database
             usersCtrl.create(user);
+           
             subject = "Please confirm your email address";
-            message = emm.regisSuccess(username);
+            message = emm.regisSuccess(username, verifyCode, userId);
             int sendResult = SendMail.send(email, subject, message); //SEND MAIL!
             if (sendResult == 0) { //IS SENDING EMAIL successful?
                 isMailSent = true;

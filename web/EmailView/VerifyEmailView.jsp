@@ -21,7 +21,7 @@
                 <p>Hello username,</p>
                 <p>Thank you for registering at Cart-Commerce. To verify your e-mail address, please click on the button below.</p>
                 <div align="center" style="margin: 32px;">
-                    <a href="http://localhost:8080/Web-Ecommerce/AccountVerify?a=28462b3a477aff1d0b944ffbd22" target="_blank" style="padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;">
+                    <a href="http://localhost:8080/Web-Ecommerce/AccountVerify?a=28462b3a477aff1d0b944ffbd22&b=1" target="_blank" style="padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;">
                         <b>Verify Address</b>
                     </a>
                 </div>

@@ -4,6 +4,7 @@
     Author     : Firsty
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +16,6 @@
     </head>
     <body>
         <br>
-        Error code: ${errorCode}
         <div class="container">
             <form action="Register" method="post">
               <fieldset>
@@ -26,11 +26,30 @@
                   <label>Username</label>
                   <input type="text" name="username" class="form-control" id="exampleInputUser" placeholder="Enter a new username" minlength="4" required="">
                   <small id="userHelp" class="form-text text-muted">This will be your username. Make sure it's at least 4 characters</small>
+                  <c:choose>
+                      <c:when test="${errorCode == -1}">
+                          <font style="color: red">Username length is too long!</font>
+                      </c:when>
+                      <c:when test="${errorCode == 1}">
+                          <font style="color: red">Username length is too short! </font>
+                      </c:when>
+                      <c:when test="${errorCode == 2}">
+                          <font style="color: red">Username contains whitespace! </font>
+                      </c:when>
+                      <c:when test="${errorCode == 5}">
+                          <font style="color: red">Username already exists! Please choose another name.</font>
+                      </c:when>
+                  </c:choose>
                 </div>
                 <div class="form-group">
                   <label>Email address</label>
                   <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email address">
                   <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  <c:choose>
+                      <c:when test="${errorCode == 6}">
+                          <font style="color: red">Email already in use!</font>
+                      </c:when>
+                  </c:choose>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
@@ -40,6 +59,11 @@
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirm Password</label>
                   <input type="password" name="password2" class="form-control" id="exampleInputPassword1" placeholder="Re-enter password" minlength="7" required="">
+                  <c:choose>
+                      <c:when test="${errorCode == 3 || errorCode == 4}">
+                          <font style="color: red">Please check that you have entered and confirmed the same password!</font>
+                      </c:when>
+                  </c:choose>
                 </div>
                 <div class="form-check">
                   <label class="form-check-label">

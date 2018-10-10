@@ -40,7 +40,7 @@ CREATE TABLE Users
  Username      VARCHAR(16) NOT NULL ,
  FName         VARCHAR(32) ,
  LName         VARCHAR(32) ,
- Email         VARCHAR(256) NOT NULL ,
+ Email         VARCHAR(255) NOT NULL ,
  Password      VARCHAR(64) NOT NULL ,
  City          VARCHAR(64) ,
  User_State    VARCHAR(32) ,
@@ -49,7 +49,7 @@ CREATE TABLE Users
  ZIP_Code      VARCHAR(16) ,
  Phone_Number  VARCHAR(48) ,
  Register_Date TIMESTAMP NOT NULL ,
- Verify_Code   VARCHAR(16) NOT NULL ,
+ Verify_Code   VARCHAR(32) NOT NULL ,
  Activate_Date TIMESTAMP ,
 
 PRIMARY KEY (UserId)
@@ -96,13 +96,13 @@ CREATE TABLE Products
  Product_ID         INT NOT NULL ,
  Product_Name       VARCHAR(128) NOT NULL ,
  Product_Price      FLOAT NOT NULL ,
- Product_Desc       VARCHAR(2048) NOT NULL ,
- Product_Image      VARCHAR(1024) NOT NULL ,
+ Product_Desc       VARCHAR(255) NOT NULL ,
+ Product_Image      VARCHAR(255) NOT NULL ,
  Product_CategotyID INT NOT NULL ,
  Product_UpdateDate TIMESTAMP NOT NULL ,
  Product_Stock      SMALLINT NOT NULL ,
  Product_Live       BOOLEAN NOT NULL ,
- Product_Locaton    VARCHAR(256) NOT NULL ,
+ Product_Locaton    VARCHAR(255) NOT NULL ,
 
 PRIMARY KEY (Product_ID),
 FOREIGN KEY (Product_CategotyID) REFERENCES ProductCategories (Category_ID)
@@ -120,7 +120,7 @@ CREATE TABLE OrderDetails
  DetailID         INT NOT NULL ,
  Detail_OrderID   INT NOT NULL ,
  Detail_ProductID INT NOT NULL ,
- Detail_Name      VARCHAR(256) NOT NULL ,
+ Detail_Name      VARCHAR(255) NOT NULL ,
  Detail_Price     FLOAT NOT NULL ,
  Detail_Quantity  INT NOT NULL ,
 
