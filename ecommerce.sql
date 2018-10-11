@@ -36,21 +36,23 @@ PRIMARY KEY (Category_ID)
 
 CREATE TABLE Users
 (
- UserId        INT NOT NULL,
- Username      VARCHAR(16) NOT NULL ,
- FName         VARCHAR(32) ,
- LName         VARCHAR(32) ,
- Email         VARCHAR(255) NOT NULL ,
- Password      VARCHAR(64) NOT NULL ,
- City          VARCHAR(64) ,
- User_State    VARCHAR(32) ,
- Address       VARCHAR(100) ,
- Country       VARCHAR(32) ,
- ZIP_Code      VARCHAR(16) ,
- Phone_Number  VARCHAR(48) ,
- Register_Date TIMESTAMP NOT NULL ,
- Verify_Code   VARCHAR(32) NOT NULL ,
- Activate_Date TIMESTAMP ,
+ UserId                INT NOT NULL,
+ Username              VARCHAR(16) NOT NULL ,
+ FName                 VARCHAR(32) ,
+ LName                 VARCHAR(32) ,
+ Email                 VARCHAR(255) NOT NULL ,
+ Password              VARCHAR(64) NOT NULL ,
+ City                  VARCHAR(64) ,
+ User_State            VARCHAR(32) ,
+ Address               VARCHAR(100) ,
+ Country               VARCHAR(32) ,
+ ZIP_Code              VARCHAR(16) ,
+ Phone_Number          VARCHAR(48) ,
+ Register_Date         TIMESTAMP NOT NULL ,
+ Verify_Code           VARCHAR(32) NOT NULL ,
+ ResetPass_Code        VARCHAR(32),
+ ResetPass_ExpireDate  TIMESTAMP ,
+ Activate_Date         TIMESTAMP ,
 
 PRIMARY KEY (UserId)
 );

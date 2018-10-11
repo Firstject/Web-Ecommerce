@@ -47,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByPhoneNumber", query = "SELECT u FROM Users u WHERE u.phoneNumber = :phoneNumber")
     , @NamedQuery(name = "Users.findByRegisterDate", query = "SELECT u FROM Users u WHERE u.registerDate = :registerDate")
     , @NamedQuery(name = "Users.findByVerifyCode", query = "SELECT u FROM Users u WHERE u.verifyCode = :verifyCode")
+    , @NamedQuery(name = "Users.findByResetpassCode", query = "SELECT u FROM Users u WHERE u.resetpassCode = :resetpassCode")
+    , @NamedQuery(name = "Users.findByResetpassExpiredate", query = "SELECT u FROM Users u WHERE u.resetpassExpiredate = :resetpassExpiredate")
     , @NamedQuery(name = "Users.findByActivateDate", query = "SELECT u FROM Users u WHERE u.activateDate = :activateDate")})
 public class Users implements Serializable {
 
@@ -106,6 +108,12 @@ public class Users implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "VERIFY_CODE")
     private String verifyCode;
+    @Size(max = 32)
+    @Column(name = "RESETPASS_CODE")
+    private String resetpassCode;
+    @Column(name = "RESETPASS_EXPIREDATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date resetpassExpiredate;
     @Column(name = "ACTIVATE_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date activateDate;
@@ -238,6 +246,22 @@ public class Users implements Serializable {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public String getResetpassCode() {
+        return resetpassCode;
+    }
+
+    public void setResetpassCode(String resetpassCode) {
+        this.resetpassCode = resetpassCode;
+    }
+
+    public Date getResetpassExpiredate() {
+        return resetpassExpiredate;
+    }
+
+    public void setResetpassExpiredate(Date resetpassExpiredate) {
+        this.resetpassExpiredate = resetpassExpiredate;
     }
 
     public Date getActivateDate() {

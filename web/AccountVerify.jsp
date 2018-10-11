@@ -35,24 +35,24 @@
                  </c:otherwise>
              </c:choose>
             <div style="text-align: center">
-                <c:choose>
-                    <c:when test="${isVerify == true}">
-                        <font style="color: green">
-                        You've successfully verified your email!<br>
-                        Please click the button below to return to login page.<br>
-                        </font>
-                    </c:when>
-                    <c:otherwise>
-                        <font style="color: red">
-                        Are you sure you've received our email for an account verification?<br>
-                        Please click the button below to return to login page.<br>
-                        </font>
-                    </c:otherwise>
-                </c:choose>
+            <c:choose>
+                <c:when test="${isVerify == true}">
+                    <font style="color: green">
+                    You've successfully verified your email!<br>
+                    Please click the button below to return to login page.<br>
+                    </font>
+                </c:when>
+                <c:otherwise>
+                    <font style="color: red">
+                    Are you sure you've received our email for an account verification?<br>
+                    Please click the button below to return to login page.<br>
+                    </font>
+                </c:otherwise>
+            </c:choose>
             </div>
             <br>
             <center>
-                <button class="btn btn-primary" href="Login.jsp" float="center">Return to sign in</button>
+                <button class="btn btn-primary" href="/Login.jsp" float="center">Return to sign in</button>
             </center>
         </div>
     </body>
