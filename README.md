@@ -20,10 +20,14 @@ Web Programming Project - Private
 - If you don't receive message in gmail, please check in spam folder. 
 
 # Updating SQL (IMPORTANT)
-- If there is any changes made on SQL file, then you'll have to do the following: 
+- If there is any change made on SQL file, then you'll have to do the following: 
   1. Entity classes may need to be updated. To do this, delete all entity classes from database and create it again.
   2. Delete all JPA controllers and recreate them all.
   
 # Questions
 If you have any questions regarding to this projecy, don't be hestitate to ask!
 
+---
+Regards,
+
+FIrst
