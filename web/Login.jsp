@@ -32,7 +32,7 @@
                               <input type="submit" value="Sign in" class="form-control btn btn-primary" >
                             </div>
                         </div>
-                        <div align="center"><button type="button" class="btn btn-link">Forgot password?</button></div>
+                        <div align="center"><a href="ResetPassword"><button type="button" class="btn btn-link">Forgot password?</button></a></div>
                     </div>
                 </fieldset>
             </form>

@@ -26,23 +26,29 @@ public class UserManager {
     @Resource
     UserTransaction utx;
     
-    public static final String USER_EMPTY = "USER_EMPTY";
-    public static final String USER_TOOSHORT = "USER_TOOSHORT";
-    public static final String USER_TOOLONG = "USER_TOOLONG";
+    public static final String USER_EMPTY         = "USER_EMPTY";
+    public static final String USER_TOOSHORT      = "USER_TOOSHORT";
+    public static final String USER_TOOLONG       = "USER_TOOLONG";
     public static final String USER_HASWHITESPACE = "USER_HASWHITESPACE";
-    public static final String USER_EXISTS = "USER_EXISTS";
-    public static final String EMAIL_EMPTY = "EMAIL_EMPTY";
-    public static final String EMAIL_EXISTS = "EMAIL_EXISTS";
-    public static final String PASSWORD_EMPTY = "PASSWORD_EMPTY";
-    public static final String PASSWORD_TOOLONG = "PASSWORD_TOOLONG";
-    public static final String PASSWORD_TOOSHORT = "PASSWORD_TOOSHORT";
-    public static final String PASSWORD_NOTMATCH = "PASSWORD_NOTMATCH";
-    private List<Users> usersList;
-    private UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+    public static final String USER_EXISTS        = "USER_EXISTS";
+    public static final String EMAIL_EMPTY        = "EMAIL_EMPTY";
+    public static final String EMAIL_EXISTS       = "EMAIL_EXISTS";
+    public static final String PASSWORD_EMPTY     = "PASSWORD_EMPTY";
+    public static final String PASSWORD_TOOLONG   = "PASSWORD_TOOLONG";
+    public static final String PASSWORD_TOOSHORT  = "PASSWORD_TOOSHORT";
+    public static final String PASSWORD_NOTMATCH  = "PASSWORD_NOTMATCH";
+    public static final String RESETCODE_INVALID  = "RESETCODE_INVALID";
+    public static final String RESETCODE_EXPIRED  = "RESETCODE_EXPIRED";
     
-    public UserManager() {}
+    private List<Users> usersList;
+    private UsersJpaController usersCtrl;
+    
+    public UserManager() {
+        this.usersCtrl = new UsersJpaController(utx, emf);
+    }
     
     public UserManager(List<Users> usersList) {
+        this.usersCtrl = new UsersJpaController(utx, emf);
         this.usersList = usersList;
     }
     
@@ -60,6 +66,8 @@ public class UserManager {
             case PASSWORD_TOOSHORT  : return "Password is too short.";
             case PASSWORD_TOOLONG   : return "Password is too long.";
             case PASSWORD_NOTMATCH  : return "Password does not match.";
+            case RESETCODE_EXPIRED  : return "It looks like your link has been expired. Please try again.";
+            case RESETCODE_INVALID  : return "It looks like you clicked on an invalid password reset link. Please try again.";
         }
         return errDesc;
     }
@@ -104,6 +112,30 @@ public class UserManager {
         }
         
         return ""; //Return if no error
+    }
+    
+    public String checkPasswordResetCode(Users user, String resetCode) {
+        String errorCode = "";
+        
+        //Check if reset code is valid
+        if (user.getResetpassCode() != null && user.getResetpassCode().equals(resetCode) &&
+                user.getResetpassCode() != null) {
+            //Check if reset password code matches.
+            if (!user.getResetpassCode().equals(resetCode)) {
+                return RESETCODE_INVALID;
+            }
+            //Check if the reset password code expire or not.
+            //If it's expired, password can't be reset and user will
+            //have to request for a code again to reset password.
+            Date date1 = new Date();
+            Date date2 = user.getResetpassExpiredate();
+            if (date1.getTime() > date2.getTime()) {
+                //Expired
+                return RESETCODE_EXPIRED;
+            }
+        }
+        
+        return errorCode;
     }
        
 }

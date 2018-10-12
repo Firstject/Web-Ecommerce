@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -18,6 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
+import sit.controller.exceptions.NonexistentEntityException;
+import sit.controller.exceptions.RollbackFailureException;
+import sit.javaModel.EmailMsgManager;
+import sit.javaModel.MD5;
+import sit.javaModel.SendMail;
+import sit.javaModel.UserManager;
 import sit.model.Users;
 
 /**
@@ -30,6 +39,9 @@ public class ResetPasswordServlet extends HttpServlet {
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
+    
+    private boolean isMailSent;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,7 +52,7 @@ public class ResetPasswordServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NonexistentEntityException, RollbackFailureException, Exception {
         /*
             This page is used in both receiving password reset code and send reset email, which is divided into 2 parts:
             Part 1: Receives password reset code and redirects user to password renew page.
@@ -51,50 +63,63 @@ public class ResetPasswordServlet extends HttpServlet {
         String a = request.getParameter("a");
         String b = request.getParameter("b");
         /* PART 2*/
-        String parameter = request.getParameter("parameter"); //This can be either username or email. But we have to check it.
+        String email = request.getParameter("parameter"); //This can be either username or email. But we have to check it.
         /* END */
+        String subject, message, resetCode, username;
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         Users user;
+        List<Users> usersList;
+        EmailMsgManager emm = new EmailMsgManager();
+        UserManager usermanager = new UserManager();
+        MD5 md = new MD5();
         
-        /* Check for part 1 */
+        /* Check for part 1 : Receiving password reset code*/
         if (a != null && b != null) {
             int userId = Integer.parseInt(b);
-            user = usersCtrl.findUsers(userId);
-            //Check if reset code is valid
-            if (user.getResetpassCode() != null && user.getResetpassCode().equals(a)) {
-                //Check if it is expire or not
-                                
+            String errorCode; //Checks whether its valid.
+            errorCode = usermanager.checkPasswordResetCode(usersCtrl.findUsers(userId), a);
+            if (!errorCode.isEmpty()) {
+                System.out.println(errorCode);
+                System.out.println(usermanager.GetErrorCodeDescription(errorCode));
+                request.setAttribute("errorCode", errorCode);
+                request.setAttribute("errorDesc", usermanager.GetErrorCodeDescription(errorCode));
+                getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
+                return;
             }
+            //Valid
+            //...
         }
         
-        //Debug
-//        Date currentDate = new Date();
-//        Date regisDate = usersCtrl.findUsers(1).getRegisterDate();
-//        Calendar cal = Calendar.getInstance();
-//        cal.setTime(regisDate);
-//        System.out.println("Register Date: " + regisDate);
-//        cal.add(Calendar.HOUR, -1);
-//        System.out.println("Register Date after -1: " + cal.getTime());
-//        System.out.println("Current Date: " + currentDate);
-        //Debug
-        
-        System.out.println("----------------");
-        
-        //DEBUG
-        Date date1 = new Date();
-        Date date2 = usersCtrl.findUsers(1).getRegisterDate();
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MINUTE, -44);
-        date1 = cal.getTime();
-        boolean isExpired = false;
-        if (date1.getTime() > date2.getTime()) {
-            isExpired = true;
+        /* Check for part 2 : Receiving email*/
+        if (email != null) {
+            usersList = usersCtrl.findUsersEntities();
+            for (Users us : usersList) {
+                if (us.getEmail().equals(email)) {
+                    username = us.getUsername();
+                    resetCode = md.generateVerificationCode();
+                    
+                    //Modify Database; Set reset password code and set time
+                    user = us;
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.HOUR, 3);
+                    user.setResetpassExpiredate(cal.getTime()); //Set expire timer to 3 hours ahead.
+                    user.setResetpassCode(resetCode); //Set reset code.
+                    usersCtrl.edit(user);
+                    
+                    subject = "Reset Password"; //Set subject name
+                    message = emm.resetPassword(username, resetCode, us.getUserid()); //Set message as HTML content
+                    SendMail.send(us.getEmail(), subject, message, sendMailCallback); //SEND MAIL!
+
+                    request.setAttribute("isMailSent", isMailSent);
+                    getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
+                    return;
+                }
+            }
+            //If the code pass through here, then username or email is not exist.
+            
+            request.setAttribute("errorDesc", "Can't find that email, sorry..");
+            
         }
-        System.out.println("Date 1 (Cur - x Mills) : " + date1);
-        System.out.println("Date 2 (Register Time) : " + date2);
-        System.out.println("Late ; 1 > 2 ; is expired: " + isExpired);
-        //DEBUG
-        
         getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
     }
 
@@ -110,7 +135,13 @@ public class ResetPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -124,7 +155,13 @@ public class ResetPasswordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ResetPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -137,4 +174,16 @@ public class ResetPasswordServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public SendMail.SendmailCallback sendMailCallback = new SendMail.SendmailCallback() {
+        @Override
+        public void onSendMailSuccess() {
+            isMailSent = true;
+        }
+
+        @Override
+        public void onSendMailError(Exception e) {
+            isMailSent = false;
+            System.err.println(e);
+        }
+    };
 }

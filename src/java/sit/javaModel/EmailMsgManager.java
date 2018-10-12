@@ -49,6 +49,39 @@ public class EmailMsgManager {
                 "</div>";
         return msg;
     }
+    
+    public String resetPassword(String username, String resetCode, int id) {
+        msg = "<div style=\"background-color: #e7fffc; padding: 4px;\">\n" +
+                "    <div style=\"max-width:600px; margin: 8px auto;\">\n" +
+                "        <div style=\"background-color: white; border-radius: 8px; padding: 8px;\">\n" +
+                "            <div align=\"center\"><img src=\"http://icons.iconarchive.com/icons/jozef89/services-flat/256/ecommerce-icon.png\" alt=\"Cart-Commerce\"\n" +
+                "                                     style=\"height: 128px; width: 128px;\"></div>\n" +
+                "            <h1 align=\"center\"><b>Cart-Commerce</b></h1>\n" +
+                "            <hr>\n" +
+                "            <div id=\"content\" style=\"padding-left: 24px; padding-right: 24px;\">\n" +
+                "                <p>Hello " + username + ",</p>\n" +
+                "                <p>We heard that you lost your Cart-Commerce password. Sorry about that!</p>\n" +
+                "                <p>But don’t worry! You can use the following link to reset your password:</p>\n" +
+                "                <div align=\"center\" style=\"margin: 32px;\">\n" +
+                "                    <a href=\"http://localhost:8080/Web-Ecommerce/ResetPassword?a=" + resetCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: #ff6600; border-radius: 8px; text-decoration: none; color: white;\">\n" +
+                "                        <b>Reset Password</b>\n" +
+                "                    </a>\n" +
+                "                </div>\n" +
+                "                <p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit this link: \n" +
+                "                    <a href=\"http://localhost:8080/Web-Ecommerce/ResetPassword\" target=\"_blank\">Password Reset</a>\n" +
+                "                </p>\n" +
+                "                <br>\n" +
+                "                <p>Sincerely,</p>\n" +
+                "                <p>Cart-Commerce support team</p>\n" +
+                "                <hr>\n" +
+                "                <p align=\"center\"><small>You received this email because you requested to reset your password at Cart-Commerce.<br>\n" +
+                "                        If you didn't request to reset your password, you can safely ignore this e-mail.</small></p>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "</div>";
+        return msg;
+    }
 
     public String getMsg() {
         return msg;
