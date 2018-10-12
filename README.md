@@ -26,8 +26,3 @@ Web Programming Project - Private
   
 # Questions
 If you have any questions regarding to this projecy, don't be hestitate to ask!
-
----
-Regards,
-
-FIrst
