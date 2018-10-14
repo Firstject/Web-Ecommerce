@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/style.css">
 <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
   <div class="container">
-      <a href="../" class="navbar-brand">🛒<b>Cart-Commerce</b></a>
+      <a href="index.jsp" class="navbar-brand">🛒<b>Cart-Commerce</b></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,10 +26,10 @@
 
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="Login.jsp">Login</a>
+          <a class="nav-link" href="Login">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="Register.jsp">Register</a>
+          <a class="nav-link" href="Register">Register</a>
         </li>
       </ul>
 

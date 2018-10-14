@@ -34,8 +34,8 @@
                     <div class="card border-dark mb-3">
                         <div class="card-body" style="display: inline">
                             <div class="form-group" style="display: inline">
-                              <label class="col-form-label" for="inputDefault"><b>Enter your username or email address and we will send you a link to reset your password.</b></label>
-                              <input type="text" name="parameter" class="form-control" id="inputDefault" required/>
+                              <label class="col-form-label" for="inputDefault"><b>Enter your email address and we will send you a link to reset your password.</b></label>
+                              <input type="text" name="parameter" class="form-control" id="inputDefault"/>
                               <br>
                               <input type="submit" value="Send password reset email" class="form-control btn btn-success" >
                             </div>

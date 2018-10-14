@@ -47,8 +47,6 @@ public class RegisterServlet extends HttpServlet {
     @Resource
     UserTransaction utx;
 
-    private boolean isMailSent = false;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -111,10 +109,9 @@ public class RegisterServlet extends HttpServlet {
 
             subject = "Please confirm your email address"; //Set subject name
             message = emm.regisSuccess(username, verifyCode, userId); //Set message as HTML content
-            SendMail.send(email, subject, message, sendMailCallback); //SEND MAIL!
+            SendMail.send(email, subject, message); //SEND MAIL!
             
-            request.setAttribute("isMailSent", isMailSent);
-            getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
+            response.sendRedirect("RegisterSuccess.jsp");
             return;
         }
 
@@ -167,19 +164,6 @@ public class RegisterServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    public SendMail.SendmailCallback sendMailCallback = new SendMail.SendmailCallback() {
-        @Override
-        public void onSendMailSuccess() {
-            isMailSent = true;
-        }
-
-        @Override
-        public void onSendMailError(Exception e) {
-            isMailSent = false;
-            System.err.println(e);
-        }
-    };
 
     
 

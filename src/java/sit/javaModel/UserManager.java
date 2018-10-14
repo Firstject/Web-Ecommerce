@@ -26,6 +26,7 @@ public class UserManager {
     @Resource
     UserTransaction utx;
     
+    //Regis
     public static final String USER_EMPTY         = "USER_EMPTY";
     public static final String USER_TOOSHORT      = "USER_TOOSHORT";
     public static final String USER_TOOLONG       = "USER_TOOLONG";
@@ -37,18 +38,16 @@ public class UserManager {
     public static final String PASSWORD_TOOLONG   = "PASSWORD_TOOLONG";
     public static final String PASSWORD_TOOSHORT  = "PASSWORD_TOOSHORT";
     public static final String PASSWORD_NOTMATCH  = "PASSWORD_NOTMATCH";
+    //Reset Password
     public static final String RESETCODE_INVALID  = "RESETCODE_INVALID";
     public static final String RESETCODE_EXPIRED  = "RESETCODE_EXPIRED";
     
     private List<Users> usersList;
-    private UsersJpaController usersCtrl;
     
     public UserManager() {
-        this.usersCtrl = new UsersJpaController(utx, emf);
     }
     
     public UserManager(List<Users> usersList) {
-        this.usersCtrl = new UsersJpaController(utx, emf);
         this.usersList = usersList;
     }
     
@@ -91,10 +90,10 @@ public class UserManager {
             return EMAIL_EMPTY;
         }
         for (Users us : usersList) {
-            if (us.getUsername().equals(user)) {
+            if (us.getUsername().equalsIgnoreCase(user)) {
                 return USER_EXISTS;
             }
-            if (us.getEmail().equals(email)) {
+            if (us.getEmail().equalsIgnoreCase(email)) {
                 return EMAIL_EXISTS;
             }
         }
@@ -115,11 +114,8 @@ public class UserManager {
     }
     
     public String checkPasswordResetCode(Users user, String resetCode) {
-        String errorCode = "";
-        
-        //Check if reset code is valid
-        if (user.getResetpassCode() != null && user.getResetpassCode().equals(resetCode) &&
-                user.getResetpassCode() != null) {
+        //Check if reset code is valid (Equals to code's info from database)
+        if (user.getResetpassCode() != null) {
             //Check if reset password code matches.
             if (!user.getResetpassCode().equals(resetCode)) {
                 return RESETCODE_INVALID;
@@ -133,9 +129,32 @@ public class UserManager {
                 //Expired
                 return RESETCODE_EXPIRED;
             }
+            
+            return ""; //No error
         }
         
-        return errorCode;
+        return RESETCODE_INVALID; //Null
     }
-       
+    
+    public Users LoginUser(String parameter, String password) {
+        // Check if parameter value is email
+        boolean isEmail = this.isEmail(parameter);
+        //Check for existence
+        for (Users us : usersList) {
+            if ((isEmail ? us.getEmail() : us.getUsername()).equalsIgnoreCase(parameter)) {
+                //If matched, check for password
+                if (!us.getPassword().equals(new MD5().cryptWithMD5(password))) {
+                    return null; //Incorrect Password
+                } else {
+                    return us; //Correct Password. Returns no error.
+                }
+            }
+        }
+        //Checked for existence and not exist!
+        return null;
+    }
+    
+    public boolean isEmail(String param){
+        return param.indexOf('@')!= -1;
+    }
 }

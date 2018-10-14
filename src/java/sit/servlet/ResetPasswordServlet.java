@@ -40,8 +40,6 @@ public class ResetPasswordServlet extends HttpServlet {
     @Resource
     UserTransaction utx;
     
-    private boolean isMailSent;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -79,15 +77,13 @@ public class ResetPasswordServlet extends HttpServlet {
             String errorCode; //Checks whether its valid.
             errorCode = usermanager.checkPasswordResetCode(usersCtrl.findUsers(userId), a);
             if (!errorCode.isEmpty()) {
-                System.out.println(errorCode);
-                System.out.println(usermanager.GetErrorCodeDescription(errorCode));
                 request.setAttribute("errorCode", errorCode);
                 request.setAttribute("errorDesc", usermanager.GetErrorCodeDescription(errorCode));
                 getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
                 return;
             }
             //Valid
-            //...
+            System.out.println("errorCode: " + errorCode);
         }
         
         /* Check for part 2 : Receiving email*/
@@ -108,10 +104,9 @@ public class ResetPasswordServlet extends HttpServlet {
                     
                     subject = "Reset Password"; //Set subject name
                     message = emm.resetPassword(username, resetCode, us.getUserid()); //Set message as HTML content
-                    SendMail.send(us.getEmail(), subject, message, sendMailCallback); //SEND MAIL!
+                    SendMail.send(us.getEmail(), subject, message); //SEND MAIL!
 
-                    request.setAttribute("isMailSent", isMailSent);
-                    getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/ResetPasswordCodeSent.jsp").forward(request, response);
                     return;
                 }
             }
@@ -174,16 +169,5 @@ public class ResetPasswordServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public SendMail.SendmailCallback sendMailCallback = new SendMail.SendmailCallback() {
-        @Override
-        public void onSendMailSuccess() {
-            isMailSent = true;
-        }
-
-        @Override
-        public void onSendMailError(Exception e) {
-            isMailSent = false;
-            System.err.println(e);
-        }
-    };
+    
 }

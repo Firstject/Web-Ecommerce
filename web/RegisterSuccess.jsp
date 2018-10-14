@@ -5,7 +5,6 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -25,22 +24,10 @@
             <hr>
             <p class="lead" align="center">You have successfully registered for Cart-Commerce.</p>
             <div style="text-align: center">
-                <c:choose>
-                    <c:when test="${isMailSent == true}">
-                        <font style="color: green">
-                        An email has been sent. Please check your email to verify your account.<br>
-                        Please check your Spam/Junk folder for the verification email.<br>
-                        </font>
-                    </c:when>
-                    <c:otherwise>
-                        <font style="color: red">
-                        We could not send an email to verify your account.<br>
-                        All you need to do is to make sure you've connected to the internet.
-                        After doing so, you can go to your account profile and request for a
-                        verification email again.<br>
-                        </font>
-                    </c:otherwise>
-                </c:choose>
+            <font style="color: green">
+                An email has been sent. Please check your email to verify your account.<br>
+                If it doesn’t appear within a few minutes, check your spam folder.<br>
+            </font>
             </div>
             <br>
             <center>

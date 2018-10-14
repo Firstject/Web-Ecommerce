@@ -17,7 +17,7 @@ import javax.mail.internet.*;
 public class SendMail {
 
     public static void send(String to, String sub,
-            String msg, SendmailCallback callback) {
+            String msg) {
         String username = "cartcommerce.noreply@gmail.com";
         String password = new MD5().cryptWithMD5("24681357abc*").replace("1", "").replace("2", "").replace("e", "").replace("c", "");
         //create an instance of Properties Class   
@@ -57,19 +57,10 @@ public class SendMail {
 
             /* Transport class is used to deliver the message to the recipients */
             Transport.send(message);
-            callback.onSendMailSuccess();
 
         } catch (Exception e) {
             e.printStackTrace();
-            callback.onSendMailError(e);
 
         }
-    }
-
-    public interface SendmailCallback {
-
-        void onSendMailSuccess();
-
-        void onSendMailError(Exception e);
     }
 }

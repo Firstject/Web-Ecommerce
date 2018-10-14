@@ -7,9 +7,6 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -17,22 +14,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
-import sit.controller.exceptions.NonexistentEntityException;
-import sit.controller.exceptions.RollbackFailureException;
+import sit.javaModel.UserManager;
 import sit.model.Users;
 
 /**
  *
  * @author Firsty
  */
-public class AccountVerifyServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     
     @PersistenceUnit(unitName = "ECommerce_WebPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,34 +41,27 @@ public class AccountVerifyServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, NonexistentEntityException, RollbackFailureException, Exception {
-        String code = request.getParameter("a");
-        String id_temp = request.getParameter("b");
+            throws ServletException, IOException {
+        String parameter = request.getParameter("parameter");
+        String password = request.getParameter("password");
+        String returnUrl = request.getParameter("returnUrl");
+        /* -------------------------- */
+        HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
-        boolean isVerify = false;
         
-        if (code != null && id_temp != null) {
-            int id = Integer.valueOf(id_temp);
-            
-            Users user = usersCtrl.findUsers(id);
-            if (user != null) {
-                //Check if verify code is match
-                if (user.getVerifyCode().equals(code)) {
-                    //Set activate date
-                    if (user.getActivateDate() == null) {
-                        user.setActivateDate(new Date());
-                    }
-                    usersCtrl.edit(user);
-                    isVerify = true;
-                }
+        if (parameter != null && password != null) {
+            UserManager um = new UserManager(usersCtrl.findUsersEntities());
+            Users user = um.LoginUser(parameter, password);
+            if (user == null) { //Unauthenticated
+                request.setAttribute("isAuthenticated", false);
+            } else { //Authenticated
+                session.setAttribute("user", user);
+                getServletContext().getRequestDispatcher("/index.html").forward(request, response);
+                return;
             }
         }
         
-        if (isVerify) {
-            response.sendRedirect("AccountVerifySuccess.jsp");
-        } else {
-            response.sendRedirect("AccountVerifyFail.jsp");
-        }
+        getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -85,13 +76,7 @@ public class AccountVerifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(AccountVerifyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(AccountVerifyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -105,13 +90,7 @@ public class AccountVerifyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (RollbackFailureException ex) {
-            Logger.getLogger(AccountVerifyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(AccountVerifyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
