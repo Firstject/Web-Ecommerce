@@ -20,6 +20,10 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>sit.servlet.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RenewPasswordServlet</servlet-name>
+        <servlet-class>sit.servlet.RenewPasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -40,9 +44,17 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenewPasswordServlet</servlet-name>
+        <url-pattern>/RenewPassword</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ErrorPage/Error404.html</location>
+    </error-page>
 </web-app>

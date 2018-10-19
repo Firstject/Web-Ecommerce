@@ -136,6 +136,8 @@ public class UserManager {
         return RESETCODE_INVALID; //Null
     }
     
+    
+    
     public Users LoginUser(String parameter, String password) {
         // Check if parameter value is email
         boolean isEmail = this.isEmail(parameter);

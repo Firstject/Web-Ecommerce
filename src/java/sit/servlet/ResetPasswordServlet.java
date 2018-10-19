@@ -82,8 +82,9 @@ public class ResetPasswordServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
                 return;
             }
-            //Valid
-            System.out.println("errorCode: " + errorCode);
+            //Valid. Send redirect
+            response.sendRedirect("RenewPassword_Email.jsp");
+            return;
         }
         
         /* Check for part 2 : Receiving email*/
