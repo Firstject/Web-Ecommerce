@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,30 +7,18 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
-import sit.controller.UsersJpaController;
-import sit.javaModel.UserManager;
-import sit.model.Users;
 
 /**
  *
  * @author Firsty
  */
-public class LoginServlet extends HttpServlet {
-    
-    @PersistenceUnit(unitName = "ECommerce_WebPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
-    
+public class LogoutServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,26 +30,13 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String parameter = request.getParameter("parameter");
-        String password = request.getParameter("password");
-        String returnUrl = request.getParameter("returnUrl");
-        /* -------------------------- */
         HttpSession session = request.getSession(false);
-        UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         
-        if (parameter != null && password != null) {
-            UserManager um = new UserManager(usersCtrl.findUsersEntities());
-            Users user = um.LoginUser(parameter, password);
-            if (user == null) { //Unauthenticated
-                request.setAttribute("isAuthenticated", false);
-            } else { //Authenticated
-                session.setAttribute("user", user);
-                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-                return;
-            }
+        if (session != null) {
+            session.invalidate();
         }
         
-        getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

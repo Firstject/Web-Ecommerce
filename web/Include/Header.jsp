@@ -4,6 +4,7 @@
     Author     : Firsty
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="css/style.css">
@@ -23,16 +24,32 @@
           <a class="nav-link" href="#">Blog</a>
         </li>
       </ul>
-
+        
+      <!--Logged out - Logged In-->
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="Login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Register">Register</a>
-        </li>
+      <c:choose>
+          <c:when test="${empty sessionScope.user}">
+                <li class="nav-item">
+                  <a class="nav-link" href="Login">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="Register">Register</a>
+                </li>
+          </c:when>
+          <c:otherwise>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.user.username}</a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="Logout">Sign out</a>
+                </div>
+              </li>
+          </c:otherwise>
+      </c:choose>
       </ul>
-
     </div>
   </div>
 </div>
