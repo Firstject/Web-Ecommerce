@@ -80,7 +80,7 @@ public class RegisterServlet extends HttpServlet {
         String subject = "";
         String message = "";
         EmailMsgManager emm = new EmailMsgManager();
-
+        
         if (username != null && email != null) {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
             email = email.trim(); //Trim to remove whitespace on both left and right sides.
@@ -111,7 +111,8 @@ public class RegisterServlet extends HttpServlet {
             message = emm.regisSuccess(username, verifyCode, userId); //Set message as HTML content
             SendMail.send(email, subject, message); //SEND MAIL!
             
-            response.sendRedirect("RegisterSuccess.jsp");
+            request.setAttribute("ActivationLink", "http://localhost:8080/Web-Ecommerce/AccountVerify?a=" + verifyCode + "&b=" + userId);
+            getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
             return;
         }
 
