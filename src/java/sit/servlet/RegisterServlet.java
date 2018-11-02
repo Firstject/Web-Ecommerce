@@ -8,9 +8,7 @@ package sit.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.ProcessBuilder.Redirect.to;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -21,16 +19,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import sit.controller.OrderdetailsJpaController;
-import sit.controller.OrdersJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.EmailMsgManager;
 import sit.javaModel.MD5;
 import sit.javaModel.SendMail;
 import sit.javaModel.UserManager;
-import sit.model.Orderdetails;
-import sit.model.Orders;
 import sit.model.Users;
 
 /**

@@ -20,15 +20,15 @@ import sit.controller.exceptions.IllegalOrphanException;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
-import sit.model.Productcategories;
+import sit.model.ProductCategories;
 
 /**
  *
  * @author Firsty
  */
-public class ProductcategoriesJpaController implements Serializable {
+public class ProductCategoriesJpaController implements Serializable {
 
-    public ProductcategoriesJpaController(UserTransaction utx, EntityManagerFactory emf) {
+    public ProductCategoriesJpaController(UserTransaction utx, EntityManagerFactory emf) {
         this.utx = utx;
         this.emf = emf;
     }
@@ -39,24 +39,24 @@ public class ProductcategoriesJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Productcategories productcategories) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (productcategories.getProductsList() == null) {
-            productcategories.setProductsList(new ArrayList<Products>());
+    public void create(ProductCategories productCategories) throws PreexistingEntityException, RollbackFailureException, Exception {
+        if (productCategories.getProductsList() == null) {
+            productCategories.setProductsList(new ArrayList<Products>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
             List<Products> attachedProductsList = new ArrayList<Products>();
-            for (Products productsListProductsToAttach : productcategories.getProductsList()) {
+            for (Products productsListProductsToAttach : productCategories.getProductsList()) {
                 productsListProductsToAttach = em.getReference(productsListProductsToAttach.getClass(), productsListProductsToAttach.getProductId());
                 attachedProductsList.add(productsListProductsToAttach);
             }
-            productcategories.setProductsList(attachedProductsList);
-            em.persist(productcategories);
-            for (Products productsListProducts : productcategories.getProductsList()) {
-                Productcategories oldProductCategotyidOfProductsListProducts = productsListProducts.getProductCategotyid();
-                productsListProducts.setProductCategotyid(productcategories);
+            productCategories.setProductsList(attachedProductsList);
+            em.persist(productCategories);
+            for (Products productsListProducts : productCategories.getProductsList()) {
+                ProductCategories oldProductCategotyidOfProductsListProducts = productsListProducts.getProductCategotyid();
+                productsListProducts.setProductCategotyid(productCategories);
                 productsListProducts = em.merge(productsListProducts);
                 if (oldProductCategotyidOfProductsListProducts != null) {
                     oldProductCategotyidOfProductsListProducts.getProductsList().remove(productsListProducts);
@@ -70,8 +70,8 @@ public class ProductcategoriesJpaController implements Serializable {
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
-            if (findProductcategories(productcategories.getCategoryId()) != null) {
-                throw new PreexistingEntityException("Productcategories " + productcategories + " already exists.", ex);
+            if (findProductCategories(productCategories.getCategoryId()) != null) {
+                throw new PreexistingEntityException("ProductCategories " + productCategories + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -81,14 +81,14 @@ public class ProductcategoriesJpaController implements Serializable {
         }
     }
 
-    public void edit(Productcategories productcategories) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void edit(ProductCategories productCategories) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Productcategories persistentProductcategories = em.find(Productcategories.class, productcategories.getCategoryId());
-            List<Products> productsListOld = persistentProductcategories.getProductsList();
-            List<Products> productsListNew = productcategories.getProductsList();
+            ProductCategories persistentProductCategories = em.find(ProductCategories.class, productCategories.getCategoryId());
+            List<Products> productsListOld = persistentProductCategories.getProductsList();
+            List<Products> productsListNew = productCategories.getProductsList();
             List<String> illegalOrphanMessages = null;
             for (Products productsListOldProducts : productsListOld) {
                 if (!productsListNew.contains(productsListOldProducts)) {
@@ -107,14 +107,14 @@ public class ProductcategoriesJpaController implements Serializable {
                 attachedProductsListNew.add(productsListNewProductsToAttach);
             }
             productsListNew = attachedProductsListNew;
-            productcategories.setProductsList(productsListNew);
-            productcategories = em.merge(productcategories);
+            productCategories.setProductsList(productsListNew);
+            productCategories = em.merge(productCategories);
             for (Products productsListNewProducts : productsListNew) {
                 if (!productsListOld.contains(productsListNewProducts)) {
-                    Productcategories oldProductCategotyidOfProductsListNewProducts = productsListNewProducts.getProductCategotyid();
-                    productsListNewProducts.setProductCategotyid(productcategories);
+                    ProductCategories oldProductCategotyidOfProductsListNewProducts = productsListNewProducts.getProductCategotyid();
+                    productsListNewProducts.setProductCategotyid(productCategories);
                     productsListNewProducts = em.merge(productsListNewProducts);
-                    if (oldProductCategotyidOfProductsListNewProducts != null && !oldProductCategotyidOfProductsListNewProducts.equals(productcategories)) {
+                    if (oldProductCategotyidOfProductsListNewProducts != null && !oldProductCategotyidOfProductsListNewProducts.equals(productCategories)) {
                         oldProductCategotyidOfProductsListNewProducts.getProductsList().remove(productsListNewProducts);
                         oldProductCategotyidOfProductsListNewProducts = em.merge(oldProductCategotyidOfProductsListNewProducts);
                     }
@@ -129,9 +129,9 @@ public class ProductcategoriesJpaController implements Serializable {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = productcategories.getCategoryId();
-                if (findProductcategories(id) == null) {
-                    throw new NonexistentEntityException("The productcategories with id " + id + " no longer exists.");
+                Integer id = productCategories.getCategoryId();
+                if (findProductCategories(id) == null) {
+                    throw new NonexistentEntityException("The productCategories with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -147,25 +147,25 @@ public class ProductcategoriesJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            Productcategories productcategories;
+            ProductCategories productCategories;
             try {
-                productcategories = em.getReference(Productcategories.class, id);
-                productcategories.getCategoryId();
+                productCategories = em.getReference(ProductCategories.class, id);
+                productCategories.getCategoryId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The productcategories with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The productCategories with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Products> productsListOrphanCheck = productcategories.getProductsList();
+            List<Products> productsListOrphanCheck = productCategories.getProductsList();
             for (Products productsListOrphanCheckProducts : productsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Productcategories (" + productcategories + ") cannot be destroyed since the Products " + productsListOrphanCheckProducts + " in its productsList field has a non-nullable productCategotyid field.");
+                illegalOrphanMessages.add("This ProductCategories (" + productCategories + ") cannot be destroyed since the Products " + productsListOrphanCheckProducts + " in its productsList field has a non-nullable productCategotyid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            em.remove(productcategories);
+            em.remove(productCategories);
             utx.commit();
         } catch (Exception ex) {
             try {
@@ -181,19 +181,19 @@ public class ProductcategoriesJpaController implements Serializable {
         }
     }
 
-    public List<Productcategories> findProductcategoriesEntities() {
-        return findProductcategoriesEntities(true, -1, -1);
+    public List<ProductCategories> findProductCategoriesEntities() {
+        return findProductCategoriesEntities(true, -1, -1);
     }
 
-    public List<Productcategories> findProductcategoriesEntities(int maxResults, int firstResult) {
-        return findProductcategoriesEntities(false, maxResults, firstResult);
+    public List<ProductCategories> findProductCategoriesEntities(int maxResults, int firstResult) {
+        return findProductCategoriesEntities(false, maxResults, firstResult);
     }
 
-    private List<Productcategories> findProductcategoriesEntities(boolean all, int maxResults, int firstResult) {
+    private List<ProductCategories> findProductCategoriesEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Productcategories.class));
+            cq.select(cq.from(ProductCategories.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -205,20 +205,20 @@ public class ProductcategoriesJpaController implements Serializable {
         }
     }
 
-    public Productcategories findProductcategories(Integer id) {
+    public ProductCategories findProductCategories(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Productcategories.class, id);
+            return em.find(ProductCategories.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getProductcategoriesCount() {
+    public int getProductCategoriesCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Productcategories> rt = cq.from(Productcategories.class);
+            Root<ProductCategories> rt = cq.from(ProductCategories.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

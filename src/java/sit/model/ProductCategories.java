@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PRODUCTCATEGORIES")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Productcategories.findAll", query = "SELECT p FROM Productcategories p")
-    , @NamedQuery(name = "Productcategories.findByCategoryId", query = "SELECT p FROM Productcategories p WHERE p.categoryId = :categoryId")
-    , @NamedQuery(name = "Productcategories.findByCategoryname", query = "SELECT p FROM Productcategories p WHERE p.categoryname = :categoryname")})
-public class Productcategories implements Serializable {
+    @NamedQuery(name = "ProductCategories.findAll", query = "SELECT p FROM ProductCategories p")
+    , @NamedQuery(name = "ProductCategories.findByCategoryId", query = "SELECT p FROM ProductCategories p WHERE p.categoryId = :categoryId")
+    , @NamedQuery(name = "ProductCategories.findByCategoryname", query = "SELECT p FROM ProductCategories p WHERE p.categoryname = :categoryname")})
+public class ProductCategories implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,14 +48,14 @@ public class Productcategories implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategotyid")
     private List<Products> productsList;
 
-    public Productcategories() {
+    public ProductCategories() {
     }
 
-    public Productcategories(Integer categoryId) {
+    public ProductCategories(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Productcategories(Integer categoryId, String categoryname) {
+    public ProductCategories(Integer categoryId, String categoryname) {
         this.categoryId = categoryId;
         this.categoryname = categoryname;
     }
@@ -95,10 +95,10 @@ public class Productcategories implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Productcategories)) {
+        if (!(object instanceof ProductCategories)) {
             return false;
         }
-        Productcategories other = (Productcategories) object;
+        ProductCategories other = (ProductCategories) object;
         if ((this.categoryId == null && other.categoryId != null) || (this.categoryId != null && !this.categoryId.equals(other.categoryId))) {
             return false;
         }
@@ -107,7 +107,7 @@ public class Productcategories implements Serializable {
 
     @Override
     public String toString() {
-        return "sit.model.Productcategories[ categoryId=" + categoryId + " ]";
+        return "sit.model.ProductCategories[ categoryId=" + categoryId + " ]";
     }
     
 }

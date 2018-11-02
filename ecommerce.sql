@@ -1,23 +1,10 @@
--- ****************** SqlDBM: MySQL ******************;
--- ***************************************************;
-
 DROP TABLE OrderDetails;
-
-
+DROP TABLE Wishlists;
+DROP TABLE ProductStats;
 DROP TABLE Orders;
-
-
 DROP TABLE Products;
-
-
 DROP TABLE ProductCategories;
-
-
 DROP TABLE Users;
-
-
-
--- ************************************** ProductCategories
 
 CREATE TABLE ProductCategories
 (
@@ -26,13 +13,6 @@ CREATE TABLE ProductCategories
 
 PRIMARY KEY (Category_ID)
 );
-
-
-
-
-
-
--- ************************************** Users
 
 CREATE TABLE Users
 (
@@ -57,13 +37,6 @@ CREATE TABLE Users
 PRIMARY KEY (UserId)
 );
 
-
-
-
-
-
--- ************************************** Orders
-
 CREATE TABLE Orders
 (
  Order_ID           INT NOT NULL ,
@@ -80,18 +53,11 @@ CREATE TABLE Orders
  Order_Tax          FLOAT NOT NULL ,
  Order_Email        VARCHAR(100) NOT NULL ,
  Order_Date         TIMESTAMP NOT NULL ,
- Order_Shipped      BOOLEAN NOT NULL ,
+ Order_Shipped      SMALLINT NOT NULL ,
 
 PRIMARY KEY (Order_ID),
 FOREIGN KEY (Order_UserID) REFERENCES Users (UserId)
 );
-
-
-
-
-
-
--- ************************************** Products
 
 CREATE TABLE Products
 (
@@ -103,19 +69,35 @@ CREATE TABLE Products
  Product_CategotyID INT NOT NULL ,
  Product_UpdateDate TIMESTAMP NOT NULL ,
  Product_Stock      SMALLINT NOT NULL ,
- Product_Live       BOOLEAN NOT NULL ,
+ Product_Live       SMALLINT NOT NULL ,
  Product_Locaton    VARCHAR(255) NOT NULL ,
 
 PRIMARY KEY (Product_ID),
 FOREIGN KEY (Product_CategotyID) REFERENCES ProductCategories (Category_ID)
 );
 
+CREATE TABLE Wishlists
+(
+ WishlistID int NOT NULL ,
+ Wishlist_UserId     int NOT NULL ,
+ Wishlist_ProductID int NOT NULL ,
 
+PRIMARY KEY (WishlistID),
+FOREIGN KEY (Wishlist_UserId) REFERENCES Users(UserId),
+FOREIGN KEY (Wishlist_ProductID) REFERENCES Products(Product_ID)
+);
 
+CREATE TABLE ProductStats
+(
+ ProductStatsID         int NOT NULL ,
+ StatType               varchar(16) NOT NULL ,
+ ProductStats_ProductID int NOT NULL ,
+ ProductStats_UserId    int NOT NULL ,
 
-
-
--- ************************************** OrderDetails
+PRIMARY KEY (ProductStatsID),
+FOREIGN KEY (ProductStats_UserId) REFERENCES Users(UserId),
+FOREIGN KEY (ProductStats_ProductID) REFERENCES Products(Product_ID)
+);
 
 CREATE TABLE OrderDetails
 (
@@ -127,8 +109,8 @@ CREATE TABLE OrderDetails
  Detail_Quantity  INT NOT NULL ,
 
 PRIMARY KEY (DetailID),
-FOREIGN KEY (Detail_ProductID) REFERENCES Products (Product_ID),
-FOREIGN KEY (Detail_OrderID) REFERENCES Orders (Order_ID)
+FOREIGN KEY (Detail_ProductID) REFERENCES Products(Product_ID),
+FOREIGN KEY (Detail_OrderID) REFERENCES Orders(Order_ID)
 );
 
 

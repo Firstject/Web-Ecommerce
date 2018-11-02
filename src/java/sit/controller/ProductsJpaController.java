@@ -10,8 +10,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.Productcategories;
-import sit.model.Orderdetails;
+import sit.model.ProductCategories;
+import sit.model.ProductStats;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,6 +21,8 @@ import sit.controller.exceptions.IllegalOrphanException;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
+import sit.model.Wishlists;
+import sit.model.OrderDetails;
 import sit.model.Products;
 
 /**
@@ -41,36 +43,72 @@ public class ProductsJpaController implements Serializable {
     }
 
     public void create(Products products) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (products.getOrderdetailsList() == null) {
-            products.setOrderdetailsList(new ArrayList<Orderdetails>());
+        if (products.getProductStatsList() == null) {
+            products.setProductStatsList(new ArrayList<ProductStats>());
+        }
+        if (products.getWishlistsList() == null) {
+            products.setWishlistsList(new ArrayList<Wishlists>());
+        }
+        if (products.getOrderDetailsList() == null) {
+            products.setOrderDetailsList(new ArrayList<OrderDetails>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Productcategories productCategotyid = products.getProductCategotyid();
+            ProductCategories productCategotyid = products.getProductCategotyid();
             if (productCategotyid != null) {
                 productCategotyid = em.getReference(productCategotyid.getClass(), productCategotyid.getCategoryId());
                 products.setProductCategotyid(productCategotyid);
             }
-            List<Orderdetails> attachedOrderdetailsList = new ArrayList<Orderdetails>();
-            for (Orderdetails orderdetailsListOrderdetailsToAttach : products.getOrderdetailsList()) {
-                orderdetailsListOrderdetailsToAttach = em.getReference(orderdetailsListOrderdetailsToAttach.getClass(), orderdetailsListOrderdetailsToAttach.getDetailid());
-                attachedOrderdetailsList.add(orderdetailsListOrderdetailsToAttach);
+            List<ProductStats> attachedProductStatsList = new ArrayList<ProductStats>();
+            for (ProductStats productStatsListProductStatsToAttach : products.getProductStatsList()) {
+                productStatsListProductStatsToAttach = em.getReference(productStatsListProductStatsToAttach.getClass(), productStatsListProductStatsToAttach.getProductstatsid());
+                attachedProductStatsList.add(productStatsListProductStatsToAttach);
             }
-            products.setOrderdetailsList(attachedOrderdetailsList);
+            products.setProductStatsList(attachedProductStatsList);
+            List<Wishlists> attachedWishlistsList = new ArrayList<Wishlists>();
+            for (Wishlists wishlistsListWishlistsToAttach : products.getWishlistsList()) {
+                wishlistsListWishlistsToAttach = em.getReference(wishlistsListWishlistsToAttach.getClass(), wishlistsListWishlistsToAttach.getWishlistid());
+                attachedWishlistsList.add(wishlistsListWishlistsToAttach);
+            }
+            products.setWishlistsList(attachedWishlistsList);
+            List<OrderDetails> attachedOrderDetailsList = new ArrayList<OrderDetails>();
+            for (OrderDetails orderDetailsListOrderDetailsToAttach : products.getOrderDetailsList()) {
+                orderDetailsListOrderDetailsToAttach = em.getReference(orderDetailsListOrderDetailsToAttach.getClass(), orderDetailsListOrderDetailsToAttach.getDetailid());
+                attachedOrderDetailsList.add(orderDetailsListOrderDetailsToAttach);
+            }
+            products.setOrderDetailsList(attachedOrderDetailsList);
             em.persist(products);
             if (productCategotyid != null) {
                 productCategotyid.getProductsList().add(products);
                 productCategotyid = em.merge(productCategotyid);
             }
-            for (Orderdetails orderdetailsListOrderdetails : products.getOrderdetailsList()) {
-                Products oldDetailProductidOfOrderdetailsListOrderdetails = orderdetailsListOrderdetails.getDetailProductid();
-                orderdetailsListOrderdetails.setDetailProductid(products);
-                orderdetailsListOrderdetails = em.merge(orderdetailsListOrderdetails);
-                if (oldDetailProductidOfOrderdetailsListOrderdetails != null) {
-                    oldDetailProductidOfOrderdetailsListOrderdetails.getOrderdetailsList().remove(orderdetailsListOrderdetails);
-                    oldDetailProductidOfOrderdetailsListOrderdetails = em.merge(oldDetailProductidOfOrderdetailsListOrderdetails);
+            for (ProductStats productStatsListProductStats : products.getProductStatsList()) {
+                Products oldProductstatsProductidOfProductStatsListProductStats = productStatsListProductStats.getProductstatsProductid();
+                productStatsListProductStats.setProductstatsProductid(products);
+                productStatsListProductStats = em.merge(productStatsListProductStats);
+                if (oldProductstatsProductidOfProductStatsListProductStats != null) {
+                    oldProductstatsProductidOfProductStatsListProductStats.getProductStatsList().remove(productStatsListProductStats);
+                    oldProductstatsProductidOfProductStatsListProductStats = em.merge(oldProductstatsProductidOfProductStatsListProductStats);
+                }
+            }
+            for (Wishlists wishlistsListWishlists : products.getWishlistsList()) {
+                Products oldWishlistProductidOfWishlistsListWishlists = wishlistsListWishlists.getWishlistProductid();
+                wishlistsListWishlists.setWishlistProductid(products);
+                wishlistsListWishlists = em.merge(wishlistsListWishlists);
+                if (oldWishlistProductidOfWishlistsListWishlists != null) {
+                    oldWishlistProductidOfWishlistsListWishlists.getWishlistsList().remove(wishlistsListWishlists);
+                    oldWishlistProductidOfWishlistsListWishlists = em.merge(oldWishlistProductidOfWishlistsListWishlists);
+                }
+            }
+            for (OrderDetails orderDetailsListOrderDetails : products.getOrderDetailsList()) {
+                Products oldDetailProductidOfOrderDetailsListOrderDetails = orderDetailsListOrderDetails.getDetailProductid();
+                orderDetailsListOrderDetails.setDetailProductid(products);
+                orderDetailsListOrderDetails = em.merge(orderDetailsListOrderDetails);
+                if (oldDetailProductidOfOrderDetailsListOrderDetails != null) {
+                    oldDetailProductidOfOrderDetailsListOrderDetails.getOrderDetailsList().remove(orderDetailsListOrderDetails);
+                    oldDetailProductidOfOrderDetailsListOrderDetails = em.merge(oldDetailProductidOfOrderDetailsListOrderDetails);
                 }
             }
             utx.commit();
@@ -97,17 +135,37 @@ public class ProductsJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Products persistentProducts = em.find(Products.class, products.getProductId());
-            Productcategories productCategotyidOld = persistentProducts.getProductCategotyid();
-            Productcategories productCategotyidNew = products.getProductCategotyid();
-            List<Orderdetails> orderdetailsListOld = persistentProducts.getOrderdetailsList();
-            List<Orderdetails> orderdetailsListNew = products.getOrderdetailsList();
+            ProductCategories productCategotyidOld = persistentProducts.getProductCategotyid();
+            ProductCategories productCategotyidNew = products.getProductCategotyid();
+            List<ProductStats> productStatsListOld = persistentProducts.getProductStatsList();
+            List<ProductStats> productStatsListNew = products.getProductStatsList();
+            List<Wishlists> wishlistsListOld = persistentProducts.getWishlistsList();
+            List<Wishlists> wishlistsListNew = products.getWishlistsList();
+            List<OrderDetails> orderDetailsListOld = persistentProducts.getOrderDetailsList();
+            List<OrderDetails> orderDetailsListNew = products.getOrderDetailsList();
             List<String> illegalOrphanMessages = null;
-            for (Orderdetails orderdetailsListOldOrderdetails : orderdetailsListOld) {
-                if (!orderdetailsListNew.contains(orderdetailsListOldOrderdetails)) {
+            for (ProductStats productStatsListOldProductStats : productStatsListOld) {
+                if (!productStatsListNew.contains(productStatsListOldProductStats)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Orderdetails " + orderdetailsListOldOrderdetails + " since its detailProductid field is not nullable.");
+                    illegalOrphanMessages.add("You must retain ProductStats " + productStatsListOldProductStats + " since its productstatsProductid field is not nullable.");
+                }
+            }
+            for (Wishlists wishlistsListOldWishlists : wishlistsListOld) {
+                if (!wishlistsListNew.contains(wishlistsListOldWishlists)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Wishlists " + wishlistsListOldWishlists + " since its wishlistProductid field is not nullable.");
+                }
+            }
+            for (OrderDetails orderDetailsListOldOrderDetails : orderDetailsListOld) {
+                if (!orderDetailsListNew.contains(orderDetailsListOldOrderDetails)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain OrderDetails " + orderDetailsListOldOrderDetails + " since its detailProductid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -117,13 +175,27 @@ public class ProductsJpaController implements Serializable {
                 productCategotyidNew = em.getReference(productCategotyidNew.getClass(), productCategotyidNew.getCategoryId());
                 products.setProductCategotyid(productCategotyidNew);
             }
-            List<Orderdetails> attachedOrderdetailsListNew = new ArrayList<Orderdetails>();
-            for (Orderdetails orderdetailsListNewOrderdetailsToAttach : orderdetailsListNew) {
-                orderdetailsListNewOrderdetailsToAttach = em.getReference(orderdetailsListNewOrderdetailsToAttach.getClass(), orderdetailsListNewOrderdetailsToAttach.getDetailid());
-                attachedOrderdetailsListNew.add(orderdetailsListNewOrderdetailsToAttach);
+            List<ProductStats> attachedProductStatsListNew = new ArrayList<ProductStats>();
+            for (ProductStats productStatsListNewProductStatsToAttach : productStatsListNew) {
+                productStatsListNewProductStatsToAttach = em.getReference(productStatsListNewProductStatsToAttach.getClass(), productStatsListNewProductStatsToAttach.getProductstatsid());
+                attachedProductStatsListNew.add(productStatsListNewProductStatsToAttach);
             }
-            orderdetailsListNew = attachedOrderdetailsListNew;
-            products.setOrderdetailsList(orderdetailsListNew);
+            productStatsListNew = attachedProductStatsListNew;
+            products.setProductStatsList(productStatsListNew);
+            List<Wishlists> attachedWishlistsListNew = new ArrayList<Wishlists>();
+            for (Wishlists wishlistsListNewWishlistsToAttach : wishlistsListNew) {
+                wishlistsListNewWishlistsToAttach = em.getReference(wishlistsListNewWishlistsToAttach.getClass(), wishlistsListNewWishlistsToAttach.getWishlistid());
+                attachedWishlistsListNew.add(wishlistsListNewWishlistsToAttach);
+            }
+            wishlistsListNew = attachedWishlistsListNew;
+            products.setWishlistsList(wishlistsListNew);
+            List<OrderDetails> attachedOrderDetailsListNew = new ArrayList<OrderDetails>();
+            for (OrderDetails orderDetailsListNewOrderDetailsToAttach : orderDetailsListNew) {
+                orderDetailsListNewOrderDetailsToAttach = em.getReference(orderDetailsListNewOrderDetailsToAttach.getClass(), orderDetailsListNewOrderDetailsToAttach.getDetailid());
+                attachedOrderDetailsListNew.add(orderDetailsListNewOrderDetailsToAttach);
+            }
+            orderDetailsListNew = attachedOrderDetailsListNew;
+            products.setOrderDetailsList(orderDetailsListNew);
             products = em.merge(products);
             if (productCategotyidOld != null && !productCategotyidOld.equals(productCategotyidNew)) {
                 productCategotyidOld.getProductsList().remove(products);
@@ -133,14 +205,36 @@ public class ProductsJpaController implements Serializable {
                 productCategotyidNew.getProductsList().add(products);
                 productCategotyidNew = em.merge(productCategotyidNew);
             }
-            for (Orderdetails orderdetailsListNewOrderdetails : orderdetailsListNew) {
-                if (!orderdetailsListOld.contains(orderdetailsListNewOrderdetails)) {
-                    Products oldDetailProductidOfOrderdetailsListNewOrderdetails = orderdetailsListNewOrderdetails.getDetailProductid();
-                    orderdetailsListNewOrderdetails.setDetailProductid(products);
-                    orderdetailsListNewOrderdetails = em.merge(orderdetailsListNewOrderdetails);
-                    if (oldDetailProductidOfOrderdetailsListNewOrderdetails != null && !oldDetailProductidOfOrderdetailsListNewOrderdetails.equals(products)) {
-                        oldDetailProductidOfOrderdetailsListNewOrderdetails.getOrderdetailsList().remove(orderdetailsListNewOrderdetails);
-                        oldDetailProductidOfOrderdetailsListNewOrderdetails = em.merge(oldDetailProductidOfOrderdetailsListNewOrderdetails);
+            for (ProductStats productStatsListNewProductStats : productStatsListNew) {
+                if (!productStatsListOld.contains(productStatsListNewProductStats)) {
+                    Products oldProductstatsProductidOfProductStatsListNewProductStats = productStatsListNewProductStats.getProductstatsProductid();
+                    productStatsListNewProductStats.setProductstatsProductid(products);
+                    productStatsListNewProductStats = em.merge(productStatsListNewProductStats);
+                    if (oldProductstatsProductidOfProductStatsListNewProductStats != null && !oldProductstatsProductidOfProductStatsListNewProductStats.equals(products)) {
+                        oldProductstatsProductidOfProductStatsListNewProductStats.getProductStatsList().remove(productStatsListNewProductStats);
+                        oldProductstatsProductidOfProductStatsListNewProductStats = em.merge(oldProductstatsProductidOfProductStatsListNewProductStats);
+                    }
+                }
+            }
+            for (Wishlists wishlistsListNewWishlists : wishlistsListNew) {
+                if (!wishlistsListOld.contains(wishlistsListNewWishlists)) {
+                    Products oldWishlistProductidOfWishlistsListNewWishlists = wishlistsListNewWishlists.getWishlistProductid();
+                    wishlistsListNewWishlists.setWishlistProductid(products);
+                    wishlistsListNewWishlists = em.merge(wishlistsListNewWishlists);
+                    if (oldWishlistProductidOfWishlistsListNewWishlists != null && !oldWishlistProductidOfWishlistsListNewWishlists.equals(products)) {
+                        oldWishlistProductidOfWishlistsListNewWishlists.getWishlistsList().remove(wishlistsListNewWishlists);
+                        oldWishlistProductidOfWishlistsListNewWishlists = em.merge(oldWishlistProductidOfWishlistsListNewWishlists);
+                    }
+                }
+            }
+            for (OrderDetails orderDetailsListNewOrderDetails : orderDetailsListNew) {
+                if (!orderDetailsListOld.contains(orderDetailsListNewOrderDetails)) {
+                    Products oldDetailProductidOfOrderDetailsListNewOrderDetails = orderDetailsListNewOrderDetails.getDetailProductid();
+                    orderDetailsListNewOrderDetails.setDetailProductid(products);
+                    orderDetailsListNewOrderDetails = em.merge(orderDetailsListNewOrderDetails);
+                    if (oldDetailProductidOfOrderDetailsListNewOrderDetails != null && !oldDetailProductidOfOrderDetailsListNewOrderDetails.equals(products)) {
+                        oldDetailProductidOfOrderDetailsListNewOrderDetails.getOrderDetailsList().remove(orderDetailsListNewOrderDetails);
+                        oldDetailProductidOfOrderDetailsListNewOrderDetails = em.merge(oldDetailProductidOfOrderDetailsListNewOrderDetails);
                     }
                 }
             }
@@ -179,17 +273,31 @@ public class ProductsJpaController implements Serializable {
                 throw new NonexistentEntityException("The products with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Orderdetails> orderdetailsListOrphanCheck = products.getOrderdetailsList();
-            for (Orderdetails orderdetailsListOrphanCheckOrderdetails : orderdetailsListOrphanCheck) {
+            List<ProductStats> productStatsListOrphanCheck = products.getProductStatsList();
+            for (ProductStats productStatsListOrphanCheckProductStats : productStatsListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the Orderdetails " + orderdetailsListOrphanCheckOrderdetails + " in its orderdetailsList field has a non-nullable detailProductid field.");
+                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the ProductStats " + productStatsListOrphanCheckProductStats + " in its productStatsList field has a non-nullable productstatsProductid field.");
+            }
+            List<Wishlists> wishlistsListOrphanCheck = products.getWishlistsList();
+            for (Wishlists wishlistsListOrphanCheckWishlists : wishlistsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the Wishlists " + wishlistsListOrphanCheckWishlists + " in its wishlistsList field has a non-nullable wishlistProductid field.");
+            }
+            List<OrderDetails> orderDetailsListOrphanCheck = products.getOrderDetailsList();
+            for (OrderDetails orderDetailsListOrphanCheckOrderDetails : orderDetailsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the OrderDetails " + orderDetailsListOrphanCheckOrderDetails + " in its orderDetailsList field has a non-nullable detailProductid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Productcategories productCategotyid = products.getProductCategotyid();
+            ProductCategories productCategotyid = products.getProductCategotyid();
             if (productCategotyid != null) {
                 productCategotyid.getProductsList().remove(products);
                 productCategotyid = em.merge(productCategotyid);

@@ -118,12 +118,12 @@ public class Orders implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ORDER_SHIPPED")
-    private Boolean orderShipped;
+    private short orderShipped;
     @JoinColumn(name = "ORDER_USERID", referencedColumnName = "USERID")
     @ManyToOne(optional = false)
     private Users orderUserid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailOrderid")
-    private List<Orderdetails> orderdetailsList;
+    private List<OrderDetails> orderDetailsList;
 
     public Orders() {
     }
@@ -132,7 +132,7 @@ public class Orders implements Serializable {
         this.orderId = orderId;
     }
 
-    public Orders(Integer orderId, int orderAmount, String orderShipname, String orderShipaddress, String orderShipaddress2, String orderCity, String orderState, String orderZip, String orderAddress, String orderPhone, double orderTax, String orderEmail, Date orderDate, Boolean orderShipped) {
+    public Orders(Integer orderId, int orderAmount, String orderShipname, String orderShipaddress, String orderShipaddress2, String orderCity, String orderState, String orderZip, String orderAddress, String orderPhone, double orderTax, String orderEmail, Date orderDate, short orderShipped) {
         this.orderId = orderId;
         this.orderAmount = orderAmount;
         this.orderShipname = orderShipname;
@@ -253,11 +253,11 @@ public class Orders implements Serializable {
         this.orderDate = orderDate;
     }
 
-    public Boolean getOrderShipped() {
+    public short getOrderShipped() {
         return orderShipped;
     }
 
-    public void setOrderShipped(Boolean orderShipped) {
+    public void setOrderShipped(short orderShipped) {
         this.orderShipped = orderShipped;
     }
 
@@ -270,12 +270,12 @@ public class Orders implements Serializable {
     }
 
     @XmlTransient
-    public List<Orderdetails> getOrderdetailsList() {
-        return orderdetailsList;
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
     }
 
-    public void setOrderdetailsList(List<Orderdetails> orderdetailsList) {
-        this.orderdetailsList = orderdetailsList;
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
     }
 
     @Override

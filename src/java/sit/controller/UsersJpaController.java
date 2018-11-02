@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.Orders;
+import sit.model.ProductStats;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -20,6 +20,8 @@ import sit.controller.exceptions.IllegalOrphanException;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
+import sit.model.Wishlists;
+import sit.model.Orders;
 import sit.model.Users;
 
 /**
@@ -40,6 +42,12 @@ public class UsersJpaController implements Serializable {
     }
 
     public void create(Users users) throws PreexistingEntityException, RollbackFailureException, Exception {
+        if (users.getProductStatsList() == null) {
+            users.setProductStatsList(new ArrayList<ProductStats>());
+        }
+        if (users.getWishlistsList() == null) {
+            users.setWishlistsList(new ArrayList<Wishlists>());
+        }
         if (users.getOrdersList() == null) {
             users.setOrdersList(new ArrayList<Orders>());
         }
@@ -47,6 +55,18 @@ public class UsersJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
+            List<ProductStats> attachedProductStatsList = new ArrayList<ProductStats>();
+            for (ProductStats productStatsListProductStatsToAttach : users.getProductStatsList()) {
+                productStatsListProductStatsToAttach = em.getReference(productStatsListProductStatsToAttach.getClass(), productStatsListProductStatsToAttach.getProductstatsid());
+                attachedProductStatsList.add(productStatsListProductStatsToAttach);
+            }
+            users.setProductStatsList(attachedProductStatsList);
+            List<Wishlists> attachedWishlistsList = new ArrayList<Wishlists>();
+            for (Wishlists wishlistsListWishlistsToAttach : users.getWishlistsList()) {
+                wishlistsListWishlistsToAttach = em.getReference(wishlistsListWishlistsToAttach.getClass(), wishlistsListWishlistsToAttach.getWishlistid());
+                attachedWishlistsList.add(wishlistsListWishlistsToAttach);
+            }
+            users.setWishlistsList(attachedWishlistsList);
             List<Orders> attachedOrdersList = new ArrayList<Orders>();
             for (Orders ordersListOrdersToAttach : users.getOrdersList()) {
                 ordersListOrdersToAttach = em.getReference(ordersListOrdersToAttach.getClass(), ordersListOrdersToAttach.getOrderId());
@@ -54,6 +74,24 @@ public class UsersJpaController implements Serializable {
             }
             users.setOrdersList(attachedOrdersList);
             em.persist(users);
+            for (ProductStats productStatsListProductStats : users.getProductStatsList()) {
+                Users oldProductstatsUseridOfProductStatsListProductStats = productStatsListProductStats.getProductstatsUserid();
+                productStatsListProductStats.setProductstatsUserid(users);
+                productStatsListProductStats = em.merge(productStatsListProductStats);
+                if (oldProductstatsUseridOfProductStatsListProductStats != null) {
+                    oldProductstatsUseridOfProductStatsListProductStats.getProductStatsList().remove(productStatsListProductStats);
+                    oldProductstatsUseridOfProductStatsListProductStats = em.merge(oldProductstatsUseridOfProductStatsListProductStats);
+                }
+            }
+            for (Wishlists wishlistsListWishlists : users.getWishlistsList()) {
+                Users oldWishlistUseridOfWishlistsListWishlists = wishlistsListWishlists.getWishlistUserid();
+                wishlistsListWishlists.setWishlistUserid(users);
+                wishlistsListWishlists = em.merge(wishlistsListWishlists);
+                if (oldWishlistUseridOfWishlistsListWishlists != null) {
+                    oldWishlistUseridOfWishlistsListWishlists.getWishlistsList().remove(wishlistsListWishlists);
+                    oldWishlistUseridOfWishlistsListWishlists = em.merge(oldWishlistUseridOfWishlistsListWishlists);
+                }
+            }
             for (Orders ordersListOrders : users.getOrdersList()) {
                 Users oldOrderUseridOfOrdersListOrders = ordersListOrders.getOrderUserid();
                 ordersListOrders.setOrderUserid(users);
@@ -87,9 +125,29 @@ public class UsersJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Users persistentUsers = em.find(Users.class, users.getUserid());
+            List<ProductStats> productStatsListOld = persistentUsers.getProductStatsList();
+            List<ProductStats> productStatsListNew = users.getProductStatsList();
+            List<Wishlists> wishlistsListOld = persistentUsers.getWishlistsList();
+            List<Wishlists> wishlistsListNew = users.getWishlistsList();
             List<Orders> ordersListOld = persistentUsers.getOrdersList();
             List<Orders> ordersListNew = users.getOrdersList();
             List<String> illegalOrphanMessages = null;
+            for (ProductStats productStatsListOldProductStats : productStatsListOld) {
+                if (!productStatsListNew.contains(productStatsListOldProductStats)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain ProductStats " + productStatsListOldProductStats + " since its productstatsUserid field is not nullable.");
+                }
+            }
+            for (Wishlists wishlistsListOldWishlists : wishlistsListOld) {
+                if (!wishlistsListNew.contains(wishlistsListOldWishlists)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Wishlists " + wishlistsListOldWishlists + " since its wishlistUserid field is not nullable.");
+                }
+            }
             for (Orders ordersListOldOrders : ordersListOld) {
                 if (!ordersListNew.contains(ordersListOldOrders)) {
                     if (illegalOrphanMessages == null) {
@@ -101,6 +159,20 @@ public class UsersJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<ProductStats> attachedProductStatsListNew = new ArrayList<ProductStats>();
+            for (ProductStats productStatsListNewProductStatsToAttach : productStatsListNew) {
+                productStatsListNewProductStatsToAttach = em.getReference(productStatsListNewProductStatsToAttach.getClass(), productStatsListNewProductStatsToAttach.getProductstatsid());
+                attachedProductStatsListNew.add(productStatsListNewProductStatsToAttach);
+            }
+            productStatsListNew = attachedProductStatsListNew;
+            users.setProductStatsList(productStatsListNew);
+            List<Wishlists> attachedWishlistsListNew = new ArrayList<Wishlists>();
+            for (Wishlists wishlistsListNewWishlistsToAttach : wishlistsListNew) {
+                wishlistsListNewWishlistsToAttach = em.getReference(wishlistsListNewWishlistsToAttach.getClass(), wishlistsListNewWishlistsToAttach.getWishlistid());
+                attachedWishlistsListNew.add(wishlistsListNewWishlistsToAttach);
+            }
+            wishlistsListNew = attachedWishlistsListNew;
+            users.setWishlistsList(wishlistsListNew);
             List<Orders> attachedOrdersListNew = new ArrayList<Orders>();
             for (Orders ordersListNewOrdersToAttach : ordersListNew) {
                 ordersListNewOrdersToAttach = em.getReference(ordersListNewOrdersToAttach.getClass(), ordersListNewOrdersToAttach.getOrderId());
@@ -109,6 +181,28 @@ public class UsersJpaController implements Serializable {
             ordersListNew = attachedOrdersListNew;
             users.setOrdersList(ordersListNew);
             users = em.merge(users);
+            for (ProductStats productStatsListNewProductStats : productStatsListNew) {
+                if (!productStatsListOld.contains(productStatsListNewProductStats)) {
+                    Users oldProductstatsUseridOfProductStatsListNewProductStats = productStatsListNewProductStats.getProductstatsUserid();
+                    productStatsListNewProductStats.setProductstatsUserid(users);
+                    productStatsListNewProductStats = em.merge(productStatsListNewProductStats);
+                    if (oldProductstatsUseridOfProductStatsListNewProductStats != null && !oldProductstatsUseridOfProductStatsListNewProductStats.equals(users)) {
+                        oldProductstatsUseridOfProductStatsListNewProductStats.getProductStatsList().remove(productStatsListNewProductStats);
+                        oldProductstatsUseridOfProductStatsListNewProductStats = em.merge(oldProductstatsUseridOfProductStatsListNewProductStats);
+                    }
+                }
+            }
+            for (Wishlists wishlistsListNewWishlists : wishlistsListNew) {
+                if (!wishlistsListOld.contains(wishlistsListNewWishlists)) {
+                    Users oldWishlistUseridOfWishlistsListNewWishlists = wishlistsListNewWishlists.getWishlistUserid();
+                    wishlistsListNewWishlists.setWishlistUserid(users);
+                    wishlistsListNewWishlists = em.merge(wishlistsListNewWishlists);
+                    if (oldWishlistUseridOfWishlistsListNewWishlists != null && !oldWishlistUseridOfWishlistsListNewWishlists.equals(users)) {
+                        oldWishlistUseridOfWishlistsListNewWishlists.getWishlistsList().remove(wishlistsListNewWishlists);
+                        oldWishlistUseridOfWishlistsListNewWishlists = em.merge(oldWishlistUseridOfWishlistsListNewWishlists);
+                    }
+                }
+            }
             for (Orders ordersListNewOrders : ordersListNew) {
                 if (!ordersListOld.contains(ordersListNewOrders)) {
                     Users oldOrderUseridOfOrdersListNewOrders = ordersListNewOrders.getOrderUserid();
@@ -155,6 +249,20 @@ public class UsersJpaController implements Serializable {
                 throw new NonexistentEntityException("The users with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<ProductStats> productStatsListOrphanCheck = users.getProductStatsList();
+            for (ProductStats productStatsListOrphanCheckProductStats : productStatsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the ProductStats " + productStatsListOrphanCheckProductStats + " in its productStatsList field has a non-nullable productstatsUserid field.");
+            }
+            List<Wishlists> wishlistsListOrphanCheck = users.getWishlistsList();
+            for (Wishlists wishlistsListOrphanCheckWishlists : wishlistsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the Wishlists " + wishlistsListOrphanCheckWishlists + " in its wishlistsList field has a non-nullable wishlistUserid field.");
+            }
             List<Orders> ordersListOrphanCheck = users.getOrdersList();
             for (Orders ordersListOrphanCheckOrders : ordersListOrphanCheck) {
                 if (illegalOrphanMessages == null) {

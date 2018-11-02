@@ -83,17 +83,21 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "PRODUCT_LIVE")
-    private Boolean productLive;
+    private short productLive;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "PRODUCT_LOCATON")
     private String productLocaton;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productstatsProductid")
+    private List<ProductStats> productStatsList;
     @JoinColumn(name = "PRODUCT_CATEGOTYID", referencedColumnName = "CATEGORY_ID")
     @ManyToOne(optional = false)
-    private Productcategories productCategotyid;
+    private ProductCategories productCategotyid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlistProductid")
+    private List<Wishlists> wishlistsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProductid")
-    private List<Orderdetails> orderdetailsList;
+    private List<OrderDetails> orderDetailsList;
 
     public Products() {
     }
@@ -102,7 +106,7 @@ public class Products implements Serializable {
         this.productId = productId;
     }
 
-    public Products(Integer productId, String productName, double productPrice, String productDesc, String productImage, Date productUpdatedate, short productStock, Boolean productLive, String productLocaton) {
+    public Products(Integer productId, String productName, double productPrice, String productDesc, String productImage, Date productUpdatedate, short productStock, short productLive, String productLocaton) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -170,11 +174,11 @@ public class Products implements Serializable {
         this.productStock = productStock;
     }
 
-    public Boolean getProductLive() {
+    public short getProductLive() {
         return productLive;
     }
 
-    public void setProductLive(Boolean productLive) {
+    public void setProductLive(short productLive) {
         this.productLive = productLive;
     }
 
@@ -186,21 +190,39 @@ public class Products implements Serializable {
         this.productLocaton = productLocaton;
     }
 
-    public Productcategories getProductCategotyid() {
+    @XmlTransient
+    public List<ProductStats> getProductStatsList() {
+        return productStatsList;
+    }
+
+    public void setProductStatsList(List<ProductStats> productStatsList) {
+        this.productStatsList = productStatsList;
+    }
+
+    public ProductCategories getProductCategotyid() {
         return productCategotyid;
     }
 
-    public void setProductCategotyid(Productcategories productCategotyid) {
+    public void setProductCategotyid(ProductCategories productCategotyid) {
         this.productCategotyid = productCategotyid;
     }
 
     @XmlTransient
-    public List<Orderdetails> getOrderdetailsList() {
-        return orderdetailsList;
+    public List<Wishlists> getWishlistsList() {
+        return wishlistsList;
     }
 
-    public void setOrderdetailsList(List<Orderdetails> orderdetailsList) {
-        this.orderdetailsList = orderdetailsList;
+    public void setWishlistsList(List<Wishlists> wishlistsList) {
+        this.wishlistsList = wishlistsList;
+    }
+
+    @XmlTransient
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
+    }
+
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
     }
 
     @Override

@@ -27,12 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "ORDERDETAILS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Orderdetails.findAll", query = "SELECT o FROM Orderdetails o")
-    , @NamedQuery(name = "Orderdetails.findByDetailid", query = "SELECT o FROM Orderdetails o WHERE o.detailid = :detailid")
-    , @NamedQuery(name = "Orderdetails.findByDetailName", query = "SELECT o FROM Orderdetails o WHERE o.detailName = :detailName")
-    , @NamedQuery(name = "Orderdetails.findByDetailPrice", query = "SELECT o FROM Orderdetails o WHERE o.detailPrice = :detailPrice")
-    , @NamedQuery(name = "Orderdetails.findByDetailQuantity", query = "SELECT o FROM Orderdetails o WHERE o.detailQuantity = :detailQuantity")})
-public class Orderdetails implements Serializable {
+    @NamedQuery(name = "OrderDetails.findAll", query = "SELECT o FROM OrderDetails o")
+    , @NamedQuery(name = "OrderDetails.findByDetailid", query = "SELECT o FROM OrderDetails o WHERE o.detailid = :detailid")
+    , @NamedQuery(name = "OrderDetails.findByDetailName", query = "SELECT o FROM OrderDetails o WHERE o.detailName = :detailName")
+    , @NamedQuery(name = "OrderDetails.findByDetailPrice", query = "SELECT o FROM OrderDetails o WHERE o.detailPrice = :detailPrice")
+    , @NamedQuery(name = "OrderDetails.findByDetailQuantity", query = "SELECT o FROM OrderDetails o WHERE o.detailQuantity = :detailQuantity")})
+public class OrderDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,14 +60,14 @@ public class Orderdetails implements Serializable {
     @ManyToOne(optional = false)
     private Products detailProductid;
 
-    public Orderdetails() {
+    public OrderDetails() {
     }
 
-    public Orderdetails(Integer detailid) {
+    public OrderDetails(Integer detailid) {
         this.detailid = detailid;
     }
 
-    public Orderdetails(Integer detailid, String detailName, double detailPrice, int detailQuantity) {
+    public OrderDetails(Integer detailid, String detailName, double detailPrice, int detailQuantity) {
         this.detailid = detailid;
         this.detailName = detailName;
         this.detailPrice = detailPrice;
@@ -132,10 +132,10 @@ public class Orderdetails implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Orderdetails)) {
+        if (!(object instanceof OrderDetails)) {
             return false;
         }
-        Orderdetails other = (Orderdetails) object;
+        OrderDetails other = (OrderDetails) object;
         if ((this.detailid == null && other.detailid != null) || (this.detailid != null && !this.detailid.equals(other.detailid))) {
             return false;
         }
@@ -144,7 +144,7 @@ public class Orderdetails implements Serializable {
 
     @Override
     public String toString() {
-        return "sit.model.Orderdetails[ detailid=" + detailid + " ]";
+        return "sit.model.OrderDetails[ detailid=" + detailid + " ]";
     }
     
 }

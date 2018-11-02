@@ -49,6 +49,8 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         
+        System.out.println(request.getHeader("Host") + getServletContext().getContextPath());
+        
         if (parameter != null && password != null) {
             UserManager um = new UserManager(usersCtrl.findUsersEntities());
             Users user = um.LoginUser(parameter, password);
@@ -56,7 +58,7 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("isAuthenticated", false);
             } else { //Authenticated
                 session.setAttribute("user", user);
-                getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                response.sendRedirect(getServletContext().getContextPath());
                 return;
             }
         }
