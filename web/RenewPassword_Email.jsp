@@ -22,8 +22,11 @@
                 <h1>Renew Password</h1>
                 <hr>
                 <div class="form-group">
+                  <!--Hidden parameter value used for authentication.-->
+                  <input type="hidden" name="a" value="${requestScope.a}">
+                  <input type="hidden" name="b" value="${requestScope.b}">
                   <label for="exampleInputPassword1">Enter your new password below.</label>
-                  <input type="password" name="password1" class="form-control" id="exampleInputPassword1" placeholder="Password" minlength="7" required="">
+                  <input type="password" name="password1" class="form-control" id="exampleInputPassword1" placeholder="Password" minlength="7">
                   <small id="passwordHelp" class="form-text text-muted">Make sure it's at least 7 characters</small>
                   <c:if test="${errorCode == 'PASSWORD_EMPTY' || errorCode == 'PASSWORD_TOOSHORT'
                         || errorCode == 'PASSWORD_TOOLONG'}">
@@ -32,7 +35,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirm Password</label>
-                  <input type="password" name="password2" class="form-control" id="exampleInputPassword1" placeholder="Re-enter password" minlength="7" required="">
+                  <input type="password" name="password2" class="form-control" id="exampleInputPassword1" placeholder="Re-enter password" minlength="7">
                   <c:if test="${errorCode == 'PASSWORD_EMPTY' || errorCode == 'PASSWORD_NOTMATCH'}">
                       <font style="color: red">${errorDesc}</font>
                   </c:if>

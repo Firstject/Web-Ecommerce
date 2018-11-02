@@ -16,7 +16,7 @@ public class EmailMsgManager {
     public EmailMsgManager() {
     }
     
-    public String regisSuccess(String username, String verifyCode, int id) {
+    public String regisSuccess(String username, String verifyCode, int id, String currentPath, String targetPath) {
         msg = "<div style=\"background-color: #e7fffc; padding: 4px;\">\n" +
                 "    <div style=\"max-width:600px; margin: 8px auto;\">\n" +
                 "        <div style=\"background-color: white; border-radius: 8px; padding: 8px;\">\n" +
@@ -32,7 +32,7 @@ public class EmailMsgManager {
                 "                <p>Hello " + username + ",</p>\n" +
                 "                <p>Thank you for registering at Cart-Commerce. To verify your e-mail address, please click on the button below.</p>\n" +
                 "                <div align=\"center\" style=\"margin: 32px;\">\n" +
-                "                    <a href=\"http://localhost:8080/Web-Ecommerce/AccountVerify?a=" + verifyCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;\">\n" +
+                "                    <a href=\"http://" + currentPath + targetPath + "?a=" + verifyCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;\">\n" +
                 "                        <b>Verify Address</b>\n" +
                 "                    </a>\n" +
                 "                </div>\n" +
@@ -50,7 +50,7 @@ public class EmailMsgManager {
         return msg;
     }
     
-    public String resetPassword(String username, String resetCode, int id) {
+    public String resetPassword(String username, String resetCode, int id, String currentPath, String targetPath) {
         msg = "<div style=\"background-color: #e7fffc; padding: 4px;\">\n" +
                 "    <div style=\"max-width:600px; margin: 8px auto;\">\n" +
                 "        <div style=\"background-color: white; border-radius: 8px; padding: 8px;\">\n" +
@@ -63,7 +63,7 @@ public class EmailMsgManager {
                 "                <p>We heard that you lost your Cart-Commerce password. Sorry about that!</p>\n" +
                 "                <p>But don’t worry! You can use the following link to reset your password:</p>\n" +
                 "                <div align=\"center\" style=\"margin: 32px;\">\n" +
-                "                    <a href=\"http://localhost:8080/Web-Ecommerce/ResetPassword?a=" + resetCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: #ff6600; border-radius: 8px; text-decoration: none; color: white;\">\n" +
+                "                    <a href=\"http://" + currentPath + targetPath + "?a=" + resetCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: #ff6600; border-radius: 8px; text-decoration: none; color: white;\">\n" +
                 "                        <b>Reset Password</b>\n" +
                 "                    </a>\n" +
                 "                </div>\n" +

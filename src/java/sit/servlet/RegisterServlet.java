@@ -102,11 +102,11 @@ public class RegisterServlet extends HttpServlet {
             usersCtrl.create(user);
 
             subject = "Please confirm your email address"; //Set subject name
-            message = emm.regisSuccess(username, verifyCode, userId); //Set message as HTML content
+            message = emm.regisSuccess(username, verifyCode, userId, request.getHeader("Host") + getServletContext().getContextPath(), "/AccountVerify"); //Set message as HTML content
             SendMail.send(email, subject, message); //SEND MAIL!
             
-            request.setAttribute("ActivationLink", "http://localhost:8080/Web-Ecommerce/AccountVerify?a=" + verifyCode + "&b=" + userId);
-            getServletContext().getRequestDispatcher("/RegisterSuccess.jsp").forward(request, response);
+//            request.setAttribute("ActivationLink", getServletContext().getContextPath() + "/AccountVerify?a=" + verifyCode + "&b=" + userId);
+            response.sendRedirect(getServletContext().getContextPath() + "/RegisterSuccess.jsp");
             return;
         }
 

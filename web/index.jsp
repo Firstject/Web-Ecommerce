@@ -14,10 +14,10 @@
         <jsp:include page="Include/Header.jsp" />
     </head>
     <body>
-        <div>
-            <h1 class="display-3">Deal of the Day</h1>
-            <h1 class="display-3">New Products</h1>
-            <h1 class="display-3">Most Popular</h1>
+        <div class="container">
+            <h1>Deal of the Day</h1>
+            <h1>New Products</h1>
+            <h1>Most Popular</h1>
         </div>
     </body>
 </html>

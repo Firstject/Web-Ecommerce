@@ -32,8 +32,6 @@
             <br>
             <center>
                 <button class="btn btn-primary" href="Login.jsp" float="center">Return to sign in</button>
-                <br>
-                <a href="${ActivationLink}" target="_blank"><button type="button" class="btn btn-outline-secondary">Instant Activate</button></a>
             </center>
         </div>
     </body>

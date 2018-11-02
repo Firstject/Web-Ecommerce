@@ -41,12 +41,22 @@ public class RenewPasswordServlet extends HttpServlet {
             throws ServletException, IOException {
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
+        String a = request.getParameter("a");
+        String b = request.getParameter("b");
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         UserManager um = new UserManager();
+        String errorMsg = "";
         
         if (password1 != null && password2 != null) {
             
+        } else {
+            errorMsg = "Password can't be empty!";
         }
+        
+        request.setAttribute("a", a);
+        request.setAttribute("b", b);
+        request.setAttribute("errorMsg", errorMsg);
+        getServletContext().getRequestDispatcher("/RenewPassword_Email.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

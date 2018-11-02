@@ -83,7 +83,9 @@ public class ResetPasswordServlet extends HttpServlet {
                 return;
             }
             //Valid. Send redirect
-            response.sendRedirect("RenewPassword_Email.jsp");
+            request.setAttribute("a", a);
+            request.setAttribute("b", b);
+            getServletContext().getRequestDispatcher("/RenewPassword_Email.jsp").forward(request, response);
             return;
         }
         
@@ -104,7 +106,7 @@ public class ResetPasswordServlet extends HttpServlet {
                     usersCtrl.edit(user);
                     
                     subject = "Reset Password"; //Set subject name
-                    message = emm.resetPassword(username, resetCode, us.getUserid()); //Set message as HTML content
+                    message = emm.resetPassword(username, resetCode, us.getUserid(), request.getHeader("Host") + getServletContext().getContextPath(), "/ResetPassword"); //Set message as HTML content
                     SendMail.send(us.getEmail(), subject, message); //SEND MAIL!
 
                     getServletContext().getRequestDispatcher("/ResetPasswordCodeSent.jsp").forward(request, response);

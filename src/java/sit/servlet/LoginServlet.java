@@ -49,8 +49,6 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         
-        System.out.println(request.getHeader("Host") + getServletContext().getContextPath());
-        
         if (parameter != null && password != null) {
             UserManager um = new UserManager(usersCtrl.findUsersEntities());
             Users user = um.LoginUser(parameter, password);
