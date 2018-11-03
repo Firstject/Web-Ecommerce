@@ -79,11 +79,17 @@ public class RegisterServlet extends HttpServlet {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
             email = email.trim(); //Trim to remove whitespace on both left and right sides.
             
-            UserManager usermanager = new UserManager(usersCtrl.findUsersEntities());
-            errorCode = usermanager.RegisterCheck(username, email, password1, password2);
+            UserManager um = new UserManager();
+            //SET USERNAME OR EMAIL TO CHECK FOR EXISTENCE
+            um.setSecondUserToCheck(usersCtrl.findUsername(username));
+            if (um.getSecondUserToCheck() == null) {
+                um.setSecondUserToCheck(usersCtrl.findEmail(email));
+            }
+            //
+            errorCode = um.RegisterCheck(username, email, password1, password2);
             if(!"".equals(errorCode)) {
                 request.setAttribute("errorCode", errorCode); //Error code send to jsp view
-                request.setAttribute("errorDesc", usermanager.GetErrorCodeDescription(errorCode)); //Error Description send to jsp view
+                request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode)); //Error Description send to jsp view
                 getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
                 return;
             }

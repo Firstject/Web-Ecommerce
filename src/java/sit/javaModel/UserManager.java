@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.servlet.http.HttpServlet;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
 import sit.model.Users;
@@ -20,12 +21,7 @@ import sit.model.Users;
  */
 
 
-public class UserManager {
-    @PersistenceUnit(unitName = "ECommerce_WebPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
-    
+public class UserManager extends HttpServlet{   
     //Regis
     public static final String USER_EMPTY         = "USER_EMPTY";
     public static final String USER_TOOSHORT      = "USER_TOOSHORT";
@@ -42,13 +38,21 @@ public class UserManager {
     public static final String RESETCODE_INVALID  = "RESETCODE_INVALID";
     public static final String RESETCODE_EXPIRED  = "RESETCODE_EXPIRED";
     
-    private List<Users> usersList;
+    private Users secondUserToCheck;
     
     public UserManager() {
     }
     
-    public UserManager(List<Users> usersList) {
-        this.usersList = usersList;
+    public UserManager(Users user) {
+        this.secondUserToCheck = user;
+    }
+    
+    public Users getSecondUserToCheck() {
+        return secondUserToCheck;
+    }
+
+    public void setSecondUserToCheck(Users secondUserToCheck) {
+        this.secondUserToCheck = secondUserToCheck;
     }
     
     public String GetErrorCodeDescription(String errCode) {
@@ -89,11 +93,11 @@ public class UserManager {
         if (email == null) {
             return EMAIL_EMPTY;
         }
-        for (Users us : usersList) {
-            if (us.getUsername().equalsIgnoreCase(user)) {
+        if (secondUserToCheck != null) {
+            if (secondUserToCheck.getUsername().equalsIgnoreCase(user)) {
                 return USER_EXISTS;
             }
-            if (us.getEmail().equalsIgnoreCase(email)) {
+            if (secondUserToCheck.getEmail().equalsIgnoreCase(email)) {
                 return EMAIL_EXISTS;
             }
         }
@@ -139,16 +143,14 @@ public class UserManager {
     
     
     public Users LoginUser(String parameter, String password) {
-        // Check if parameter value is email
-        boolean isEmail = this.isEmail(parameter);
-        //Check for existence
-        for (Users us : usersList) {
-            if ((isEmail ? us.getEmail() : us.getUsername()).equalsIgnoreCase(parameter)) {
-                //If matched, check for password
-                if (!us.getPassword().equals(new MD5().cryptWithMD5(password))) {
+        if (secondUserToCheck != null) {
+            //Check for existence
+            if ((isEmail(parameter) ? secondUserToCheck.getEmail() : secondUserToCheck.getUsername()).equalsIgnoreCase(parameter)) {
+                //If either username or password is matched, check for password
+                if (!secondUserToCheck.getPassword().equals(new MD5().cryptWithMD5(password))) {
                     return null; //Incorrect Password
                 } else {
-                    return us; //Correct Password. Returns no error.
+                    return secondUserToCheck; //Correct Password. Returns no error.
                 }
             }
         }

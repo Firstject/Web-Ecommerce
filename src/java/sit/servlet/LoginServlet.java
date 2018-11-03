@@ -50,7 +50,13 @@ public class LoginServlet extends HttpServlet {
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         
         if (parameter != null && password != null) {
-            UserManager um = new UserManager(usersCtrl.findUsersEntities());
+            UserManager um = new UserManager();
+            //Checks whether parameter is either username or email
+            if (um.isEmail(parameter)) {
+                um.setSecondUserToCheck(usersCtrl.findEmail(parameter));
+            } else {
+                um.setSecondUserToCheck(usersCtrl.findUsername(parameter));
+            }
             Users user = um.LoginUser(parameter, password);
             if (user == null) { //Unauthenticated
                 request.setAttribute("isAuthenticated", false);
