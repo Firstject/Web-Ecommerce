@@ -19,7 +19,7 @@
         <div class="container">
             <form action="RenewPassword" method="post">
               <fieldset>
-                <h1>Renew Password</h1>
+                <h1>Renew Password for @${userToReset}</h1>
                 <hr>
                 <div class="form-group">
                   <!--Hidden parameter value used for authentication.-->

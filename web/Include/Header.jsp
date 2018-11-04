@@ -40,10 +40,12 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.user.username}</a>
                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">Account</a>
+                  <a class="dropdown-item" href="#">Your Cart</a>
+                  <a class="dropdown-item" href="#">Your Orders</a>
                   <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="Help">Help</a>
+                  <a class="dropdown-item" href="Settings">Settings</a>
                   <a class="dropdown-item" href="Logout">Sign out</a>
                 </div>
               </li>

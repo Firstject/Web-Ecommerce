@@ -89,6 +89,7 @@ public class ResetPasswordServlet extends HttpServlet {
             //Valid. Send redirect
             request.setAttribute("a", a);
             request.setAttribute("b", b);
+            request.setAttribute("userToReset", usersCtrl.findUsers(Integer.valueOf(b)).getUsername());
             getServletContext().getRequestDispatcher("/RenewPassword_Email.jsp").forward(request, response);
             return;
         }
