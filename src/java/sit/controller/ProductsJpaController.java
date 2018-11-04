@@ -56,10 +56,10 @@ public class ProductsJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            ProductCategories productCategotyid = products.getProductCategotyid();
-            if (productCategotyid != null) {
-                productCategotyid = em.getReference(productCategotyid.getClass(), productCategotyid.getCategoryId());
-                products.setProductCategotyid(productCategotyid);
+            ProductCategories productCategoryid = products.getProductCategoryid();
+            if (productCategoryid != null) {
+                productCategoryid = em.getReference(productCategoryid.getClass(), productCategoryid.getCategoryId());
+                products.setProductCategoryid(productCategoryid);
             }
             List<ProductStats> attachedProductStatsList = new ArrayList<ProductStats>();
             for (ProductStats productStatsListProductStatsToAttach : products.getProductStatsList()) {
@@ -80,9 +80,9 @@ public class ProductsJpaController implements Serializable {
             }
             products.setOrderDetailsList(attachedOrderDetailsList);
             em.persist(products);
-            if (productCategotyid != null) {
-                productCategotyid.getProductsList().add(products);
-                productCategotyid = em.merge(productCategotyid);
+            if (productCategoryid != null) {
+                productCategoryid.getProductsList().add(products);
+                productCategoryid = em.merge(productCategoryid);
             }
             for (ProductStats productStatsListProductStats : products.getProductStatsList()) {
                 Products oldProductstatsProductidOfProductStatsListProductStats = productStatsListProductStats.getProductstatsProductid();
@@ -135,8 +135,8 @@ public class ProductsJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Products persistentProducts = em.find(Products.class, products.getProductId());
-            ProductCategories productCategotyidOld = persistentProducts.getProductCategotyid();
-            ProductCategories productCategotyidNew = products.getProductCategotyid();
+            ProductCategories productCategoryidOld = persistentProducts.getProductCategoryid();
+            ProductCategories productCategoryidNew = products.getProductCategoryid();
             List<ProductStats> productStatsListOld = persistentProducts.getProductStatsList();
             List<ProductStats> productStatsListNew = products.getProductStatsList();
             List<Wishlists> wishlistsListOld = persistentProducts.getWishlistsList();
@@ -171,9 +171,9 @@ public class ProductsJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (productCategotyidNew != null) {
-                productCategotyidNew = em.getReference(productCategotyidNew.getClass(), productCategotyidNew.getCategoryId());
-                products.setProductCategotyid(productCategotyidNew);
+            if (productCategoryidNew != null) {
+                productCategoryidNew = em.getReference(productCategoryidNew.getClass(), productCategoryidNew.getCategoryId());
+                products.setProductCategoryid(productCategoryidNew);
             }
             List<ProductStats> attachedProductStatsListNew = new ArrayList<ProductStats>();
             for (ProductStats productStatsListNewProductStatsToAttach : productStatsListNew) {
@@ -197,13 +197,13 @@ public class ProductsJpaController implements Serializable {
             orderDetailsListNew = attachedOrderDetailsListNew;
             products.setOrderDetailsList(orderDetailsListNew);
             products = em.merge(products);
-            if (productCategotyidOld != null && !productCategotyidOld.equals(productCategotyidNew)) {
-                productCategotyidOld.getProductsList().remove(products);
-                productCategotyidOld = em.merge(productCategotyidOld);
+            if (productCategoryidOld != null && !productCategoryidOld.equals(productCategoryidNew)) {
+                productCategoryidOld.getProductsList().remove(products);
+                productCategoryidOld = em.merge(productCategoryidOld);
             }
-            if (productCategotyidNew != null && !productCategotyidNew.equals(productCategotyidOld)) {
-                productCategotyidNew.getProductsList().add(products);
-                productCategotyidNew = em.merge(productCategotyidNew);
+            if (productCategoryidNew != null && !productCategoryidNew.equals(productCategoryidOld)) {
+                productCategoryidNew.getProductsList().add(products);
+                productCategoryidNew = em.merge(productCategoryidNew);
             }
             for (ProductStats productStatsListNewProductStats : productStatsListNew) {
                 if (!productStatsListOld.contains(productStatsListNewProductStats)) {
@@ -297,10 +297,10 @@ public class ProductsJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            ProductCategories productCategotyid = products.getProductCategotyid();
-            if (productCategotyid != null) {
-                productCategotyid.getProductsList().remove(products);
-                productCategotyid = em.merge(productCategotyid);
+            ProductCategories productCategoryid = products.getProductCategoryid();
+            if (productCategoryid != null) {
+                productCategoryid.getProductsList().remove(products);
+                productCategoryid = em.merge(productCategoryid);
             }
             em.remove(products);
             utx.commit();

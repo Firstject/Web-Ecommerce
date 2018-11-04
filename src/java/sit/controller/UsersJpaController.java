@@ -326,7 +326,7 @@ public class UsersJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNamedQuery("Users.findByUsername");
-            query.setParameter("username", username);
+            query.setParameter("username", "%" + username.toLowerCase() + "%");
             return (Users) query.getSingleResult();
         } catch (Exception e) {
             
@@ -340,7 +340,7 @@ public class UsersJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNamedQuery("Users.findByEmail");
-            query.setParameter("email", email);
+            query.setParameter("email", "%" + email.toLowerCase() + "%");
             return (Users) query.getSingleResult();
         } catch (Exception e) {} finally {
             em.close();

@@ -66,15 +66,19 @@ public class ResetPasswordServlet extends HttpServlet {
         String subject, message, resetCode, username;
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         Users user;
-        List<Users> usersList;
         EmailMsgManager emm = new EmailMsgManager();
         UserManager usermanager = new UserManager();
         MD5 md = new MD5();
         
-        /* Check for part 1 : Receiving password reset code*/
+        /* Check for part 1 : Receiving password reset code through email*/
         if (a != null && b != null) {
-            int userId = Integer.parseInt(b);
-            String errorCode; //Checks whether its valid.
+            int userId = 1;
+            try {
+                userId = Integer.valueOf(b);
+            } catch (NumberFormatException e) {
+                userId = 1;
+            }
+            String errorCode; //Checks whether its valid code and not expired. 
             errorCode = usermanager.checkPasswordResetCode(usersCtrl.findUsers(userId), a);
             if (!errorCode.isEmpty()) {
                 request.setAttribute("errorCode", errorCode);
@@ -89,34 +93,29 @@ public class ResetPasswordServlet extends HttpServlet {
             return;
         }
         
-        /* Check for part 2 : Receiving email*/
+        /* Check for part 2 : Receiving email through email reset page*/
         if (email != null) {
-            usersList = usersCtrl.findUsersEntities();
-            for (Users us : usersList) {
-                if (us.getEmail().equals(email)) {
-                    username = us.getUsername();
-                    resetCode = md.generateVerificationCode();
-                    
-                    //Modify Database; Set reset password code and set time
-                    user = us;
-                    Calendar cal = Calendar.getInstance();
-                    cal.add(Calendar.HOUR, 3);
-                    user.setResetpassExpiredate(cal.getTime()); //Set expire timer to 3 hours ahead.
-                    user.setResetpassCode(resetCode); //Set reset code.
-                    usersCtrl.edit(user);
-                    
-                    subject = "Reset Password"; //Set subject name
-                    message = emm.resetPassword(username, resetCode, us.getUserid(), request.getHeader("Host") + getServletContext().getContextPath(), "/ResetPassword"); //Set message as HTML content
-                    SendMail.send(us.getEmail(), subject, message); //SEND MAIL!
+            user = usersCtrl.findEmail(email);
+            if (user != null) {
+                resetCode = md.generateVerificationCode();
+                
+                //Modify Database; Set reset password code and set time
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.HOUR, 3);
+                user.setResetpassExpiredate(cal.getTime()); //Set expire timer to 3 hours ahead.
+                user.setResetpassCode(resetCode); //Set reset code.
+                usersCtrl.edit(user);
 
-                    getServletContext().getRequestDispatcher("/ResetPasswordCodeSent.jsp").forward(request, response);
-                    return;
-                }
+                subject = "Reset Password"; //Set subject name
+                message = emm.resetPassword(user.getUsername(), resetCode, user.getUserid(), request.getHeader("Host") + getServletContext().getContextPath(), "/ResetPassword"); //Set message as HTML content
+                SendMail.send(user.getEmail(), subject, message); //SEND MAIL!
+                
+                getServletContext().getRequestDispatcher("/ResetPasswordCodeSent.jsp").forward(request, response);
+                return;
             }
             //If the code pass through here, then username or email is not exist.
             
             request.setAttribute("errorDesc", "Can't find that email, sorry..");
-            
         }
         getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
     }

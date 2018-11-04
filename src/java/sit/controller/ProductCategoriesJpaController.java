@@ -55,12 +55,12 @@ public class ProductCategoriesJpaController implements Serializable {
             productCategories.setProductsList(attachedProductsList);
             em.persist(productCategories);
             for (Products productsListProducts : productCategories.getProductsList()) {
-                ProductCategories oldProductCategotyidOfProductsListProducts = productsListProducts.getProductCategotyid();
-                productsListProducts.setProductCategotyid(productCategories);
+                ProductCategories oldProductCategoryidOfProductsListProducts = productsListProducts.getProductCategoryid();
+                productsListProducts.setProductCategoryid(productCategories);
                 productsListProducts = em.merge(productsListProducts);
-                if (oldProductCategotyidOfProductsListProducts != null) {
-                    oldProductCategotyidOfProductsListProducts.getProductsList().remove(productsListProducts);
-                    oldProductCategotyidOfProductsListProducts = em.merge(oldProductCategotyidOfProductsListProducts);
+                if (oldProductCategoryidOfProductsListProducts != null) {
+                    oldProductCategoryidOfProductsListProducts.getProductsList().remove(productsListProducts);
+                    oldProductCategoryidOfProductsListProducts = em.merge(oldProductCategoryidOfProductsListProducts);
                 }
             }
             utx.commit();
@@ -95,7 +95,7 @@ public class ProductCategoriesJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Products " + productsListOldProducts + " since its productCategotyid field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Products " + productsListOldProducts + " since its productCategoryid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -111,12 +111,12 @@ public class ProductCategoriesJpaController implements Serializable {
             productCategories = em.merge(productCategories);
             for (Products productsListNewProducts : productsListNew) {
                 if (!productsListOld.contains(productsListNewProducts)) {
-                    ProductCategories oldProductCategotyidOfProductsListNewProducts = productsListNewProducts.getProductCategotyid();
-                    productsListNewProducts.setProductCategotyid(productCategories);
+                    ProductCategories oldProductCategoryidOfProductsListNewProducts = productsListNewProducts.getProductCategoryid();
+                    productsListNewProducts.setProductCategoryid(productCategories);
                     productsListNewProducts = em.merge(productsListNewProducts);
-                    if (oldProductCategotyidOfProductsListNewProducts != null && !oldProductCategotyidOfProductsListNewProducts.equals(productCategories)) {
-                        oldProductCategotyidOfProductsListNewProducts.getProductsList().remove(productsListNewProducts);
-                        oldProductCategotyidOfProductsListNewProducts = em.merge(oldProductCategotyidOfProductsListNewProducts);
+                    if (oldProductCategoryidOfProductsListNewProducts != null && !oldProductCategoryidOfProductsListNewProducts.equals(productCategories)) {
+                        oldProductCategoryidOfProductsListNewProducts.getProductsList().remove(productsListNewProducts);
+                        oldProductCategoryidOfProductsListNewProducts = em.merge(oldProductCategoryidOfProductsListNewProducts);
                     }
                 }
             }
@@ -160,7 +160,7 @@ public class ProductCategoriesJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This ProductCategories (" + productCategories + ") cannot be destroyed since the Products " + productsListOrphanCheckProducts + " in its productsList field has a non-nullable productCategotyid field.");
+                illegalOrphanMessages.add("This ProductCategories (" + productCategories + ") cannot be destroyed since the Products " + productsListOrphanCheckProducts + " in its productsList field has a non-nullable productCategoryid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

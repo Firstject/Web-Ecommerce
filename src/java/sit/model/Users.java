@@ -34,10 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findByUserid", query = "SELECT u FROM Users u WHERE u.userid = :userid")
-    , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username")
+    , @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE lower(u.username) like :username")
     , @NamedQuery(name = "Users.findByFname", query = "SELECT u FROM Users u WHERE u.fname = :fname")
     , @NamedQuery(name = "Users.findByLname", query = "SELECT u FROM Users u WHERE u.lname = :lname")
-    , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
+    , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE lower(u.email) like :email")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByCity", query = "SELECT u FROM Users u WHERE u.city = :city")
     , @NamedQuery(name = "Users.findByUserState", query = "SELECT u FROM Users u WHERE u.userState = :userState")
@@ -325,8 +325,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "userid=" + userid + ", username=" + username + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", password=" + password + ", city=" + city + ", userState=" + userState + ", address=" + address + ", country=" + country + ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + ", registerDate=" + registerDate + ", verifyCode=" + verifyCode + ", resetpassCode=" + resetpassCode + ", resetpassExpiredate=" + resetpassExpiredate + ", activateDate=" + activateDate + ", productStatsList=" + productStatsList + ", wishlistsList=" + wishlistsList + ", ordersList=" + ordersList + '}';
+        return "sit.model.Users[ userid=" + userid + " ]";
     }
-
     
 }

@@ -29,7 +29,7 @@
             </div>
             <br>
             <center>
-                <button class="btn btn-primary" href="Login.jsp" float="center">Return to sign in</button>
+                <a href="Login"><button class="btn btn-primary" href="Login.jsp" float="center">Return to sign in</button></a>
             </center>
         </div>
     </body>

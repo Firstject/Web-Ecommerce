@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Products.findByProductUpdatedate", query = "SELECT p FROM Products p WHERE p.productUpdatedate = :productUpdatedate")
     , @NamedQuery(name = "Products.findByProductStock", query = "SELECT p FROM Products p WHERE p.productStock = :productStock")
     , @NamedQuery(name = "Products.findByProductLive", query = "SELECT p FROM Products p WHERE p.productLive = :productLive")
-    , @NamedQuery(name = "Products.findByProductLocaton", query = "SELECT p FROM Products p WHERE p.productLocaton = :productLocaton")})
+    , @NamedQuery(name = "Products.findByProductLocation", query = "SELECT p FROM Products p WHERE p.productLocation = :productLocation")})
 public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,18 +61,12 @@ public class Products implements Serializable {
     @NotNull
     @Column(name = "PRODUCT_PRICE")
     private double productPrice;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "PRODUCT_DESC")
     private String productDesc;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "PRODUCT_IMAGE")
     private String productImage;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "PRODUCT_UPDATEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date productUpdatedate;
@@ -84,16 +78,14 @@ public class Products implements Serializable {
     @NotNull
     @Column(name = "PRODUCT_LIVE")
     private short productLive;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "PRODUCT_LOCATON")
-    private String productLocaton;
+    @Size(max = 255)
+    @Column(name = "PRODUCT_LOCATION")
+    private String productLocation;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productstatsProductid")
     private List<ProductStats> productStatsList;
-    @JoinColumn(name = "PRODUCT_CATEGOTYID", referencedColumnName = "CATEGORY_ID")
+    @JoinColumn(name = "PRODUCT_CATEGORYID", referencedColumnName = "CATEGORY_ID")
     @ManyToOne(optional = false)
-    private ProductCategories productCategotyid;
+    private ProductCategories productCategoryid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlistProductid")
     private List<Wishlists> wishlistsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProductid")
@@ -106,16 +98,12 @@ public class Products implements Serializable {
         this.productId = productId;
     }
 
-    public Products(Integer productId, String productName, double productPrice, String productDesc, String productImage, Date productUpdatedate, short productStock, short productLive, String productLocaton) {
+    public Products(Integer productId, String productName, double productPrice, short productStock, short productLive) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
-        this.productDesc = productDesc;
-        this.productImage = productImage;
-        this.productUpdatedate = productUpdatedate;
         this.productStock = productStock;
         this.productLive = productLive;
-        this.productLocaton = productLocaton;
     }
 
     public Integer getProductId() {
@@ -182,12 +170,12 @@ public class Products implements Serializable {
         this.productLive = productLive;
     }
 
-    public String getProductLocaton() {
-        return productLocaton;
+    public String getProductLocation() {
+        return productLocation;
     }
 
-    public void setProductLocaton(String productLocaton) {
-        this.productLocaton = productLocaton;
+    public void setProductLocation(String productLocation) {
+        this.productLocation = productLocation;
     }
 
     @XmlTransient
@@ -199,12 +187,12 @@ public class Products implements Serializable {
         this.productStatsList = productStatsList;
     }
 
-    public ProductCategories getProductCategotyid() {
-        return productCategotyid;
+    public ProductCategories getProductCategoryid() {
+        return productCategoryid;
     }
 
-    public void setProductCategotyid(ProductCategories productCategotyid) {
-        this.productCategotyid = productCategotyid;
+    public void setProductCategoryid(ProductCategories productCategoryid) {
+        this.productCategoryid = productCategoryid;
     }
 
     @XmlTransient

@@ -119,22 +119,24 @@ public class UserManager extends HttpServlet{
     
     public String checkPasswordResetCode(Users user, String resetCode) {
         //Check if reset code is valid (Equals to code's info from database)
-        if (user.getResetpassCode() != null) {
-            //Check if reset password code matches.
-            if (!user.getResetpassCode().equals(resetCode)) {
-                return RESETCODE_INVALID;
+        if (user != null) {
+            if (user.getResetpassCode() != null) {
+                //Check if reset password code matches.
+                if (!user.getResetpassCode().equals(resetCode)) {
+                    return RESETCODE_INVALID;
+                }
+                //Check if the reset password code expire or not.
+                //If it's expired, code can't be used and user will
+                //have to request for a code again to reset password.
+                Date date1 = new Date();
+                Date date2 = user.getResetpassExpiredate();
+                if (date1.getTime() > date2.getTime()) {
+                    //Expired
+                    return RESETCODE_EXPIRED;
+                }
+
+                return ""; //No error
             }
-            //Check if the reset password code expire or not.
-            //If it's expired, password can't be reset and user will
-            //have to request for a code again to reset password.
-            Date date1 = new Date();
-            Date date2 = user.getResetpassExpiredate();
-            if (date1.getTime() > date2.getTime()) {
-                //Expired
-                return RESETCODE_EXPIRED;
-            }
-            
-            return ""; //No error
         }
         
         return RESETCODE_INVALID; //Null
@@ -160,5 +162,27 @@ public class UserManager extends HttpServlet{
     
     public boolean isEmail(String param){
         return param.indexOf('@')!= -1;
+    }
+    
+    public String checkPassword(String pass1, String pass2) {
+        if (pass1.length() < 7) {
+            return PASSWORD_TOOSHORT;
+        }
+        if (pass1.length() > 64) {
+            return PASSWORD_TOOLONG;
+        }
+        if (!pass1.equals(pass2)) {
+            return PASSWORD_NOTMATCH;
+        }
+        return "";
+    }
+    
+    public Users updatePassword(Users user, String password) {
+        //Encrypt password and update.
+        user.setPassword(new MD5().cryptWithMD5(password));
+        //Invalidate verrification code
+        user.setResetpassCode(null);
+        
+        return user;
     }
 }

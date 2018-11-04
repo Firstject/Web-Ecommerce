@@ -24,6 +24,10 @@
         <servlet-name>RenewPasswordServlet</servlet-name>
         <servlet-class>sit.servlet.RenewPasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomePageServlet</servlet-name>
+        <servlet-class>sit.servlet.HomePageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>RenewPasswordServlet</servlet-name>
         <url-pattern>/RenewPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomePageServlet</servlet-name>
+        <url-pattern>/HomePage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

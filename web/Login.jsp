@@ -17,8 +17,12 @@
         <div class="container" style="max-width: 25rem;">
             <br>
             <br>
-            <div align="center"><img src="http://icons.iconarchive.com/icons/jozef89/services-flat/256/ecommerce-icon.png" alt="Cart-Commerce"
-                                     style="height: 128px; width: 128px;"></div>
+            <div align="center">
+                <a href="HomePage">
+                    <img src="http://icons.iconarchive.com/icons/jozef89/services-flat/256/ecommerce-icon.png" alt="Cart-Commerce"
+                                                        style="height: 128px; width: 128px;">
+                </a>
+            </div>
             <h1 align="center">Sign in</h1>
             <c:if test="${isAuthenticated == false}">
                 <div class="alert alert-dismissible alert-danger">
