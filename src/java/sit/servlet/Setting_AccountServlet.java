@@ -7,17 +7,28 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import sit.controller.UsersJpaController;
+import sit.javaModel.UserManager;
+import sit.model.Users;
 
 /**
  *
  * @author Firsty
  */
 public class Setting_AccountServlet extends HttpServlet {
-
+    @PersistenceUnit(unitName = "ECommerce_WebPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -29,6 +40,24 @@ public class Setting_AccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String submit = request.getParameter("submit");
+        String OldPass = request.getParameter("oldpass");
+        String NewPass1 = request.getParameter("newpass1");
+        String NewPass2 = request.getParameter("newpass2");
+        HttpSession session = request.getSession(false);
+        UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        UserManager um = new UserManager();
+        Users user = new Users();
+        
+        if (session != null) {
+            if (submit != null) {
+                if (OldPass != null && NewPass1 != null && NewPass2 != null) {
+                    user = (Users)session.getAttribute("user");
+                    
+                }
+            }
+        }
+        
         getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
     }
 
