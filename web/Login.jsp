@@ -38,7 +38,7 @@
                                 <!--Hidden parameter value used for authentication.-->
                                 <input type="hidden" name="returnUrl" value="${requestScope.returnUrl}">
                                 <label class="col-form-label" for="inputDefault"><h5>Username or email address</h5></label>
-                                <input type="text" name="parameter" class="form-control" id="inputDefault" value=""/>
+                                <input type="text" name="parameter" class="form-control" id="inputDefault" value="${parameter}"/>
                                 <label class="col-form-label" for="inputDefault"><h5>Password</h5></label>
                                 <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
                                 <br>

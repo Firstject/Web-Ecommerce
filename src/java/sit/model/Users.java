@@ -325,7 +325,9 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "sit.model.Users[ userid=" + userid + " ]";
+        return "Users{" + "userid=" + userid + ", username=" + username + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", password=" + password + ", city=" + city + ", userState=" + userState + ", address=" + address + ", country=" + country + ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + ", registerDate=" + registerDate + ", verifyCode=" + verifyCode + ", resetpassCode=" + resetpassCode + ", resetpassExpiredate=" + resetpassExpiredate + ", activateDate=" + activateDate + ", productStatsList=" + productStatsList + ", wishlistsList=" + wishlistsList + ", ordersList=" + ordersList + '}';
     }
+
+    
     
 }

@@ -30,6 +30,12 @@
                             <a href="#" class="list-group-item list-group-item-action">Purchase History</a>
                         </div>
                     </div>
+                    <div class="bs-component">
+                        <div class="card mb-3">
+                            <h5 class="card-header text-muted">More Setting</h5>
+                            <a href="Setting_Theme" class="list-group-item list-group-item-action">Theme</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-9">
                     <form action="Setting_Profile" method="post">

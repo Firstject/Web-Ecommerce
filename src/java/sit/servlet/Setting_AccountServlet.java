@@ -7,6 +7,8 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
+import sit.controller.exceptions.NonexistentEntityException;
+import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
 import sit.model.Users;
 
@@ -39,7 +43,7 @@ public class Setting_AccountServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NonexistentEntityException, RollbackFailureException, Exception {
         String submit = request.getParameter("submit");
         String OldPass = request.getParameter("oldpass");
         String NewPass1 = request.getParameter("newpass1");
@@ -53,10 +57,21 @@ public class Setting_AccountServlet extends HttpServlet {
             if (submit != null) {
                 if (OldPass != null && NewPass1 != null && NewPass2 != null) {
                     user = (Users)session.getAttribute("user");
-                    
+                    um.setSecondUserToCheck(user);
+                    String errorCode = um.changePassword(OldPass, NewPass1, NewPass2);
+                    if ("".equals(errorCode)) {
+                        usersCtrl.edit(user);
+                        session.setAttribute("user", user);
+                    }
+                    if (errorCode.isEmpty()) {
+                        request.setAttribute("isPasswordUpdated", true);
+                    } else {
+                        request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode));
+                    }
                 }
             }
         }
+        
         
         getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
     }
@@ -73,7 +88,13 @@ public class Setting_AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(Setting_AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Setting_AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -87,7 +108,13 @@ public class Setting_AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(Setting_AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Setting_AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

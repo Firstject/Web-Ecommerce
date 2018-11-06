@@ -23,20 +23,22 @@ import sit.model.Users;
 
 public class UserManager extends HttpServlet{   
     //Regis
-    public static final String USER_EMPTY         = "USER_EMPTY";
-    public static final String USER_TOOSHORT      = "USER_TOOSHORT";
-    public static final String USER_TOOLONG       = "USER_TOOLONG";
-    public static final String USER_HASWHITESPACE = "USER_HASWHITESPACE";
-    public static final String USER_EXISTS        = "USER_EXISTS";
-    public static final String EMAIL_EMPTY        = "EMAIL_EMPTY";
-    public static final String EMAIL_EXISTS       = "EMAIL_EXISTS";
-    public static final String PASSWORD_EMPTY     = "PASSWORD_EMPTY";
-    public static final String PASSWORD_TOOLONG   = "PASSWORD_TOOLONG";
-    public static final String PASSWORD_TOOSHORT  = "PASSWORD_TOOSHORT";
-    public static final String PASSWORD_NOTMATCH  = "PASSWORD_NOTMATCH";
+    public static final String USER_EMPTY           = "USER_EMPTY";
+    public static final String USER_TOOSHORT        = "USER_TOOSHORT";
+    public static final String USER_TOOLONG         = "USER_TOOLONG";
+    public static final String USER_HASWHITESPACE   = "USER_HASWHITESPACE";
+    public static final String USER_EXISTS          = "USER_EXISTS";
+    public static final String EMAIL_EMPTY          = "EMAIL_EMPTY";
+    public static final String EMAIL_EXISTS         = "EMAIL_EXISTS";
+    public static final String PASSWORD_EMPTY       = "PASSWORD_EMPTY";
+    public static final String OLDPASSWORD_EMPTY    = "OLDPASSWORD_EMPTY";
+    public static final String OLDPASSWORD_NOTMATCH = "OLDPASSWORD_NOTMATCH";
+    public static final String PASSWORD_TOOLONG     = "PASSWORD_TOOLONG";
+    public static final String PASSWORD_TOOSHORT    = "PASSWORD_TOOSHORT";
+    public static final String PASSWORD_NOTMATCH    = "PASSWORD_NOTMATCH";
     //Reset Password
-    public static final String RESETCODE_INVALID  = "RESETCODE_INVALID";
-    public static final String RESETCODE_EXPIRED  = "RESETCODE_EXPIRED";
+    public static final String RESETCODE_INVALID    = "RESETCODE_INVALID";
+    public static final String RESETCODE_EXPIRED    = "RESETCODE_EXPIRED";
     
     private Users secondUserToCheck;
     
@@ -58,19 +60,21 @@ public class UserManager extends HttpServlet{
     public String GetErrorCodeDescription(String errCode) {
         String errDesc = "Description Unavailable";
         switch (errCode) {
-            case USER_EMPTY         : return "Username can't be empty.";
-            case USER_TOOSHORT      : return "Username is too short.";
-            case USER_TOOLONG       : return "Username is too long.";
-            case USER_HASWHITESPACE : return "Username can't contain whitespace.";
-            case USER_EXISTS        : return "Username already exists.";
-            case EMAIL_EMPTY        : return "Email can't be empty.";
-            case EMAIL_EXISTS       : return "Email already exists.";
-            case PASSWORD_EMPTY     : return "Password can't be empty.";
-            case PASSWORD_TOOSHORT  : return "Password is too short.";
-            case PASSWORD_TOOLONG   : return "Password is too long.";
-            case PASSWORD_NOTMATCH  : return "Password does not match.";
-            case RESETCODE_EXPIRED  : return "It looks like your link has been expired. Please try again.";
-            case RESETCODE_INVALID  : return "It looks like you clicked on an invalid password reset link. Please try again.";
+            case USER_EMPTY           : return "Username can't be empty.";
+            case USER_TOOSHORT        : return "Username is too short.";
+            case USER_TOOLONG         : return "Username is too long.";
+            case USER_HASWHITESPACE   : return "Username can't contain whitespace.";
+            case USER_EXISTS          : return "Username already exists.";
+            case EMAIL_EMPTY          : return "Email can't be empty.";
+            case EMAIL_EXISTS         : return "Email already exists.";
+            case OLDPASSWORD_EMPTY    : return "Old password can't be empty.";
+            case OLDPASSWORD_NOTMATCH : return "Old password does not match.";
+            case PASSWORD_EMPTY       : return "Password can't be empty.";
+            case PASSWORD_TOOSHORT    : return "Password is too short.";
+            case PASSWORD_TOOLONG     : return "Password is too long.";
+            case PASSWORD_NOTMATCH    : return "Password does not match.";
+            case RESETCODE_EXPIRED    : return "It looks like your link has been expired. Please try again.";
+            case RESETCODE_INVALID    : return "It looks like you clicked on an invalid password reset link. Please try again.";
         }
         return errDesc;
     }
@@ -213,4 +217,32 @@ public class UserManager extends HttpServlet{
         }
         return user;
     }
+    
+    public String changePassword(String oldPass, String newPass1, String newPass2) {
+        if (secondUserToCheck == null) {
+            return USER_EMPTY;
+        }
+        if (oldPass.isEmpty()) {
+            return OLDPASSWORD_EMPTY;
+        }
+        System.out.println("secondUserToCheck.getPassword() " + secondUserToCheck.getPassword());
+        System.out.println("oldPass " + new MD5().cryptWithMD5(oldPass));
+        if (!secondUserToCheck.getPassword().equals(new MD5().cryptWithMD5(oldPass))) {
+            return OLDPASSWORD_NOTMATCH;
+        }
+        if (newPass1.length() < 7) {
+            return PASSWORD_TOOSHORT;
+        }
+        if (newPass1.length() > 64) {
+            return PASSWORD_TOOLONG;
+        }
+        if (!newPass2.equals(newPass1)) {
+            return PASSWORD_NOTMATCH;
+        }
+        
+        secondUserToCheck.setPassword(new MD5().cryptWithMD5(newPass1));
+        
+        return "";
+    }
+    
 }

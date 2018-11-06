@@ -61,6 +61,7 @@ public class LoginServlet extends HttpServlet {
             Users user = um.LoginUser(parameter, password);
             if (user == null) { //Unauthenticated
                 request.setAttribute("isAuthenticated", false);
+                request.setAttribute("parameter", parameter);
             } else { //Authenticated
                 session.setAttribute("user", user);
                 if (returnUrl != null) {

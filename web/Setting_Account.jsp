@@ -4,6 +4,7 @@
     Author     : Firsty
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,25 +30,43 @@
                             <a href="#" class="list-group-item list-group-item-action">Purchase History</a>
                         </div>
                     </div>
+                    <div class="bs-component">
+                        <div class="card mb-3">
+                            <h5 class="card-header text-muted">More Setting</h5>
+                            <a href="Setting_Theme" class="list-group-item list-group-item-action">Theme</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-9">
                     <form action="Setting_Account" method="post">
                         <fieldset>
+                            <c:if test="${isPasswordUpdated}">
+                                <div class="alert alert-dismissible alert-success">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>Your password has changed successfully!</strong>
+                                </div>
+                            </c:if>
+                            <c:if test="${!empty errorDesc}">
+                                <div class="alert alert-dismissible alert-danger">
+                                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                  <strong>${errorDesc}</strong>
+                                </div>
+                            </c:if>
                             <h1>Change Password</h1>
                             <hr>
                             <input type="hidden" value="" name="submit" />
                             <div class="col-lg-5">
                                 <div class="form-group row">
                                     <label>Old password</label>
-                                    <input type="text" name="oldpass" class="form-control" id="exampleInputUser">
+                                    <input type="password" name="oldpass" class="form-control" id="exampleInputUser">
                                 </div>
                                 <div class="form-group row">
                                     <label>New password</label>
-                                    <input type="text" name="newpass1" class="form-control" id="exampleInputUser">
+                                    <input type="password" name="newpass1" class="form-control" id="exampleInputUser">
                                 </div>
                                 <div class="form-group row">
                                     <label>Confirm new password</label>
-                                    <input type="text" name="newpass2" class="form-control" id="exampleInputUser">
+                                    <input type="password" name="newpass2" class="form-control" id="exampleInputUser">
                                 </div>
                             </div>
                             <br>
