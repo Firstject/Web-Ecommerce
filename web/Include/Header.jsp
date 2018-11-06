@@ -30,7 +30,7 @@
       <c:choose>
           <c:when test="${empty sessionScope.user}">
                 <li class="nav-item">
-                  <a class="nav-link" href="Login">Login</a>
+                  <a class="nav-link" href="Login?returnUrl=${requestScope["javax.servlet.forward.request_uri"]}">Login</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="Register">Register</a>
@@ -40,7 +40,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">${sessionScope.user.username}</a>
                 <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                  <a class="dropdown-item" href="#">Account</a>
+                  <a class="dropdown-item" href="Setting_Profile">Profile</a>
                   <a class="dropdown-item" href="#">Your Cart</a>
                   <a class="dropdown-item" href="#">Your Orders</a>
                   <div class="dropdown-divider"></div>

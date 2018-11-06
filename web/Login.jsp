@@ -35,12 +35,14 @@
                     <div class="card border-dark mb-3">
                         <div class="card-body" style="display: inline">
                             <div class="form-group" style="display: inline">
-                              <label class="col-form-label" for="inputDefault"><h5>Username or email address</h5></label>
-                              <input type="text" name="parameter" class="form-control" id="inputDefault" value=""/>
-                              <label class="col-form-label" for="inputDefault"><h5>Password</h5></label>
-                              <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
-                              <br>
-                              <input type="submit" value="Sign in" class="form-control btn btn-primary" >
+                                <!--Hidden parameter value used for authentication.-->
+                                <input type="hidden" name="returnUrl" value="${requestScope.returnUrl}">
+                                <label class="col-form-label" for="inputDefault"><h5>Username or email address</h5></label>
+                                <input type="text" name="parameter" class="form-control" id="inputDefault" value=""/>
+                                <label class="col-form-label" for="inputDefault"><h5>Password</h5></label>
+                                <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
+                                <br>
+                                <input type="submit" value="Sign in" class="form-control btn btn-primary" >
                             </div>
                         </div>
                         <div align="center"><a href="ResetPassword"><button type="button" class="btn btn-link">Forgot password?</button></a></div>
