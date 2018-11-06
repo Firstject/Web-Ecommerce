@@ -125,7 +125,9 @@ public class AccountHistory implements Serializable {
 
     @Override
     public String toString() {
-        return "sit.model.AccountHistory[ historyid=" + historyid + " ]";
+        return "AccountHistory{" + "historyid=" + historyid + ", historyType=" + historyType + ", historyDate=" + historyDate + ", historyInfo=" + historyInfo + ", historyUserid=" + historyUserid + '}';
     }
+
+    
     
 }

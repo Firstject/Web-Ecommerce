@@ -18,6 +18,7 @@ import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.model.AccountHistory;
+import sit.model.Users;
 
 /**
  *
@@ -41,7 +42,16 @@ public class AccountHistoryJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
+            Users historyUserid = accountHistory.getHistoryUserid();
+            if (historyUserid != null) {
+                historyUserid = em.getReference(historyUserid.getClass(), historyUserid.getUserid());
+                accountHistory.setHistoryUserid(historyUserid);
+            }
             em.persist(accountHistory);
+            if (historyUserid != null) {
+                historyUserid.getAccountHistoryList().add(accountHistory);
+                historyUserid = em.merge(historyUserid);
+            }
             utx.commit();
         } catch (Exception ex) {
             try {
@@ -65,7 +75,22 @@ public class AccountHistoryJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
+            AccountHistory persistentAccountHistory = em.find(AccountHistory.class, accountHistory.getHistoryid());
+            Users historyUseridOld = persistentAccountHistory.getHistoryUserid();
+            Users historyUseridNew = accountHistory.getHistoryUserid();
+            if (historyUseridNew != null) {
+                historyUseridNew = em.getReference(historyUseridNew.getClass(), historyUseridNew.getUserid());
+                accountHistory.setHistoryUserid(historyUseridNew);
+            }
             accountHistory = em.merge(accountHistory);
+            if (historyUseridOld != null && !historyUseridOld.equals(historyUseridNew)) {
+                historyUseridOld.getAccountHistoryList().remove(accountHistory);
+                historyUseridOld = em.merge(historyUseridOld);
+            }
+            if (historyUseridNew != null && !historyUseridNew.equals(historyUseridOld)) {
+                historyUseridNew.getAccountHistoryList().add(accountHistory);
+                historyUseridNew = em.merge(historyUseridNew);
+            }
             utx.commit();
         } catch (Exception ex) {
             try {
@@ -99,6 +124,11 @@ public class AccountHistoryJpaController implements Serializable {
                 accountHistory.getHistoryid();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The accountHistory with id " + id + " no longer exists.", enfe);
+            }
+            Users historyUserid = accountHistory.getHistoryUserid();
+            if (historyUserid != null) {
+                historyUserid.getAccountHistoryList().remove(accountHistory);
+                historyUserid = em.merge(historyUserid);
             }
             em.remove(accountHistory);
             utx.commit();

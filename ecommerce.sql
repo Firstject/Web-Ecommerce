@@ -38,18 +38,6 @@ CREATE TABLE Users
 PRIMARY KEY (UserId)
 );
 
-CREATE TABLE AccountHistory
-(
- HistoryId      INT NOT NULL ,
- History_UserId INT NOT NULL,
- History_Type   VARCHAR(64) , 
- History_Date   TIMESTAMP ,
- History_Info   VARCHAR(128) ,
- 
-PRIMARY KEY (HistoryId),
-FOREIGN KEY (History_UserId) REFERENCES Users (UserId)
-);
-
 CREATE TABLE Orders
 (
  Order_ID           INT NOT NULL ,
@@ -110,6 +98,18 @@ CREATE TABLE ProductStats
 PRIMARY KEY (ProductStatsID),
 FOREIGN KEY (ProductStats_UserId) REFERENCES Users(UserId),
 FOREIGN KEY (ProductStats_ProductID) REFERENCES Products(Product_ID)
+);
+
+CREATE TABLE AccountHistory
+(
+ HistoryId      INT NOT NULL ,
+ History_UserId INT NOT NULL,
+ History_Type   VARCHAR(64) , 
+ History_Date   TIMESTAMP ,
+ History_Info   VARCHAR(128) ,
+ 
+PRIMARY KEY (HistoryId),
+FOREIGN KEY (History_UserId) REFERENCES Users (UserId)
 );
 
 CREATE TABLE OrderDetails

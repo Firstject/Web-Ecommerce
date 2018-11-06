@@ -52,6 +52,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByActivateDate", query = "SELECT u FROM Users u WHERE u.activateDate = :activateDate")})
 public class Users implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "historyUserid")
+    private List<AccountHistory> accountHistoryList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -325,7 +328,16 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "userid=" + userid + ", username=" + username + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", password=" + password + ", city=" + city + ", userState=" + userState + ", address=" + address + ", country=" + country + ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + ", registerDate=" + registerDate + ", verifyCode=" + verifyCode + ", resetpassCode=" + resetpassCode + ", resetpassExpiredate=" + resetpassExpiredate + ", activateDate=" + activateDate + ", productStatsList=" + productStatsList + ", wishlistsList=" + wishlistsList + ", ordersList=" + ordersList + '}';
+        return "Users{" + "accountHistoryList=" + accountHistoryList + ", userid=" + userid + ", username=" + username + '}';
+    }
+
+    @XmlTransient
+    public List<AccountHistory> getAccountHistoryList() {
+        return accountHistoryList;
+    }
+
+    public void setAccountHistoryList(List<AccountHistory> accountHistoryList) {
+        this.accountHistoryList = accountHistoryList;
     }
 
     

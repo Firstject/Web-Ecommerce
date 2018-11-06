@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.RollbackFailureException;
@@ -27,6 +28,7 @@ import sit.javaModel.EmailMsgManager;
 import sit.javaModel.MD5;
 import sit.javaModel.SendMail;
 import sit.javaModel.UserManager;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -65,6 +67,7 @@ public class ResetPasswordServlet extends HttpServlet {
         /* END */
         String subject, message, resetCode, username;
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         Users user;
         EmailMsgManager emm = new EmailMsgManager();
         UserManager usermanager = new UserManager();
@@ -106,6 +109,13 @@ public class ResetPasswordServlet extends HttpServlet {
                 user.setResetpassExpiredate(cal.getTime()); //Set expire timer to 3 hours ahead.
                 user.setResetpassCode(resetCode); //Set reset code.
                 usersCtrl.edit(user);
+                
+                AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                accHistory.setHistoryUserid(user);
+                accHistory.setHistoryType("user.forgot_password");
+                accHistory.setHistoryInfo("Sent to " + user.getEmail());
+                accHistory.setHistoryDate(new Date());
+                ahisCtrl.create(accHistory);
 
                 subject = "Reset Password"; //Set subject name
                 message = emm.resetPassword(user.getUsername(), resetCode, user.getUserid(), request.getHeader("Host") + getServletContext().getContextPath(), "/ResetPassword"); //Set message as HTML content

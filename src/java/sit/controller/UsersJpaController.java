@@ -22,6 +22,7 @@ import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.model.Wishlists;
 import sit.model.Orders;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -51,6 +52,9 @@ public class UsersJpaController implements Serializable {
         if (users.getOrdersList() == null) {
             users.setOrdersList(new ArrayList<Orders>());
         }
+        if (users.getAccountHistoryList() == null) {
+            users.setAccountHistoryList(new ArrayList<AccountHistory>());
+        }
         EntityManager em = null;
         try {
             utx.begin();
@@ -73,6 +77,12 @@ public class UsersJpaController implements Serializable {
                 attachedOrdersList.add(ordersListOrdersToAttach);
             }
             users.setOrdersList(attachedOrdersList);
+            List<AccountHistory> attachedAccountHistoryList = new ArrayList<AccountHistory>();
+            for (AccountHistory accountHistoryListAccountHistoryToAttach : users.getAccountHistoryList()) {
+                accountHistoryListAccountHistoryToAttach = em.getReference(accountHistoryListAccountHistoryToAttach.getClass(), accountHistoryListAccountHistoryToAttach.getHistoryid());
+                attachedAccountHistoryList.add(accountHistoryListAccountHistoryToAttach);
+            }
+            users.setAccountHistoryList(attachedAccountHistoryList);
             em.persist(users);
             for (ProductStats productStatsListProductStats : users.getProductStatsList()) {
                 Users oldProductstatsUseridOfProductStatsListProductStats = productStatsListProductStats.getProductstatsUserid();
@@ -99,6 +109,15 @@ public class UsersJpaController implements Serializable {
                 if (oldOrderUseridOfOrdersListOrders != null) {
                     oldOrderUseridOfOrdersListOrders.getOrdersList().remove(ordersListOrders);
                     oldOrderUseridOfOrdersListOrders = em.merge(oldOrderUseridOfOrdersListOrders);
+                }
+            }
+            for (AccountHistory accountHistoryListAccountHistory : users.getAccountHistoryList()) {
+                Users oldHistoryUseridOfAccountHistoryListAccountHistory = accountHistoryListAccountHistory.getHistoryUserid();
+                accountHistoryListAccountHistory.setHistoryUserid(users);
+                accountHistoryListAccountHistory = em.merge(accountHistoryListAccountHistory);
+                if (oldHistoryUseridOfAccountHistoryListAccountHistory != null) {
+                    oldHistoryUseridOfAccountHistoryListAccountHistory.getAccountHistoryList().remove(accountHistoryListAccountHistory);
+                    oldHistoryUseridOfAccountHistoryListAccountHistory = em.merge(oldHistoryUseridOfAccountHistoryListAccountHistory);
                 }
             }
             utx.commit();
@@ -131,6 +150,8 @@ public class UsersJpaController implements Serializable {
             List<Wishlists> wishlistsListNew = users.getWishlistsList();
             List<Orders> ordersListOld = persistentUsers.getOrdersList();
             List<Orders> ordersListNew = users.getOrdersList();
+            List<AccountHistory> accountHistoryListOld = persistentUsers.getAccountHistoryList();
+            List<AccountHistory> accountHistoryListNew = users.getAccountHistoryList();
             List<String> illegalOrphanMessages = null;
             for (ProductStats productStatsListOldProductStats : productStatsListOld) {
                 if (!productStatsListNew.contains(productStatsListOldProductStats)) {
@@ -154,6 +175,14 @@ public class UsersJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Orders " + ordersListOldOrders + " since its orderUserid field is not nullable.");
+                }
+            }
+            for (AccountHistory accountHistoryListOldAccountHistory : accountHistoryListOld) {
+                if (!accountHistoryListNew.contains(accountHistoryListOldAccountHistory)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain AccountHistory " + accountHistoryListOldAccountHistory + " since its historyUserid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -180,6 +209,13 @@ public class UsersJpaController implements Serializable {
             }
             ordersListNew = attachedOrdersListNew;
             users.setOrdersList(ordersListNew);
+            List<AccountHistory> attachedAccountHistoryListNew = new ArrayList<AccountHistory>();
+            for (AccountHistory accountHistoryListNewAccountHistoryToAttach : accountHistoryListNew) {
+                accountHistoryListNewAccountHistoryToAttach = em.getReference(accountHistoryListNewAccountHistoryToAttach.getClass(), accountHistoryListNewAccountHistoryToAttach.getHistoryid());
+                attachedAccountHistoryListNew.add(accountHistoryListNewAccountHistoryToAttach);
+            }
+            accountHistoryListNew = attachedAccountHistoryListNew;
+            users.setAccountHistoryList(accountHistoryListNew);
             users = em.merge(users);
             for (ProductStats productStatsListNewProductStats : productStatsListNew) {
                 if (!productStatsListOld.contains(productStatsListNewProductStats)) {
@@ -211,6 +247,17 @@ public class UsersJpaController implements Serializable {
                     if (oldOrderUseridOfOrdersListNewOrders != null && !oldOrderUseridOfOrdersListNewOrders.equals(users)) {
                         oldOrderUseridOfOrdersListNewOrders.getOrdersList().remove(ordersListNewOrders);
                         oldOrderUseridOfOrdersListNewOrders = em.merge(oldOrderUseridOfOrdersListNewOrders);
+                    }
+                }
+            }
+            for (AccountHistory accountHistoryListNewAccountHistory : accountHistoryListNew) {
+                if (!accountHistoryListOld.contains(accountHistoryListNewAccountHistory)) {
+                    Users oldHistoryUseridOfAccountHistoryListNewAccountHistory = accountHistoryListNewAccountHistory.getHistoryUserid();
+                    accountHistoryListNewAccountHistory.setHistoryUserid(users);
+                    accountHistoryListNewAccountHistory = em.merge(accountHistoryListNewAccountHistory);
+                    if (oldHistoryUseridOfAccountHistoryListNewAccountHistory != null && !oldHistoryUseridOfAccountHistoryListNewAccountHistory.equals(users)) {
+                        oldHistoryUseridOfAccountHistoryListNewAccountHistory.getAccountHistoryList().remove(accountHistoryListNewAccountHistory);
+                        oldHistoryUseridOfAccountHistoryListNewAccountHistory = em.merge(oldHistoryUseridOfAccountHistoryListNewAccountHistory);
                     }
                 }
             }
@@ -269,6 +316,13 @@ public class UsersJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the Orders " + ordersListOrphanCheckOrders + " in its ordersList field has a non-nullable orderUserid field.");
+            }
+            List<AccountHistory> accountHistoryListOrphanCheck = users.getAccountHistoryList();
+            for (AccountHistory accountHistoryListOrphanCheckAccountHistory : accountHistoryListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the AccountHistory " + accountHistoryListOrphanCheckAccountHistory + " in its accountHistoryList field has a non-nullable historyUserid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
