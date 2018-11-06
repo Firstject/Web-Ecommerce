@@ -22,8 +22,8 @@
                     <div class="bs-component">
                         <div class="card mb-3">
                             <h5 class="card-header text-muted">Personal Setting</h5>
-                            <a href="#" class="list-group-item list-group-item-action active">Profile</a>
-                            <a href="#" class="list-group-item list-group-item-action">Account</a>
+                            <a href="Setting_Profile" class="list-group-item list-group-item-action active">Profile</a>
+                            <a href="Setting_Account" class="list-group-item list-group-item-action">Account</a>
                             <a href="#" class="list-group-item list-group-item-action">Security</a>
                             <a href="#" class="list-group-item list-group-item-action">Wishlist</a>
                             <a href="#" class="list-group-item list-group-item-action">View Cart</a>

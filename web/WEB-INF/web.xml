@@ -32,6 +32,10 @@
         <servlet-name>Setting_ProfileServlet</servlet-name>
         <servlet-class>sit.servlet.Setting_ProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Setting_AccountServlet</servlet-name>
+        <servlet-class>sit.servlet.Setting_AccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>Setting_ProfileServlet</servlet-name>
         <url-pattern>/Setting_Profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Setting_AccountServlet</servlet-name>
+        <url-pattern>/Setting_Account</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
