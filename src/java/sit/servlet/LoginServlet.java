@@ -7,6 +7,9 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -16,8 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
+import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -41,14 +47,14 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, RollbackFailureException, Exception {
         String parameter = request.getParameter("parameter");
         String password = request.getParameter("password");
         String returnUrl = request.getParameter("returnUrl");
-        System.out.println(returnUrl);
         /* -------------------------- */
         HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         
         if (parameter != null && password != null) {
             UserManager um = new UserManager();
@@ -58,12 +64,27 @@ public class LoginServlet extends HttpServlet {
             } else {
                 um.setSecondUserToCheck(usersCtrl.findUsername(parameter));
             }
-            Users user = um.LoginUser(parameter, password);
-            if (user == null) { //Unauthenticated
+            String errorCode = um.LoginUser(parameter, password);
+            if (!errorCode.isEmpty()) { //Unauthenticated
                 request.setAttribute("isAuthenticated", false);
                 request.setAttribute("parameter", parameter);
+                //If username is found in database, then create a log 'USER LOGIN FAIL' to notify that user.
+                if (um.getSecondUserToCheck() != null) {
+                    AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                    accHistory.setHistoryUserid(um.getSecondUserToCheck());
+                    accHistory.setHistoryType("user.failed_login");
+                    accHistory.setHistoryDate(new Date());
+                    ahisCtrl.create(accHistory);
+                }
             } else { //Authenticated
-                session.setAttribute("user", user);
+                session.setAttribute("user", um.getSecondUserToCheck());
+                if (um.getSecondUserToCheck() != null) {
+                    AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                    accHistory.setHistoryUserid(um.getSecondUserToCheck());
+                    accHistory.setHistoryType("user.login");
+                    accHistory.setHistoryDate(new Date());
+                    ahisCtrl.create(accHistory);
+                }
                 if (returnUrl != null) {
                     response.sendRedirect(returnUrl); return;
                 } else {
@@ -88,7 +109,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -102,7 +127,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

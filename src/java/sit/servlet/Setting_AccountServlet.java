@@ -7,6 +7,7 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -18,10 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -50,6 +53,7 @@ public class Setting_AccountServlet extends HttpServlet {
         String NewPass2 = request.getParameter("newpass2");
         HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         UserManager um = new UserManager();
         Users user = new Users();
         
@@ -62,6 +66,13 @@ public class Setting_AccountServlet extends HttpServlet {
                     if ("".equals(errorCode)) {
                         usersCtrl.edit(user);
                         session.setAttribute("user", user);
+                        if (um.getSecondUserToCheck() != null) {
+                        AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                        accHistory.setHistoryUserid((Users)session.getAttribute("user"));
+                        accHistory.setHistoryType("user.change_password");
+                        accHistory.setHistoryDate(new Date());
+                        ahisCtrl.create(accHistory);
+                }
                     }
                     if (errorCode.isEmpty()) {
                         request.setAttribute("isPasswordUpdated", true);

@@ -7,6 +7,7 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -17,10 +18,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -49,6 +52,7 @@ public class RenewPasswordServlet extends HttpServlet {
         String a = request.getParameter("a");
         String b = request.getParameter("b");
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         Users user;
         UserManager um = new UserManager();
         String errorCode = "";
@@ -80,6 +84,13 @@ public class RenewPasswordServlet extends HttpServlet {
                     //Verification code is valid. Begin update password
                     user = um.updatePassword(user, password1);
                     usersCtrl.edit(user);
+                    
+                    AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                    accHistory.setHistoryUserid(user);
+                    accHistory.setHistoryType("user.change_password");
+                    accHistory.setHistoryDate(new Date());
+                    ahisCtrl.create(accHistory);
+                    
                     getServletContext().getRequestDispatcher("/RenewPasswordSuccess.jsp").forward(request, response);
                     return;
                 }

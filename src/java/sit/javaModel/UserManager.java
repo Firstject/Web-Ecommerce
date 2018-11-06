@@ -148,20 +148,20 @@ public class UserManager extends HttpServlet{
     
     
     
-    public Users LoginUser(String parameter, String password) {
+    public String LoginUser(String parameter, String password) {
         if (secondUserToCheck != null) {
             //Check for existence
             if ((isEmail(parameter) ? secondUserToCheck.getEmail() : secondUserToCheck.getUsername()).equalsIgnoreCase(parameter)) {
                 //If either username or password is matched, check for password
                 if (!secondUserToCheck.getPassword().equals(new MD5().cryptWithMD5(password))) {
-                    return null; //Incorrect Password
+                    return PASSWORD_NOTMATCH; //Incorrect Password
                 } else {
-                    return secondUserToCheck; //Correct Password. Returns no error.
+                    return ""; //Correct Password. Returns no error.
                 }
             }
         }
         //Checked for existence and not exist!
-        return null;
+        return USER_EMPTY;
     }
     
     public boolean isEmail(String param){

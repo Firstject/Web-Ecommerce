@@ -4,6 +4,7 @@ DROP TABLE ProductStats;
 DROP TABLE Orders;
 DROP TABLE Products;
 DROP TABLE ProductCategories;
+DROP TABLE AccountHistory;
 DROP TABLE Users;
 
 CREATE TABLE ProductCategories
@@ -35,6 +36,18 @@ CREATE TABLE Users
  Activate_Date         TIMESTAMP ,
 
 PRIMARY KEY (UserId)
+);
+
+CREATE TABLE AccountHistory
+(
+ HistoryId      INT NOT NULL ,
+ History_UserId INT NOT NULL,
+ History_Type   VARCHAR(64) , 
+ History_Date   TIMESTAMP ,
+ History_Info   VARCHAR(128) ,
+ 
+PRIMARY KEY (HistoryId),
+FOREIGN KEY (History_UserId) REFERENCES Users (UserId)
 );
 
 CREATE TABLE Orders
