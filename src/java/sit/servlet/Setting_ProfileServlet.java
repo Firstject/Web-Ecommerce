@@ -7,6 +7,8 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -17,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
+import sit.controller.exceptions.NonexistentEntityException;
+import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
 import sit.model.Users;
 
@@ -24,13 +28,12 @@ import sit.model.Users;
  *
  * @author Firsty
  */
-public class LoginServlet extends HttpServlet {
+public class Setting_ProfileServlet extends HttpServlet {
     
     @PersistenceUnit(unitName = "ECommerce_WebPU")
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,38 +44,32 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String parameter = request.getParameter("parameter");
-        String password = request.getParameter("password");
-        String returnUrl = request.getParameter("returnUrl");
-        System.out.println(returnUrl);
-        /* -------------------------- */
-        HttpSession session = request.getSession(false);
+            throws ServletException, IOException, NonexistentEntityException, RollbackFailureException, Exception {
+        String Submit = request.getParameter("submit");
+        String Fname = request.getParameter("fname");
+        String Lname = request.getParameter("lname");
+        String City = request.getParameter("city");
+        String State = request.getParameter("state");
+        String Address = request.getParameter("address");
+        String Country = request.getParameter("country");
+        String ZipCode = request.getParameter("zipcode");
+        String PhoneNumber = request.getParameter("phonenumber");
+        Users user = new Users();
+        UserManager um = new UserManager();
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        HttpSession session = request.getSession(false);
         
-        if (parameter != null && password != null) {
-            UserManager um = new UserManager();
-            //Checks whether parameter is either username or email
-            if (um.isEmail(parameter)) {
-                um.setSecondUserToCheck(usersCtrl.findEmail(parameter));
-            } else {
-                um.setSecondUserToCheck(usersCtrl.findUsername(parameter));
-            }
-            Users user = um.LoginUser(parameter, password);
-            if (user == null) { //Unauthenticated
-                request.setAttribute("isAuthenticated", false);
-            } else { //Authenticated
+        if (session != null) {
+            if (Submit != null) {
+                String errorCode;
+                user = um.updateUserInfo((Users)session.getAttribute("user"), Fname, Lname, City, State, Address, Country, ZipCode, PhoneNumber);
+                usersCtrl.edit(user);
                 session.setAttribute("user", user);
-                if (returnUrl != null) {
-                    response.sendRedirect(returnUrl); return;
-                } else {
-                    response.sendRedirect(returnUrl); return;
-                }
+                request.setAttribute("isProfileUpdated", true);
             }
         }
         
-        request.setAttribute("returnUrl", returnUrl);
-        getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/Setting_Profile.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -87,7 +84,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(Setting_ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Setting_ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -101,7 +104,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(Setting_ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Setting_ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

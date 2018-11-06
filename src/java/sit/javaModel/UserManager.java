@@ -185,4 +185,32 @@ public class UserManager extends HttpServlet{
         
         return user;
     }
+    
+    public Users updateUserInfo(Users user, String Fname, String Lname, String City, String State, String Address, String Country, String ZipCode, String PhoneNumber){
+        if (Fname != null) {
+            user.setFname(Fname);
+        }
+        if (Lname != null) {
+            user.setLname(Lname);
+        }
+        if (City != null) {
+            user.setCity(City);
+        }
+        if (State != null) {
+            user.setUserState(State);
+        }
+        if (Address != null) {
+            user.setAddress(Address);
+        }
+        if (Country != null) {
+            user.setCountry(Country);
+        }
+        if (ZipCode != null) {
+            user.setZipCode(ZipCode);
+        }
+        if (PhoneNumber != null) {
+            user.setPhoneNumber(PhoneNumber);
+        }
+        return user;
+    }
 }
