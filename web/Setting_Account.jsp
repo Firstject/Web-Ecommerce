@@ -74,8 +74,17 @@
                         </fieldset>
                     </form>
                     <br>
-                    <br>
-                    <br>
+                    <h1>Account Properties</h1>
+                    <hr>
+                    Your account was created at ${sessionScope.user.registerDate} <br>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.activateDate != null}">
+                            Your account is activated at ${sessionScope.user.activateDate}
+                        </c:when>
+                        <c:otherwise>
+                            Your account is not yet activated.
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

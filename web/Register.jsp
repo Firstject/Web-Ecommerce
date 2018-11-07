@@ -56,11 +56,11 @@
                       <font style="color: red">${errorDesc}</font>
                   </c:if>
                 </div>
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input class="form-check-input" type="checkbox" value="" required>
-                    Check here to indicates that I agree to <a href="#">Terms of Service</a> and <a href="#">Conditions</a>.
-                  </label>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" required="">
+                        <label class="custom-control-label" for="customCheck1" checked="">Check here to indicates that I agree to <a href="#">Terms of Service</a> and <a href="#">Conditions</a>.</label>
+                    </div>
                 </div>
                 <br>
                 <button type="submit" class="btn btn-primary">Register</button>

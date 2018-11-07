@@ -7,7 +7,10 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -64,15 +67,27 @@ public class Setting_AccountServlet extends HttpServlet {
                     um.setSecondUserToCheck(user);
                     String errorCode = um.changePassword(OldPass, NewPass1, NewPass2);
                     if ("".equals(errorCode)) {
-                        usersCtrl.edit(user);
-                        session.setAttribute("user", user);
+                        //Add to log user changing password
                         if (um.getSecondUserToCheck() != null) {
-                        AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
-                        accHistory.setHistoryUserid((Users)session.getAttribute("user"));
-                        accHistory.setHistoryType("user.change_password");
-                        accHistory.setHistoryDate(new Date());
-                        ahisCtrl.create(accHistory);
-                }
+                            AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                            accHistory.setHistoryUserid((Users)session.getAttribute("user"));
+                            accHistory.setHistoryType("user.change_password");
+                            accHistory.setHistoryDate(new Date());
+                            ahisCtrl.create(accHistory);
+                        }
+                        //--Fix IllegalOrphanException--
+                        List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                        List<AccountHistory> historyList_add = new ArrayList<>();
+                        for (AccountHistory htr : historyList) {
+                            if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                                historyList_add.add(htr);
+                            }
+                        }
+                        user.setAccountHistoryList(historyList_add);
+                        usersCtrl.edit(user);
+                        //--End of Fix IllegalOrphanException--
+                        
+                        session.setAttribute("user", user);
                     }
                     if (errorCode.isEmpty()) {
                         request.setAttribute("isPasswordUpdated", true);

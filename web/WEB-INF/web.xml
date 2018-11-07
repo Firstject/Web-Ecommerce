@@ -4,6 +4,16 @@
         <filter-name>LoggerFilter</filter-name>
         <filter-class>sit.filter.LoggerFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>UnauthorizedOnlyFilter</filter-name>
+        <filter-class>sit.filter.UnauthorizedOnlyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UnauthorizedOnlyFilter</filter-name>
+        <servlet-name>RegisterServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>LoggerFilter</filter-name>
         <servlet-name>Setting_AccountServlet</servlet-name>
@@ -19,6 +29,12 @@
     <filter-mapping>
         <filter-name>LoggerFilter</filter-name>
         <servlet-name>Setting_SecurityServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UnauthorizedOnlyFilter</filter-name>
+        <servlet-name>LoginServlet</servlet-name>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>

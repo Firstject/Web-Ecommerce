@@ -7,6 +7,9 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -18,10 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.UserManager;
+import sit.model.AccountHistory;
 import sit.model.Users;
 
 /**
@@ -57,13 +62,24 @@ public class Setting_ProfileServlet extends HttpServlet {
         Users user = new Users();
         UserManager um = new UserManager();
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
+        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         HttpSession session = request.getSession(false);
         
         if (session != null) {
             if (Submit != null) {
                 String errorCode;
                 user = um.updateUserInfo((Users)session.getAttribute("user"), Fname, Lname, City, State, Address, Country, ZipCode, PhoneNumber);
+                //--Fix IllegalOrphanException--
+                List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                List<AccountHistory> historyList_add = new ArrayList<>();
+                for (AccountHistory htr : historyList) {
+                    if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                        historyList_add.add(htr);
+                    }
+                }
+                user.setAccountHistoryList(historyList_add);
                 usersCtrl.edit(user);
+                //--End of Fix IllegalOrphanException--
                 session.setAttribute("user", user);
                 request.setAttribute("isProfileUpdated", true);
             }

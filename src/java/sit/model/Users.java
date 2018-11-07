@@ -328,7 +328,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "accountHistoryList=" + accountHistoryList + ", userid=" + userid + ", username=" + username + '}';
+        return "Users{" + "userid=" + userid + '}';
     }
 
     @XmlTransient

@@ -225,8 +225,6 @@ public class UserManager extends HttpServlet{
         if (oldPass.isEmpty()) {
             return OLDPASSWORD_EMPTY;
         }
-        System.out.println("secondUserToCheck.getPassword() " + secondUserToCheck.getPassword());
-        System.out.println("oldPass " + new MD5().cryptWithMD5(oldPass));
         if (!secondUserToCheck.getPassword().equals(new MD5().cryptWithMD5(oldPass))) {
             return OLDPASSWORD_NOTMATCH;
         }
@@ -235,7 +233,7 @@ public class UserManager extends HttpServlet{
         }
         if (newPass1.length() > 64) {
             return PASSWORD_TOOLONG;
-        }
+        } 
         if (!newPass2.equals(newPass1)) {
             return PASSWORD_NOTMATCH;
         }

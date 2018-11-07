@@ -7,7 +7,10 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -17,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
@@ -82,14 +86,34 @@ public class RenewPasswordServlet extends HttpServlet {
                         return;
                     }
                     //Verification code is valid. Begin update password
-                    user = um.updatePassword(user, password1);
-                    usersCtrl.edit(user);
                     
+                    //Add to history
                     AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
                     accHistory.setHistoryUserid(user);
                     accHistory.setHistoryType("user.change_password");
                     accHistory.setHistoryDate(new Date());
                     ahisCtrl.create(accHistory);
+                    
+                    //--Fix IllegalOrphanException--
+                    List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                    List<AccountHistory> historyList_add = new ArrayList<>();
+                    for (AccountHistory htr : historyList) {
+                        if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                            historyList_add.add(htr);
+                        }
+                    }
+                    user.setAccountHistoryList(historyList_add);
+                    //--End of Fix IllegalOrphanException--
+                    
+                    //Update password!
+                    user = um.updatePassword(user, password1);
+                    usersCtrl.edit(user);
+                    
+                    //If session is still on, edit it anyway
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        session.setAttribute("user", user);
+                    }
                     
                     getServletContext().getRequestDispatcher("/RenewPasswordSuccess.jsp").forward(request, response);
                     return;

@@ -7,9 +7,11 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -19,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
@@ -103,6 +106,26 @@ public class ResetPasswordServlet extends HttpServlet {
             if (user != null) {
                 resetCode = md.generateVerificationCode();
                 
+                //Add to history
+                AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                accHistory.setHistoryUserid(user);
+                accHistory.setHistoryType("user.forgot_password");
+                accHistory.setHistoryInfo("Sent to " + user.getEmail());
+                accHistory.setHistoryDate(new Date());
+                ahisCtrl.create(accHistory);
+                
+                //--Fix IllegalOrphanException--
+                List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                List<AccountHistory> historyList_add = new ArrayList<>();
+                for (AccountHistory htr : historyList) {
+                    if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                        historyList_add.add(htr);
+                    }
+                }
+                user.setAccountHistoryList(historyList_add);
+                usersCtrl.edit(user);
+                //--End of Fix IllegalOrphanException--
+                
                 //Modify Database; Set reset password code and set time
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.HOUR, 3);
@@ -110,12 +133,11 @@ public class ResetPasswordServlet extends HttpServlet {
                 user.setResetpassCode(resetCode); //Set reset code.
                 usersCtrl.edit(user);
                 
-                AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
-                accHistory.setHistoryUserid(user);
-                accHistory.setHistoryType("user.forgot_password");
-                accHistory.setHistoryInfo("Sent to " + user.getEmail());
-                accHistory.setHistoryDate(new Date());
-                ahisCtrl.create(accHistory);
+                //If session is still on, edit it anyway
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    session.setAttribute("user", user);
+                }
 
                 subject = "Reset Password"; //Set subject name
                 message = emm.resetPassword(user.getUsername(), resetCode, user.getUserid(), request.getHeader("Host") + getServletContext().getContextPath(), "/ResetPassword"); //Set message as HTML content
