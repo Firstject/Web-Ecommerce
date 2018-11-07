@@ -7,7 +7,10 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -77,14 +80,25 @@ public class LoginServlet extends HttpServlet {
                     ahisCtrl.create(accHistory);
                 }
             } else { //Authenticated
-                session.setAttribute("user", um.getSecondUserToCheck());
-                if (um.getSecondUserToCheck() != null) {
-                    AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
-                    accHistory.setHistoryUserid(um.getSecondUserToCheck());
-                    accHistory.setHistoryType("user.login");
-                    accHistory.setHistoryDate(new Date());
-                    ahisCtrl.create(accHistory);
+                AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                accHistory.setHistoryUserid(um.getSecondUserToCheck());
+                accHistory.setHistoryType("user.login");
+                accHistory.setHistoryDate(new Date());
+                ahisCtrl.create(accHistory);
+                
+                //--Fix IllegalOrphanException--
+                List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                List<AccountHistory> historyList_add = new ArrayList<>();
+                for (AccountHistory htr : historyList) {
+                    if (Objects.equals(htr.getHistoryUserid().getUserid(), um.getSecondUserToCheck().getUserid())) {
+                        historyList_add.add(htr);
+                    }
                 }
+                um.getSecondUserToCheck().setAccountHistoryList(historyList_add);
+                usersCtrl.edit(um.getSecondUserToCheck());
+                //--End of Fix IllegalOrphanException--
+                
+                session.setAttribute("user", um.getSecondUserToCheck());
                 if (returnUrl != null) {
                     response.sendRedirect(returnUrl); return;
                 } else {
