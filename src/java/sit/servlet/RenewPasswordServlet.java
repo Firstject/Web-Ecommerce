@@ -109,7 +109,7 @@ public class RenewPasswordServlet extends HttpServlet {
                     user = um.updatePassword(user, password1);
                     usersCtrl.edit(user);
                     
-                    //If session is still on, edit it anyway
+                    //If session is still on, Log out!
                     HttpSession session = request.getSession(false);
                     if (session != null) {
                         session.setAttribute("user", user);

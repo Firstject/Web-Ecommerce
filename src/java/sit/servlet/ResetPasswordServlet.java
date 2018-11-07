@@ -133,7 +133,7 @@ public class ResetPasswordServlet extends HttpServlet {
                 user.setResetpassCode(resetCode); //Set reset code.
                 usersCtrl.edit(user);
                 
-                //If session is still on, edit it anyway
+                //If session is still on, Update user!
                 HttpSession session = request.getSession(false);
                 if (session != null) {
                     session.setAttribute("user", user);

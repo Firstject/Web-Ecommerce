@@ -26,6 +26,9 @@ import sit.controller.AccountHistoryJpaController;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.RollbackFailureException;
+import sit.javaModel.EmailMsgManager;
+import sit.javaModel.MD5;
+import sit.javaModel.SendMail;
 import sit.javaModel.UserManager;
 import sit.model.AccountHistory;
 import sit.model.Users;
@@ -50,10 +53,16 @@ public class Setting_AccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NonexistentEntityException, RollbackFailureException, Exception {
+        //Change password part
         String submit = request.getParameter("submit");
         String OldPass = request.getParameter("oldpass");
         String NewPass1 = request.getParameter("newpass1");
         String NewPass2 = request.getParameter("newpass2");
+        //Email part
+        String submitEmail = request.getParameter("submitEmail");
+        String email = request.getParameter("email");
+        //EmailVerify part
+        String submitEmailVerify = request.getParameter("submitEmailVerify");
         HttpSession session = request.getSession(false);
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
@@ -61,6 +70,7 @@ public class Setting_AccountServlet extends HttpServlet {
         Users user = new Users();
         
         if (session != null) {
+            //Part 1 of 3, change password
             if (submit != null) {
                 if (OldPass != null && NewPass1 != null && NewPass2 != null) {
                     user = (Users)session.getAttribute("user");
@@ -95,6 +105,89 @@ public class Setting_AccountServlet extends HttpServlet {
                         request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode));
                     }
                 }
+            }
+            //Part 2 of 3, change email
+            if (submitEmail != null) {
+                if (email != null) {
+                    String errorCode = "";
+                    user = (Users)session.getAttribute("user");
+                    //Check for existence
+                    errorCode = um.checkEmailExistence(usersCtrl.findEmail(email), email);
+                    //If email is available (not exist), then change email.
+                    if (errorCode.isEmpty()) {
+                        um.setSecondUserToCheck(user);
+                        errorCode = um.changeEmail(email);
+                    }
+                    if ("".equals(errorCode)) {
+                        //Add to log user changing password
+                        if (um.getSecondUserToCheck() != null) {
+                            AccountHistory accHistory = new AccountHistory(ahisCtrl.getAccountHistoryCount() + 1);
+                            accHistory.setHistoryUserid((Users)session.getAttribute("user"));
+                            accHistory.setHistoryType("user.change_email");
+                            accHistory.setHistoryDate(new Date());
+                            ahisCtrl.create(accHistory);
+                        }
+                        //--Fix IllegalOrphanException--
+                        List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                        List<AccountHistory> historyList_add = new ArrayList<>();
+                        for (AccountHistory htr : historyList) {
+                            if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                                historyList_add.add(htr);
+                            }
+                        }
+                        user.setAccountHistoryList(historyList_add);
+                        usersCtrl.edit(user);
+                        //--End of Fix IllegalOrphanException--
+                        
+                        session.setAttribute("user", user);
+                    }
+                    if (errorCode.isEmpty()) {
+                        request.setAttribute("isInfoUpdated", true);
+                    } else {
+                        request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode));
+                    }
+                }
+            }
+            //Part 3 of 3 SendEmailVerifyCode
+            if (submitEmailVerify != null) {
+                user = (Users)session.getAttribute("user");
+                
+                //Already activated. No need to activate again.
+                if (user.getActivateDate() != null) {
+                    request.setAttribute("errorDesc", "Email already verified. No need to activate again.");
+                    getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
+                    return;
+                }
+                EmailMsgManager emm = new EmailMsgManager();
+                String subject, message;
+                String username = user.getUsername();
+                email = user.getEmail();
+                int userId = user.getUserid();
+                String verifyCode = new MD5().generateVerificationCode();
+                user.setActivateDate(null);
+                user.setVerifyCode(verifyCode);
+                
+                //--Fix IllegalOrphanException--
+                List<AccountHistory> historyList = ahisCtrl.findAccountHistoryEntities();
+                List<AccountHistory> historyList_add = new ArrayList<>();
+                for (AccountHistory htr : historyList) {
+                    if (Objects.equals(htr.getHistoryUserid().getUserid(), user.getUserid())) {
+                        historyList_add.add(htr);
+                    }
+                }
+                user.setAccountHistoryList(historyList_add);
+                usersCtrl.edit(user);
+                //--End of Fix IllegalOrphanException--
+                
+                usersCtrl.edit(user);
+                session.setAttribute("user", user);
+                
+                subject = "Please confirm your email address"; //Set subject name
+                message = emm.regisSuccess(username, verifyCode, userId, request.getHeader("Host") + getServletContext().getContextPath(), "/AccountVerify"); //Set message as HTML content
+                SendMail.send(email, subject, message); //SEND MAIL!
+            
+                response.sendRedirect(getServletContext().getContextPath() + "/AccountVerifySent.jsp");
+                return;
             }
         }
         

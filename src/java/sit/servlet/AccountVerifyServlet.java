@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.UsersJpaController;
 import sit.controller.exceptions.NonexistentEntityException;
@@ -61,6 +62,12 @@ public class AccountVerifyServlet extends HttpServlet {
                         user.setActivateDate(new Date());
                     }
                     usersCtrl.edit(user);
+                    
+                    //If user is in session, update it.
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        session.setAttribute("user", user);
+                    }
                     isVerify = true;
                 }
             }

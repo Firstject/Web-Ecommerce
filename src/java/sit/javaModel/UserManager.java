@@ -30,6 +30,7 @@ public class UserManager extends HttpServlet{
     public static final String USER_EXISTS          = "USER_EXISTS";
     public static final String EMAIL_EMPTY          = "EMAIL_EMPTY";
     public static final String EMAIL_EXISTS         = "EMAIL_EXISTS";
+    public static final String EMAIL_INVALID        = "EMAIL_INVALID";
     public static final String PASSWORD_EMPTY       = "PASSWORD_EMPTY";
     public static final String OLDPASSWORD_EMPTY    = "OLDPASSWORD_EMPTY";
     public static final String OLDPASSWORD_NOTMATCH = "OLDPASSWORD_NOTMATCH";
@@ -67,6 +68,7 @@ public class UserManager extends HttpServlet{
             case USER_EXISTS          : return "Username already exists.";
             case EMAIL_EMPTY          : return "Email can't be empty.";
             case EMAIL_EXISTS         : return "Email already exists.";
+            case EMAIL_INVALID        : return "Invalid email address.";
             case OLDPASSWORD_EMPTY    : return "Old password can't be empty.";
             case OLDPASSWORD_NOTMATCH : return "Old password does not match.";
             case PASSWORD_EMPTY       : return "Password can't be empty.";
@@ -239,6 +241,31 @@ public class UserManager extends HttpServlet{
         }
         
         secondUserToCheck.setPassword(new MD5().cryptWithMD5(newPass1));
+        
+        return "";
+    }
+    
+    public String changeEmail(String email){
+        if (!this.isEmail(email)) {
+            return EMAIL_INVALID;
+        }
+        if (this.secondUserToCheck.getEmail().equals(email)) {
+            return EMAIL_EXISTS;
+        }
+        
+        //Change email address and invalidate new email address
+        secondUserToCheck.setEmail(email);
+        secondUserToCheck.setActivateDate(null);
+        
+        return "";
+    }
+    
+    public String checkEmailExistence(Users user, String email){
+        if (user != null) {
+            if (user.getEmail().equals(email)) {
+                return EMAIL_EXISTS;
+            }
+        }
         
         return "";
     }

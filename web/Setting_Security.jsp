@@ -47,23 +47,45 @@
                                 <div class="d-flex w-100 justify-content-between">
                                     <a class="text-secondary" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"><h5><b>${list.historyType}</b></h5></a>
                                     <div class="dropdown-menu col-lg-5" style="padding: 0;">
-                                        <div class="card">
+                                        <div class="card border-dark">
                                             <h3 class="card-header">${list.historyType}</h3>
                                             <div class="card-body">
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                                <p class="card-text">
+                                                    <c:choose>
+                                                        <c:when test="${list.historyType == 'user.login'}">
+                                                            Authentication has been granted for this user.
+                                                        </c:when>
+                                                        <c:when test="${list.historyType == 'user.failed_login'}">
+                                                            Login attempt was failed. The username and password combination does not match a user account and has been disallowed access.
+                                                        </c:when>
+                                                        <c:when test="${list.historyType == 'user.forgot_password'}">
+                                                            Someone has previously entered an email address when signing up for the account or in your Preferences to request a password reset.
+                                                        </c:when>
+                                                        <c:when test="${list.historyType == 'user.change_password'}">
+                                                            The password for this account was just changed.
+                                                        </c:when>
+                                                        <c:when test="${list.historyType == 'user.change_email'}">
+                                                            This user has changed email address.
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            Information Unavailable.
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </p>
                                             </div>
                                             <c:if test="${!empty list.historyInfo}">
                                                 <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item"></li>
+                                                    <li class="list-group-item">
+                                                        ${list.historyInfo}
+                                                    </li>
                                                 </ul>
                                             </c:if>
                                             <div class="card-footer text-muted">
-                                                2 days ago
+                                                ${list.historyDate}
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <small class="text-muted">${list.historyDate}</small>
+                                    <small class="text-muted">2 days ago</small>
                                 </div>
                             </div>
                         </c:forEach>

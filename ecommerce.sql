@@ -107,6 +107,7 @@ CREATE TABLE AccountHistory
  History_Type   VARCHAR(64) , 
  History_Date   TIMESTAMP ,
  History_Info   VARCHAR(128) ,
+ History_Info2  VARCHAR(128) ,
  
 PRIMARY KEY (HistoryId),
 FOREIGN KEY (History_UserId) REFERENCES Users (UserId)
