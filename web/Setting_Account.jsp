@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -131,7 +132,7 @@
                     <span class="badge badge-pill badge-success">Created</span>Your account was created at ${sessionScope.user.registerDate} <br>
                     <c:choose>
                         <c:when test="${sessionScope.user.activateDate != null}">
-                            <span class="badge badge-pill badge-success">Verified</span>Your account is activated at ${sessionScope.user.activateDate}
+                            <span class="badge badge-pill badge-success">Verified</span>Your email address is activated at ${sessionScope.user.activateDate}
                         </c:when>
                         <c:otherwise>
                             <span class="badge badge-pill badge-warning">Not Verified</span>Your email address is not yet activated.

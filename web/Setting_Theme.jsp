@@ -37,8 +37,10 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <h1>Theme</h1>
+                    <h1>Theme (${cookie.theme.value})</h1>
                     <hr>
+                    <label>You can change the look and style of this site at any time. Choose a style and click <b>apply</b>. </label>
+                    <label>Theme is saved locally on your browser and you can come back to change the look and style of this site later. No sign-in required.</label>
                     <center>
                         <div class="container">
                             <div class="row">
@@ -100,42 +102,6 @@
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'cyborg' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Cyborg</b></h5>
-                                                <h6 class="card-subtitle">Jet black and electric blue</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/cyborg/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=cyborg">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'darkly' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Darkly</b></h5>
-                                                <h6 class="card-subtitle">Flatly in night mode</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/darkly/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=darkly">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'flatly' ? 'text-white bg-primary' : 'border-primary'}">
                                             <div class="card-body">
                                                 <h5 class="card-title"><b>Flatly</b></h5>
@@ -152,8 +118,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'journal' ? 'text-white bg-primary' : 'border-primary'}">
@@ -190,6 +154,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'lumen' ? 'text-white bg-primary' : 'border-primary'}">
@@ -200,44 +166,6 @@
                                             <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/lumen/thumbnail.png" alt="Theme">
                                             <div class="card-body">
                                                 <a href="Setting_Theme?theme=lumen">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'lux' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Lux</b></h5>
-                                                <h6 class="card-subtitle">A touch of class</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/lux/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=lux">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'materia' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Materia</b></h5>
-                                                <h6 class="card-subtitle">Material is the metaphor</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/materia/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=materia">
                                                     <button type="button" class="btn btn-primary">
                                                         Apply
                                                     </button>
@@ -264,26 +192,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'pulse' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Pulse</b></h5>
-                                                <h6 class="card-subtitle">A trace of purple</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/pulse/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=pulse">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'sandstone' ? 'text-white bg-primary' : 'border-primary'}">
@@ -302,6 +210,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'simplex' ? 'text-white bg-primary' : 'border-primary'}">
@@ -320,8 +230,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'sketchy' ? 'text-white bg-primary' : 'border-primary'}">
@@ -358,6 +266,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'solar' ? 'text-white bg-primary' : 'border-primary'}">
@@ -376,8 +286,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'spacelab' ? 'text-white bg-primary' : 'border-primary'}">
@@ -414,6 +322,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'united' ? 'text-white bg-primary' : 'border-primary'}">
