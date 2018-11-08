@@ -28,7 +28,7 @@ public class TimeAgo {
             TimeUnit.HOURS.toMillis(1),
             TimeUnit.MINUTES.toMillis(1),
             TimeUnit.SECONDS.toMillis(1));
-    public final List<String> timesString = Arrays.asList("year", "month", "day", "hour", "minute", "a moment");
+    public final List<String> timesString = Arrays.asList("year", "month", "day", "hour", "minute", "second");
 
     private String toDuration(long duration) {
 

@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,7 +43,7 @@
                     <hr>
                     <label>This is a security log of important events involving your account.</label>
                     <div class="list-group">
-                        <c:forEach items="${sessionScope.user.accountHistoryList}" var="list" varStatus="vs">
+                        <c:forEach items="${historyList}" var="list" varStatus="vs">
                             <div class="list-group-item flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                     <a class="text-secondary" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"><h5><b>${list.historyType}</b></h5></a>
@@ -85,7 +86,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <small class="text-muted">2 days ago</small>
+                                    <small class="text-muted">${list.historyInfo2}</small>
                                 </div>
                             </div>
                         </c:forEach>

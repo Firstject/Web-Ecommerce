@@ -51,6 +51,12 @@
                             <input type="hidden" value="" name="submit" />
                             <div class="form-group row">
                                 <div class="col-lg-5">
+                                    <label>Username</label>
+                                    <input type="text" class="form-control" id="exampleInputUser" value="${sessionScope.user.username}" disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-5">
                                     <label>First Name</label>
                                     <input type="text" name="fname" class="form-control" id="exampleInputUser" value="${sessionScope.user.fname}">
                                 </div>

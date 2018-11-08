@@ -7,32 +7,18 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
-import sit.controller.AccountHistoryJpaController;
-import sit.javaModel.TimeAgo;
-import sit.model.AccountHistory;
-import sit.model.Users;
 
 /**
  *
  * @author Firsty
  */
-public class Setting_SecurityServlet extends HttpServlet {
-    @PersistenceUnit(unitName = "ECommerce_WebPU")
-    EntityManagerFactory emf;
-    @Resource
-    UserTransaction utx;
-    
+public class Setting_ThemeServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,20 +30,16 @@ public class Setting_SecurityServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
-        TimeAgo timeAgo = new TimeAgo();
+        String theme = request.getParameter("theme");
         
-        if (session != null) {
-            Users user = (Users)session.getAttribute("user");
-            List<AccountHistory> hisList = ahisCtrl.findAccountUserid(user);
-            for (AccountHistory a : hisList) {
-                a.setHistoryInfo2(timeAgo.compareToDuration(a.getHistoryDate(), new Date()));
-            }
-            request.setAttribute("historyList", hisList);
+        if (theme != null) {
+            Cookie ck = new Cookie("theme", theme);
+            ck.setMaxAge(-1);
+            response.addCookie(ck);
         }
         
-        getServletContext().getRequestDispatcher("/Setting_Security.jsp").forward(request, response);
+        response.sendRedirect(getServletContext().getContextPath() + "/Setting_Theme.jsp");
+//        getServletContext().getRequestDispatcher("/Setting_Theme.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -125,6 +125,7 @@ public class Setting_AccountServlet extends HttpServlet {
                             accHistory.setHistoryUserid((Users)session.getAttribute("user"));
                             accHistory.setHistoryType("user.change_email");
                             accHistory.setHistoryDate(new Date());
+                            accHistory.setHistoryInfo("Changed to " + email);
                             ahisCtrl.create(accHistory);
                         }
                         //--Fix IllegalOrphanException--

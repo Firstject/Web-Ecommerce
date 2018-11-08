@@ -38,6 +38,12 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoggerFilter</filter-name>
+        <servlet-name>Setting_ThemeServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>sit.servlet.RegisterServlet</servlet-class>
@@ -78,6 +84,10 @@
         <servlet-name>Setting_SecurityServlet</servlet-name>
         <servlet-class>sit.servlet.Setting_SecurityServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Setting_ThemeServlet</servlet-name>
+        <servlet-class>sit.servlet.Setting_ThemeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -117,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>Setting_SecurityServlet</servlet-name>
         <url-pattern>/Setting_Security</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Setting_ThemeServlet</servlet-name>
+        <url-pattern>/Setting_Theme</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
