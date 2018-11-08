@@ -80,12 +80,12 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'cyborg' ? 'text-white bg-primary' : 'border-primary'}">
+                                        <div class="card mb-3 ${cookie.theme.value == 'cosmo' ? 'text-white bg-primary' : 'border-primary'}">
                                             <div class="card-body">
-                                                <h5 class="card-title"><b>Cyborg</b></h5>
-                                                <h6 class="card-subtitle">A calm blue sky</h6>
+                                                <h5 class="card-title"><b>Cosmo</b></h5>
+                                                <h6 class="card-subtitle">An ode to metro</h6>
                                             </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/cyborg/thumbnail.png" alt="Theme">
+                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/cosmo/thumbnail.png" alt="Theme">
                                             <div class="card-body">
                                                 <a href="Setting_Theme?theme=cyborg">
                                                     <button type="button" class="btn btn-primary">
