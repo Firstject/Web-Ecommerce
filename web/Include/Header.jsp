@@ -15,14 +15,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav">
-                <form class="form-inline my0 my-lg-0">
-                    <input class="form-control form-control-sm mr-sm-0" type="text" placeholder="Search">
-                    <button class="btn btn-secondary btn-sm my-0 my-sm-0" type="submit">🔍</button>
+            <div class="">
+                <form action="AdvancedSearch" method="get" class="form-inline">
+                    <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="searchText" placeholder="Search Products">
+                    <button class="btn btn-secondary btn-sm " type="submit">🔍</button>
                 </form>
-            </ul>
+            </div>
             <!--Logged out - Logged In-->
             <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="Setting_Theme">🎨</a>
+                </li>
                 <c:choose>
                     <c:when test="${empty sessionScope.user}">
                         <li class="nav-item">
