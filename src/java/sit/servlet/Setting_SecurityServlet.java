@@ -34,7 +34,7 @@ public class Setting_SecurityServlet extends HttpServlet {
     @Resource
     UserTransaction utx;
     
-    private final int RESULT_PER_PAGE = 50;
+    private final int RESULT_PER_PAGE = 40;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,9 +73,8 @@ public class Setting_SecurityServlet extends HttpServlet {
                 hisAdd.add(hisList.get(i));
             }
             
-            System.out.println("isStartOfPage: " + isStartOfPage);
-            System.out.println("isEndOfPage: " + isEndOfPage);
-            
+            request.setAttribute("currentFirstEntry", RESULT_PER_PAGE * (page - 1) + 1);
+            request.setAttribute("currentEndEntry", isEndOfPage ? hisList.size() : (RESULT_PER_PAGE * page));
             request.setAttribute("isEndOfPage", isEndOfPage);
             request.setAttribute("isStartOfPage", isStartOfPage);
             request.setAttribute("historyList", hisAdd);
