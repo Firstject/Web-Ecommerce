@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <h1>Theme (${cookie.theme.value})</h1>
+                    <h1>Theme (${cookie.theme.value != null ? cookie.theme.value : 'yeti'})</h1>
                     <hr>
                     <label>You can change the look and style of this site at any time. Choose a style and click <b>apply</b>. </label>
                     <label>Theme is saved locally on your browser and you can come back to change the look and style of this site later. No sign-in required.</label>

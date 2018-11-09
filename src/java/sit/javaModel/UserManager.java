@@ -256,6 +256,7 @@ public class UserManager extends HttpServlet{
         //Change email address and invalidate new email address
         secondUserToCheck.setEmail(email);
         secondUserToCheck.setActivateDate(null);
+        secondUserToCheck.setVerifyCode(new MD5().generateVerificationCode());
         
         return "";
     }

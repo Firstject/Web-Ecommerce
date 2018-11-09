@@ -91,6 +91,25 @@
                             </div>
                         </c:forEach>
                     </div>
+                    <br>
+                    <small>Showing ${requestScope.resultPerPage} results per page.</small>
+                    <div>
+                        <c:if test="${requestScope.isStartOfPage == false or requestScope.isEndOfPage == false}">
+                            <c:if test="${requestScope.isStartOfPage != false}">
+                                <a href="Setting_Security?page=${param.page != null ? param.page + 1 : 2}">
+                                    <button type="button" class="btn btn-primary"><< Older</button>
+                                </a>
+                            </c:if>
+                            <c:if test="${requestScope.isEndOfPage != false}">
+                                <a href="Setting_Security?page=${param.page != null ? param.page - 1: 1}">
+                                    <button type="button" class="btn btn-primary">Newer >></button>
+                                </a>
+                            </c:if>
+                        </c:if>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
                 </div>
             </div>
         </div>

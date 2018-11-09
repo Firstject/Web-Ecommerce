@@ -33,6 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AccountHistory.findAll", query = "SELECT a FROM AccountHistory a")
     , @NamedQuery(name = "AccountHistory.findByHistoryid", query = "SELECT a FROM AccountHistory a WHERE a.historyid = :historyid")
     , @NamedQuery(name = "AccountHistory.findByHistoryUserid", query = "SELECT a FROM AccountHistory a WHERE a.historyUserid = :historyUserid ORDER BY a.historyDate DESC")
+    , @NamedQuery(name = "AccountHistory.findByHistoryUseridEntities", query = "SELECT a "
+                                                                             + "FROM AccountHistory a "
+                                                                             + "WHERE a.historyUserid = :historyUserid "
+                                                                             + "ORDER BY a.historyDate DESC")
     , @NamedQuery(name = "AccountHistory.findByHistoryType", query = "SELECT a FROM AccountHistory a WHERE a.historyType = :historyType")
     , @NamedQuery(name = "AccountHistory.findByHistoryDate", query = "SELECT a FROM AccountHistory a WHERE a.historyDate = :historyDate")
     , @NamedQuery(name = "AccountHistory.findByHistoryInfo", query = "SELECT a FROM AccountHistory a WHERE a.historyInfo = :historyInfo")})

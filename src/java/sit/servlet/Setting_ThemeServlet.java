@@ -7,6 +7,8 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -28,11 +30,14 @@ public class Setting_ThemeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private final ArrayList<String> ALLOWED_VALUES = new ArrayList<>(Arrays.asList(
+            "yeti","cerulean","cosmo","flatly","journal","litera","lumen","minty","sandstone","simplex","sketchy","slate","solar","spacelab","superhero","united"));
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String theme = request.getParameter("theme");
         
-        if (theme != null) {
+        if (ALLOWED_VALUES.contains(theme)) {
             Cookie ck = new Cookie("theme", theme);
             ck.setMaxAge(-1);
             response.addCookie(ck);

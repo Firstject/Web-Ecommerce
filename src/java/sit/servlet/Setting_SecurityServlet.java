@@ -7,6 +7,7 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -33,6 +34,8 @@ public class Setting_SecurityServlet extends HttpServlet {
     @Resource
     UserTransaction utx;
     
+    private final int RESULT_PER_PAGE = 50;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,17 +47,39 @@ public class Setting_SecurityServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String page_temp = request.getParameter("page");
+        int page; //Default
         HttpSession session = request.getSession(false);
         AccountHistoryJpaController ahisCtrl = new AccountHistoryJpaController(utx, emf);
         TimeAgo timeAgo = new TimeAgo();
         
         if (session != null) {
+            try {
+                page = Integer.valueOf(page_temp);
+            } catch (NumberFormatException nfe) {
+                page = 1;
+            }
+            //Page can't be equals to or lower than zero
+            if (page <= 0) {
+                page = 1;
+            }
             Users user = (Users)session.getAttribute("user");
             List<AccountHistory> hisList = ahisCtrl.findAccountUserid(user);
-            for (AccountHistory a : hisList) {
-                a.setHistoryInfo2(timeAgo.compareToDuration(a.getHistoryDate(), new Date()));
+            List<AccountHistory> hisAdd = new ArrayList<>();
+            boolean isEndOfPage = ((RESULT_PER_PAGE * page) >= hisList.size());
+            boolean isStartOfPage = (page == 1);
+            for (int i = (RESULT_PER_PAGE * (page - 1) + 1) - 1; i < (isEndOfPage ? hisList.size() - 1 : (RESULT_PER_PAGE * page)); i++) {
+                hisList.get(i).setHistoryInfo2(timeAgo.compareToDuration(hisList.get(i).getHistoryDate(), new Date()));
+                hisAdd.add(hisList.get(i));
             }
-            request.setAttribute("historyList", hisList);
+            
+            System.out.println("isStartOfPage: " + isStartOfPage);
+            System.out.println("isEndOfPage: " + isEndOfPage);
+            
+            request.setAttribute("isEndOfPage", isEndOfPage);
+            request.setAttribute("isStartOfPage", isStartOfPage);
+            request.setAttribute("historyList", hisAdd);
+            request.setAttribute("resultPerPage", RESULT_PER_PAGE);
         }
         
         getServletContext().getRequestDispatcher("/Setting_Security.jsp").forward(request, response);

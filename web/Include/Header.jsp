@@ -45,7 +45,7 @@
                   <a class="dropdown-item" href="#">Your Orders</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="Help">Help</a>
-                  <a class="dropdown-item" href="Settings">Settings</a>
+                  <a class="dropdown-item" href="Setting_Account">Settings</a>
                   <a class="dropdown-item" href="Logout">Sign out</a>
                 </div>
               </li>

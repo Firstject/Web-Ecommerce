@@ -38,12 +38,6 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <filter-mapping>
-        <filter-name>LoggerFilter</filter-name>
-        <servlet-name>Setting_ThemeServlet</servlet-name>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>sit.servlet.RegisterServlet</servlet-class>
