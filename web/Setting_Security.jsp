@@ -92,16 +92,12 @@
                         </c:forEach>
                     </div>
                     <br>
-                    <p>${fn:length(historyList)} results found.</p>
+                    <p>${fn:length(historyList)} result(s) found.</p>
                     <small>Showing ${requestScope.resultPerPage} results per page.</small>
                     <p>Viewing entry ${requestScope.currentFirstEntry} of ${requestScope.currentEndEntry}</p>
                     <div>
-                        <a href="Setting_Security?page=${param.page != null ? param.page + 1 : 2}">
-                            <button type="button" class="btn btn-primary" ${requestScope.isEndOfPage == true ? 'disabled=""' : ''}><< Older</button>
-                        </a>
-                        <a href="Setting_Security?page=${param.page != null ? param.page - 1: 1}">
-                            <button type="button" class="btn btn-primary" ${requestScope.isStartOfPage == true ? 'disabled=""' : ''}>Newer >></button>
-                        </a>
+                        <a href="Setting_Security?page=${param.page != null ? param.page + 1 : 2}"><button type="button" class="btn btn-primary" ${requestScope.isEndOfPage == true ? 'disabled=""' : ''}>Older</button></a>
+                        <a href="Setting_Security?page=${param.page != null ? param.page - 1: 1}"><button type="button" class="btn btn-primary" ${requestScope.isStartOfPage == true ? 'disabled=""' : ''}>Newer</button></a>
                     </div>
                     <br>
                     <br>

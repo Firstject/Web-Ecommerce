@@ -74,7 +74,7 @@ public class Setting_SecurityServlet extends HttpServlet {
             }
             
             request.setAttribute("currentFirstEntry", RESULT_PER_PAGE * (page - 1) + 1);
-            request.setAttribute("currentEndEntry", isEndOfPage ? hisList.size() : (RESULT_PER_PAGE * page));
+            request.setAttribute("currentEndEntry", isEndOfPage ? hisList.size() - 1: (RESULT_PER_PAGE * page));
             request.setAttribute("isEndOfPage", isEndOfPage);
             request.setAttribute("isStartOfPage", isStartOfPage);
             request.setAttribute("historyList", hisAdd);
