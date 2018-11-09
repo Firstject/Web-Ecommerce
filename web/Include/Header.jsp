@@ -16,8 +16,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <div class="">
-                <form action="AdvancedSearch" method="get" class="form-inline">
-                    <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="searchText" placeholder="Search Products">
+                <form action="Search" method="get" class="form-inline">
+                    <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="keyword" placeholder="Search Products">
                     <button class="btn btn-secondary btn-sm " type="submit">🔍</button>
                 </form>
             </div>
