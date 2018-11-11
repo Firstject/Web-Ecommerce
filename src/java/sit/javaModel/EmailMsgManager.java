@@ -104,7 +104,7 @@ public class EmailMsgManager {
               "                <p>Regards,</p>\n" +
               "                <p>Cart-Commerce support team</p>\n" +
               "                <hr>\n" +
-              "                <p align=\"center\"><small>You received this email because you requested to register to Cart-Commerce.<br>\n" +
+              "                <p align=\"center\"><small>You received this email because you requested to change email to Cart-Commerce.<br>\n" +
               "                        If you didn't request to register, you can safely ignore this e-mail.</small></p>\n" +
               "            </div>\n" +
               "        </div>\n" +
