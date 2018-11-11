@@ -29,7 +29,8 @@ public class HomePageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect(getServletContext().getContextPath() + "/index.jsp");
+        getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+//        response.sendRedirect(getServletContext().getContextPath() + "/index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

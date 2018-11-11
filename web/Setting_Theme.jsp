@@ -4,6 +4,7 @@
     Author     : Firsty
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,18 +22,18 @@
                     <div class="bs-component">
                         <div class="card mb-3">
                             <h5 class="card-header text-muted">Personal Setting</h5>
-                            <a href="Setting_Profile" class="list-group-item list-group-item-action">Profile</a>
-                            <a href="Setting_Account" class="list-group-item list-group-item-action">Account</a>
-                            <a href="Setting_Security" class="list-group-item list-group-item-action">Security</a>
-                            <a href="#" class="list-group-item list-group-item-action">Wishlist</a>
-                            <a href="#" class="list-group-item list-group-item-action">View Cart</a>
-                            <a href="#" class="list-group-item list-group-item-action">Purchase History</a>
+                            <a href="Setting_Profile" class="list-group-item list-group-item-action"><i class="fas fa-user"></i> Profile</a>
+                            <a href="Setting_Account" class="list-group-item list-group-item-action"><i class="material-icons" style="font-size:16px">settings</i> Account</a>
+                            <a href="Setting_Security" class="list-group-item list-group-item-action"><i class="material-icons" style="font-size:16px">security</i> Security</a>
+                            <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-bookmark"></i> Wishlist</a>
+                            <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                            <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-history"></i> Purchase History</a>
                         </div>
                     </div>
                     <div class="bs-component">
                         <div class="card mb-3">
                             <h5 class="card-header text-muted">More Setting</h5>
-                            <a href="Setting_Theme" class="list-group-item list-group-item-action active">Theme</a>
+                            <a href="Setting_Theme" class="list-group-item list-group-item-action active"><i class="fas fa-paint-roller"></i> Theme</a>
                         </div>
                     </div>
                 </div>
@@ -304,26 +305,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="bs-component">
-                                        <div class="card mb-3 ${cookie.theme.value == 'superhero' ? 'text-white bg-primary' : 'border-primary'}">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><b>Superhero</b></h5>
-                                                <h6 class="card-subtitle">The brave and the blue</h6>
-                                            </div>
-                                            <img style="height: 150px; width: 100%; display: block;" src="https://bootswatch.com/superhero/thumbnail.png" alt="Theme">
-                                            <div class="card-body">
-                                                <a href="Setting_Theme?theme=superhero">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Apply
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-4">
                                     <div class="bs-component">
                                         <div class="card mb-3 ${cookie.theme.value == 'united' ? 'text-white bg-primary' : 'border-primary'}">

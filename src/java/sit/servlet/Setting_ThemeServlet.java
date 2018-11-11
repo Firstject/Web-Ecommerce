@@ -31,7 +31,7 @@ public class Setting_ThemeServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private final ArrayList<String> ALLOWED_VALUES = new ArrayList<>(Arrays.asList(
-            "yeti","cerulean","cosmo","flatly","journal","litera","lumen","minty","sandstone","simplex","sketchy","slate","solar","spacelab","superhero","united"));
+            "yeti","cerulean","cosmo","flatly","journal","litera","lumen","minty","sandstone","simplex","sketchy","slate","solar","spacelab","united"));
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

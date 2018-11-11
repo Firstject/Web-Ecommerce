@@ -68,7 +68,7 @@ public class EmailMsgManager {
                 "                    </a>\n" +
                 "                </div>\n" +
                 "                <p>If you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit this link: \n" +
-                "                    <a href=\"http://localhost:8080/Web-Ecommerce/ResetPassword\" target=\"_blank\">Password Reset</a>\n" +
+                "                    <a href=\"http://" + currentPath + targetPath + "\" target=\"_blank\">Password Reset</a>\n" +
                 "                </p>\n" +
                 "                <br>\n" +
                 "                <p>Sincerely,</p>\n" +
@@ -82,7 +82,37 @@ public class EmailMsgManager {
                 "</div>";
         return msg;
     }
-
+    
+    public String changeEmail(String username, String email, String verifyCode, int id, String currentPath, String targetPath) {
+        msg = "<div style=\"background-color: #e7fffc; padding: 4px;\">\n" +
+              "    <div style=\"max-width:600px; margin: 8px auto;\">\n" +
+              "        <div style=\"background-color: white; border-radius: 8px; padding: 8px;\">\n" +
+              "            <div align=\"center\"><img src=\"http://icons.iconarchive.com/icons/jozef89/services-flat/256/ecommerce-icon.png\" alt=\"Cart-Commerce\"\n" +
+              "                                     style=\"height: 128px; width: 128px;\"></div>\n" +
+              "            <h1 align=\"center\"><b>Cart-Commerce</b></h1>\n" +
+              "            <hr>\n" +
+              "            <div id=\"content\" style=\"padding-left: 24px; padding-right: 24px;\">\n" +
+              "                <p>Hello there,</p>\n" +
+              "                <p>We recently received a request to change the email address for the Cart-Commerce user " + username + " to " + email + "</p>\n" +
+              "                <p>If this is correct, please click on the following link to change it:</p>\n" +
+              "                <div align=\"center\" style=\"margin: 32px;\">\n" +
+              "                    <a href=\"http://" + currentPath + targetPath + "?a=" + verifyCode + "&b=" + id + "\" target=\"_blank\" style=\"padding: 16px; background-color: limegreen; border-radius: 8px; text-decoration: none; color: white;\">\n" +
+              "                        <b>Verify Address</b>\n" +
+              "                    </a>\n" +
+              "                </div>\n" +
+              "                <p>This email has been sent to " + email + "</p>\n" +
+              "                <p>Regards,</p>\n" +
+              "                <p>Cart-Commerce support team</p>\n" +
+              "                <hr>\n" +
+              "                <p align=\"center\"><small>You received this email because you requested to register to Cart-Commerce.<br>\n" +
+              "                        If you didn't request to register, you can safely ignore this e-mail.</small></p>\n" +
+              "            </div>\n" +
+              "        </div>\n" +
+              "    </div>\n" +
+              "</div>";
+        return msg;
+    }
+    
     public String getMsg() {
         return msg;
     }

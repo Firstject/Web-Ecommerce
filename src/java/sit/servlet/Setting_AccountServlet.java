@@ -108,9 +108,16 @@ public class Setting_AccountServlet extends HttpServlet {
             }
             //Part 2 of 3, change email
             if (submitEmail != null) {
+                //Check if email activation is activated by current email
+                //Otherwise, email can't be changed.
+                user = (Users)session.getAttribute("user");
+                if (((Users)session.getAttribute("user")).getActivateDate() == null) {
+                    request.setAttribute("errorDesc", "Can't change email! There is a pending change of your email to <u>" + user.getEmail() + "</u>.");
+                    getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
+                    return;
+                }
                 if (email != null) {
                     String errorCode = "";
-                    user = (Users)session.getAttribute("user");
                     //Check for existence
                     errorCode = um.checkEmailExistence(usersCtrl.findEmail(email), email);
                     //If email is available (not exist), then change email.
@@ -146,6 +153,8 @@ public class Setting_AccountServlet extends HttpServlet {
                         request.setAttribute("isInfoUpdated", true);
                     } else {
                         request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode));
+                        getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
+                        return;
                     }
                 }
             }
@@ -162,7 +171,6 @@ public class Setting_AccountServlet extends HttpServlet {
                 EmailMsgManager emm = new EmailMsgManager();
                 String subject, message;
                 String username = user.getUsername();
-                email = user.getEmail();
                 int userId = user.getUserid();
                 String verifyCode = new MD5().generateVerificationCode();
                 user.setActivateDate(null);
@@ -183,12 +191,11 @@ public class Setting_AccountServlet extends HttpServlet {
                 usersCtrl.edit(user);
                 session.setAttribute("user", user);
                 
-                subject = "Please confirm your email address"; //Set subject name
-                message = emm.regisSuccess(username, verifyCode, userId, request.getHeader("Host") + getServletContext().getContextPath(), "/AccountVerify"); //Set message as HTML content
+                subject = "New Email Address"; //Set subject name
+                message = emm.changeEmail(username, email, verifyCode, userId, request.getHeader("Host") + getServletContext().getContextPath(), "/AccountVerify"); //Set message as HTML content
                 SendMail.send(email, subject, message); //SEND MAIL!
             
-                response.sendRedirect(getServletContext().getContextPath() + "/AccountVerifySent.jsp");
-                return;
+                request.setAttribute("isInfoUpdated", true);
             }
         }
         

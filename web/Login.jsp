@@ -38,9 +38,15 @@
                                 <!--Hidden parameter value used for authentication.-->
                                 <input type="hidden" name="returnUrl" value="${requestScope.returnUrl}">
                                 <label class="col-form-label" for="inputDefault"><h5>Username or email address</h5></label>
-                                <input type="text" name="parameter" class="form-control" id="inputDefault" value="${parameter}"/>
+                                <div class="d-flex">
+                                    <i style='font-size:32px;' class='fas fa-user-circle'></i>&nbsp;
+                                    <input type="text" name="parameter" class="form-control" id="inputDefault" value="${parameter}"/>
+                                </div>
                                 <label class="col-form-label" for="inputDefault"><h5>Password</h5></label>
-                                <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
+                                <div class="d-flex">
+                                    <i style='font-size:32px' class='fas fa-key'></i>&nbsp;
+                                    <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
+                                </div>
                                 <br>
                                 <input type="submit" value="Sign in" class="form-control btn btn-primary" >
                             </div>
