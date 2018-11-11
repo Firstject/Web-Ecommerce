@@ -26,7 +26,7 @@
                 <p>Regards,</p>
                 <p>Cart-Commerce support team</p>
                 <hr>
-                <p align="center"><small>You received this email because you requested to register to Cart-Commerce.<br>
+                <p align="center"><small>You received this email because you requested to change email to Cart-Commerce.<br>
                         If you didn't request to register, you can safely ignore this e-mail.</small></p>
             </div>
         </div>
