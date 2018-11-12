@@ -117,6 +117,7 @@ public class Setting_AccountServlet extends HttpServlet {
                     return;
                 }
                 if (email != null) {
+                    email = email.toLowerCase();
                     String errorCode = "";
                     //Check for existence
                     errorCode = um.checkEmailExistence(usersCtrl.findEmail(email), email);
@@ -167,6 +168,10 @@ public class Setting_AccountServlet extends HttpServlet {
                     request.setAttribute("errorDesc", "Email already verified. No need to activate again.");
                     getServletContext().getRequestDispatcher("/Setting_Account.jsp").forward(request, response);
                     return;
+                }
+                //If user click Resend button and email field is empty, get current email from session.
+                if (email == null) {
+                    email = user.getEmail();
                 }
                 EmailMsgManager emm = new EmailMsgManager();
                 String subject, message;

@@ -17,6 +17,18 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <div class="">
                 <form action="Search" method="get" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control form-control-sm" name="category">
+                            <option>All</option>
+                            <option>Apple</option>
+                            <option>Smart Phone</option>
+                            <option>Notebook</option>
+                            <option>Tablet</option>
+                            <option>Camera</option>
+                            <option>Gadget</option>
+                            <option>Accessory</option>
+                        </select>
+                    </div>
                     <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="searchQuery" placeholder="Search Products">
                     <button class="btn btn-secondary btn-sm " type="submit"><i class="fas fa-search"></i> </button>
                 </form>
