@@ -39,12 +39,20 @@
                                 <input type="hidden" name="returnUrl" value="${requestScope.returnUrl}">
                                 <label class="col-form-label" for="inputDefault"><h5>Username or email address</h5></label>
                                 <div class="d-flex">
-                                    <i style='font-size:32px;' class='fas fa-user-circle'></i>&nbsp;
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control">
+                                            <i style='font-size:32px;' class='fas fa-user-circle'></i>
+                                        </span>
+                                    </div>
                                     <input type="text" name="parameter" class="form-control" id="inputDefault" value="${parameter}"/>
                                 </div>
                                 <label class="col-form-label" for="inputDefault"><h5>Password</h5></label>
                                 <div class="d-flex">
-                                    <i style='font-size:32px' class='fas fa-key'></i>&nbsp;
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control">
+                                            <i style='font-size:32px' class='fas fa-key'></i>
+                                        </span>
+                                    </div>
                                     <input type="password" name="password" class="form-control" id="inputDefault" value=""/>
                                 </div>
                                 <br>

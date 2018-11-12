@@ -263,7 +263,7 @@ public class UserManager extends HttpServlet{
     
     public String checkEmailExistence(Users user, String email){
         if (user != null) {
-            if (user.getEmail().equals(email)) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
                 return EMAIL_EXISTS;
             }
         }

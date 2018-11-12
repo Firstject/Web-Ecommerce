@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${param.keyword} | Cart-Commerce</title>
+        <title>${requestScope.title} | Cart-Commerce</title>
         <jsp:include page="Include/Head.jsp" />
         <jsp:include page="Include/Header.jsp" />
     </head>
@@ -17,102 +17,97 @@
         <br>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <h3>Advanced Search</h3>
-                    <div class="bs-component">
-                        <div class="card mb-3">
-                            <h5 class="card-header text-muted">Personal Setting</h5>
-                            <a href="Setting_Profile" class="list-group-item list-group-item-action">Profile</a>
-                            <a href="Setting_Account" class="list-group-item list-group-item-action active">Account</a>
-                            <a href="Setting_Security" class="list-group-item list-group-item-action">Security</a>
-                            <a href="#" class="list-group-item list-group-item-action">Wishlist</a>
-                            <a href="#" class="list-group-item list-group-item-action">View Cart</a>
-                            <a href="#" class="list-group-item list-group-item-action">Purchase History</a>
-                        </div>
-                    </div>
-                    <div class="bs-component">
-                        <div class="card mb-3">
-                            <h5 class="card-header text-muted">More Setting</h5>
-                            <a href="Setting_Theme" class="list-group-item list-group-item-action">Theme</a>
-                        </div>
-                    </div>
+                    <hr>
+                    <form action="Search" method="get">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-form-label col-form-label-sm">Keyword</label>
+                                <input class="form-control form-control-sm mr-sm-2" type="text" name="searchQuery" placeholder="Product Keywords">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label col-form-label-sm">Category</label>
+                                <div class="form-group">
+                                    <select class="form-control form-control-sm mr-sm-2" name="category">
+                                        <option>All</option>
+                                        <option>Apple</option>
+                                        <option>Smart Phone</option>
+                                        <option>Notebook</option>
+                                        <option>Tablet</option>
+                                        <option>Camera</option>
+                                        <option>Gadget</option>
+                                        <option>Accessory</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label col-form-label-sm">Brand</label>
+                                <div class="form-group">
+                                    <select class="form-control form-control-sm mr-sm-2" name="brand">
+                                        <option>All</option>
+                                        <option>iPhone</option>
+                                        <option>iPad</option>
+                                        <option>Macs</option>
+                                        <option>Huawei</option>
+                                        <option>Oppo</option>
+                                        <option>Samsung</option>
+                                        <option>Vivo</option>
+                                        <option>Acer</option>
+                                        <option>Asus</option>
+                                        <option>Dell</option>
+                                        <option>Lenovo</option>
+                                        <option>MSI</option>
+                                        <option>Surface</option>
+                                        <option>Sony</option>
+                                        <option>Fujifilm</option>
+                                        <option>Canon</option>
+                                        <option>Nikon</option>
+                                        <option>Leica</option>
+                                        <option>Anitech</option>
+                                        <option>DJI</option>
+                                        <option>iRobot</option>
+                                        <option>Garmin</option>
+                                        <option>GoPro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label class="col-form-label">Price range</label>
+                            <div class="form-group">
+                                <label class="col-form-label col-form-label-sm"><em class="text-muted ">Can be blank</em></label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control-sm">$</span>
+                                    </div>
+                                    <input type="text" name="priceMin" class="form-control form-control-sm" placeholder="Minimum" aria-label="Amount (to the nearest dollar)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text form-control-sm">$</span>
+                                    </div>
+                                    <input type="text" name="priceMax" class="form-control form-control-sm" placeholder="Maximum" aria-label="Amount (to the nearest dollar)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="excludeOutOfStock" id="customCheck1" checked="">
+                                    <label class="custom-control-label" for="customCheck1">Exclude Out-of-Stock Items</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary btn-sm" type="submit">Search <i class="fas fa-search"></i> </button>
+                        </fieldset>
+                    </form>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                 </div>
                 <div class="col-lg-9">
-                    <h1>Search</h1>
+                    <h1>Search Products</h1>
                     <hr>
-                    <form action="Setting_Account" method="post">
-                        <fieldset>
-                            <input type="hidden" value="" name="submit" />
-                            <div class="col-lg-5">
-                                <div class="form-group row">
-                                    <label>Old password</label>
-                                    <input type="password" name="oldpass" class="form-control" id="exampleInputUser">
-                                </div>
-                                <div class="form-group row">
-                                    <label>New password</label>
-                                    <input type="password" name="newpass1" class="form-control" id="exampleInputUser">
-                                </div>
-                                <div class="form-group row">
-                                    <label>Confirm new password</label>
-                                    <input type="password" name="newpass2" class="form-control" id="exampleInputUser">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success">Update Password</button> &nbsp;&nbsp;<a href="ResetPassword">I forgot my password</a>
-                            <br>
-                            <br>
-                        </fieldset>
-                    </form>
-                    <form action="Setting_Account" method="post">
-                        <fieldset>
-                            <h1>Email</h1>
-                            <hr>
-                            <div class="form-group row">
-                                <div class="col-sm-5">
-                                    <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="${sessionScope.user.email}">
-                                </div>
-                                <div class="col-sm-4">
-                                    <c:choose>
-                                        <c:when test="${sessionScope.user.activateDate != null}">
-                                            <span class="badge badge-success">Verified</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="badge badge-warning">Not Verified</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
-                            <input type="hidden" value="" name="submitEmail" />
-                            <div class="col-lg-5">
-                                <div class="form-group row">
-                                    <strong>Type a new Email</strong>
-                                    <input type="email" name="email" class="form-control" id="exampleInputUser">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success">Change Email</button>
-                        </fieldset>
-                    </form>
-                    <c:if test="${empty sessionScope.user.activateDate}">
-                        <form action="Setting_Account" method="post">
-                            <fieldset>
-                                <input type="hidden" value="" name="submitEmailVerify" />
-                                <br>
-                                <p>Can't find the confirmation email? Check your spam folder <button type="submit" class="btn btn-warning">Resend</button></p>
-                            </fieldset>
-                        </form>
-                    </c:if>
-                    <br>
-                    <h1>Account Properties</h1>
-                    <hr>
-                    <span class="badge badge-pill badge-success">Created</span>Your account was created at ${sessionScope.user.registerDate} <br>
-                    <c:choose>
-                        <c:when test="${sessionScope.user.activateDate != null}">
-                            <span class="badge badge-pill badge-success">Verified</span>Your email address is activated at ${sessionScope.user.activateDate}
-                        </c:when>
-                        <c:otherwise>
-                            <span class="badge badge-pill badge-warning">Not Verified</span>Your email address is not yet activated.
-                        </c:otherwise>
-                    </c:choose>
-                    <br>
+                    Your search returned no result(s).
                     <br>
                     <br>
                     <br>

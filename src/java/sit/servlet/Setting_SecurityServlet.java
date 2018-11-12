@@ -68,13 +68,13 @@ public class Setting_SecurityServlet extends HttpServlet {
             List<AccountHistory> hisAdd = new ArrayList<>();
             boolean isEndOfPage = ((RESULT_PER_PAGE * page) >= hisList.size());
             boolean isStartOfPage = (page == 1);
-            for (int i = (RESULT_PER_PAGE * (page - 1) + 1) - 1; i < (isEndOfPage ? hisList.size() - 1 : (RESULT_PER_PAGE * page)); i++) {
+            for (int i = (RESULT_PER_PAGE * (page - 1) + 1) - 1; i < (isEndOfPage ? hisList.size() : (RESULT_PER_PAGE * page)); i++) {
                 hisList.get(i).setHistoryInfo2(timeAgo.compareToDuration(hisList.get(i).getHistoryDate(), new Date()));
                 hisAdd.add(hisList.get(i));
             }
             
             request.setAttribute("currentFirstEntry", RESULT_PER_PAGE * (page - 1) + 1);
-            request.setAttribute("currentEndEntry", isEndOfPage ? hisList.size() - 1: (RESULT_PER_PAGE * page));
+            request.setAttribute("currentEndEntry", isEndOfPage ? hisList.size() : (RESULT_PER_PAGE * page));
             request.setAttribute("isEndOfPage", isEndOfPage);
             request.setAttribute("isStartOfPage", isStartOfPage);
             request.setAttribute("historyList", hisAdd);

@@ -50,15 +50,7 @@ public class RegisterServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /*Error codes:
-        -1  username length is too long
-        1   username length is too short
-        2   username contains whitespace
-        3   either password 1 or 2 is null
-        4   password does not matches
-        5   Username already exists
-        6   Email already in use
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, RollbackFailureException, Exception {
         String username = request.getParameter("username");
@@ -77,7 +69,7 @@ public class RegisterServlet extends HttpServlet {
         
         if (username != null && email != null) {
             username = username.trim(); //Trim to remove whitespace on both left and right sides.
-            email = email.trim(); //Trim to remove whitespace on both left and right sides.
+            email = email.toLowerCase().trim(); //Trim to remove whitespace on both left and right sides.
             
             UserManager um = new UserManager();
             //SET USERNAME OR EMAIL TO CHECK FOR EXISTENCE
@@ -87,7 +79,10 @@ public class RegisterServlet extends HttpServlet {
             }
             //
             errorCode = um.RegisterCheck(username, email, password1, password2);
+            //If register fails
             if(!"".equals(errorCode)) {
+                request.setAttribute("usernameField", username);
+                request.setAttribute("emailField", email);
                 request.setAttribute("errorCode", errorCode); //Error code send to jsp view
                 request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode)); //Error Description send to jsp view
                 getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
