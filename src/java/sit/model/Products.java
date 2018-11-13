@@ -231,7 +231,7 @@ public class Products implements Serializable {
 
     @Override
     public String toString() {
-        return "Products{" + "productId=" + productId + ", productName=" + productName + '}';
+        return "Products{" + "productCategory=" + productCategory + ", productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice + '}';
     }
 
     public String getProductCategory() {
