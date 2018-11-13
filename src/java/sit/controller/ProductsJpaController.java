@@ -351,8 +351,23 @@ public class ProductsJpaController implements Serializable {
         }
     }
     
-    public List<Products> findProductsByUserInputs(String query, String category, double min, double max, boolean excludeOutOfStockk) {
-        return null; //Unfinished...
+    public List<Products> findProductsByUserInputs(String searchQuery, String category, double min, double max, boolean excludeOutOfStockk) {
+        EntityManager em = getEntityManager();
+        List<Products> result = new ArrayList<>();
+        try {
+            CriteriaQuery cq = (CriteriaQuery) em.getCriteriaBuilder().createQuery();
+            Root e = cq.from(Products.class);
+            cq.where(em.getCriteriaBuilder().equal(e.get("productName"), "A8"));
+            Query query = em.createQuery(cq);
+            result = query.getResultList();
+            return result;
+        } catch (Exception e) {
+            
+        } finally {
+            em.close();
+        }
+        
+        return result;
     }
 
     public int getProductsCount() {
