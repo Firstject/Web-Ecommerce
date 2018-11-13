@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="css/style.css">
@@ -35,9 +36,6 @@
             </div>
             <!--Logged out - Logged In-->
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="Setting_Theme"><i class="fas fa-paint-roller"></i></a>
-                </li>
                 <c:choose>
                     <c:when test="${empty sessionScope.user}">
                         <li class="nav-item">
@@ -62,6 +60,16 @@
                         </li>
                     </c:otherwise>
                 </c:choose>
+                <li class="nav-item">
+                    <a class="nav-link" href="Setting_Theme"><i class="fas fa-paint-roller"></i></a>
+                </li>
+                <li class="nav-item form-inline">
+                    <a class="nav-link" href="View_Cart"><i class="fas fa-shopping-cart"></i>
+                        <c:if test="${fn:length(sessionScope.cartProductList) > 0}">
+                            <span class="badge badge-pill badge-danger">${fn:length(sessionScope.cartProductList)}</span>
+                        </c:if>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
