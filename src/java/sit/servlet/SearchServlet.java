@@ -7,6 +7,9 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
@@ -44,6 +47,17 @@ public class SearchServlet extends HttpServlet {
     private String priceMin;
     private String priceMax;
     private String excludeOutOfStock;
+    
+    String[] categoryList = {
+        "ALL",
+        "APPLE",
+        "SMARTPHONE",
+        "NOTEBOOK",
+        "TABLET",
+        "CAMERA",
+        "GADGET",
+        "ACCESSORY",
+    };
     
     protected String  actual_searchQuery;
     protected String  actual_category;
@@ -139,9 +153,18 @@ public class SearchServlet extends HttpServlet {
     private void ValidateRequestParameter() {
         //If request parameters is null, validate all values to default defined by local variables
         
-        if (this.searchQuery == null || this.searchQuery.isEmpty()) {
+        if (this.searchQuery == null || this.searchQuery.trim().isEmpty()) {
             this.actual_searchQuery = VALUE_DEFAULT_SEARCHQUERY;
         } else {
+            //Bonus: if user entered a search keyword containing category, it will fetch all data from that category instead.
+            for (String clist : categoryList) {
+                if (clist.matches("(.*)" + searchQuery.toUpperCase() + "(.*)")) {
+                    this.searchQuery = VALUE_DEFAULT_SEARCHQUERY;
+                    this.actual_searchQuery = VALUE_DEFAULT_SEARCHQUERY;
+                    category = clist;
+                    break;
+                }
+            }
             this.actual_searchQuery = searchQuery;
         }
         if (this.category == null || this.category.isEmpty()) {
@@ -216,5 +239,7 @@ public class SearchServlet extends HttpServlet {
         } else {
             System.out.println("ProductList is Null");
         }
+        
+        this.request.setAttribute("productList", productList);
     }
 }

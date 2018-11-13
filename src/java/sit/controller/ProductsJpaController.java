@@ -334,7 +334,7 @@ public class ProductsJpaController implements Serializable {
             cq.select(e);
             cq.where(
                     cb.like(cb.lower(e.<String>get("productName")), "%" + searchQuery.toLowerCase() + "%"),
-                    cb.like(cb.lower(e.<String>get("productCategory")), "%" + ("All".equals(category) || "".equals(category) ? "" : category.toLowerCase()) + "%"),
+                    cb.like(cb.lower(e.<String>get("productCategory")), "%" + ("All".equalsIgnoreCase(category) || "".equals(category) ? "" : category.toLowerCase()) + "%"),
                     cb.between(e.<Double>get(Products_.productPrice), min, max)
             );
             Query query = em.createQuery(cq);
