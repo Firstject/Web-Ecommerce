@@ -32,7 +32,7 @@
                                     <select class="form-control form-control-sm mr-sm-2" name="category">
                                         <option>All</option>
                                         <option>Apple</option>
-                                        <option>Smart Phone</option>
+                                        <option>Smartphone</option>
                                         <option>Notebook</option>
                                         <option>Tablet</option>
                                         <option>Camera</option>

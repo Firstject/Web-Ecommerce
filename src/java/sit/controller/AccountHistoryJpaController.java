@@ -11,18 +11,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.model.AccountHistory;
-import sit.model.AccountHistory_;
 import sit.model.Users;
-import sit.model.Users_;
 
 /**
  *
@@ -196,7 +192,7 @@ public class AccountHistoryJpaController implements Serializable {
         }
         return null;
     }
-    
+
     public int getAccountHistoryCount() {
         EntityManager em = getEntityManager();
         try {

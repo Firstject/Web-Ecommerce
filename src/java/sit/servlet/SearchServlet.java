@@ -208,9 +208,13 @@ public class SearchServlet extends HttpServlet {
         ProductsJpaController productCtrl = new ProductsJpaController(utx, emf);
         
         List<Products> productList = productCtrl.findProductsByUserInputs(actual_searchQuery, actual_category, actual_priceMin, actual_priceMax, actual_excludeOutOfStock);
-        System.out.println("products size: " + productList.size());
-        for (Products products : productList) {
-            System.out.println("products: " + products);
+        if (productList != null) {
+            System.out.println("products size: " + productList.size());
+            for (Products products : productList) {
+                System.out.println("products: " + products);
+            }
+        } else {
+            System.out.println("ProductList is Null");
         }
     }
 }

@@ -6,11 +6,13 @@
 package sit.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
@@ -206,6 +208,29 @@ public class ProductStatsJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Products> findProductsByUserInputs(String searchQuery, int category, double min, double max, boolean excludeOutOfStockk) {
+        EntityManager em = getEntityManager();
+        List<Products> finalResult = new ArrayList<>();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Products> cq = cb.createQuery(Products.class);
+            Root<Products> e = cq.from(Products.class);
+            cq.select(e);
+            cq.where(
+                    cb.like(cb.lower(e.<String>get("productName")), "%" + searchQuery.toLowerCase() + "%"),
+                    cb.equal(e.<String>get("productCategoryid"), 1)
+            );
+            Query query = em.createQuery(cq);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
+        
+        return null;
     }
 
     public int getProductStatsCount() {

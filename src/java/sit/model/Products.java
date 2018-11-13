@@ -36,7 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p")
     , @NamedQuery(name = "Products.findByProductId", query = "SELECT p FROM Products p WHERE p.productId = :productId")
-    , @NamedQuery(name = "Products.findByProductName", query = "SELECT p FROM Products p WHERE p.productName = :productName")
+    , @NamedQuery(name = "Products.findByProductName", query = "SELECT p FROM Products p WHERE lower(p.productName) like :productName")
+//    , @NamedQuery(name = "Products.findByProductsManys", query = "SELECT p FROM Products p "
+//            + "WHERE (lower(p.productName) like :productName) "
+//            + "AND p.productCategoryid LIKE '1'")
     , @NamedQuery(name = "Products.findByProductPrice", query = "SELECT p FROM Products p WHERE p.productPrice = :productPrice")
     , @NamedQuery(name = "Products.findByProductDesc", query = "SELECT p FROM Products p WHERE p.productDesc = :productDesc")
     , @NamedQuery(name = "Products.findByProductImage", query = "SELECT p FROM Products p WHERE p.productImage = :productImage")
@@ -45,6 +48,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Products.findByProductLive", query = "SELECT p FROM Products p WHERE p.productLive = :productLive")
     , @NamedQuery(name = "Products.findByProductLocation", query = "SELECT p FROM Products p WHERE p.productLocation = :productLocation")})
 public class Products implements Serializable {
+
+    @Size(max = 50)
+    @Column(name = "PRODUCT_CATEGORY")
+    private String productCategory;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,9 +90,6 @@ public class Products implements Serializable {
     private String productLocation;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productstatsProductid")
     private List<ProductStats> productStatsList;
-    @JoinColumn(name = "PRODUCT_CATEGORYID", referencedColumnName = "CATEGORY_ID")
-    @ManyToOne(optional = false)
-    private ProductCategories productCategoryid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlistProductid")
     private List<Wishlists> wishlistsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProductid")
@@ -187,14 +191,6 @@ public class Products implements Serializable {
         this.productStatsList = productStatsList;
     }
 
-    public ProductCategories getProductCategoryid() {
-        return productCategoryid;
-    }
-
-    public void setProductCategoryid(ProductCategories productCategoryid) {
-        this.productCategoryid = productCategoryid;
-    }
-
     @XmlTransient
     public List<Wishlists> getWishlistsList() {
         return wishlistsList;
@@ -235,7 +231,17 @@ public class Products implements Serializable {
 
     @Override
     public String toString() {
-        return "sit.model.Products[ productId=" + productId + " ]";
+        return "Products{" + "productId=" + productId + ", productName=" + productName + '}';
     }
+
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    
     
 }

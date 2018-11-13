@@ -10,12 +10,12 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.ProductCategories;
 import sit.model.ProductStats;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.UserTransaction;
 import sit.controller.exceptions.IllegalOrphanException;
 import sit.controller.exceptions.NonexistentEntityException;
@@ -56,11 +56,6 @@ public class ProductsJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            ProductCategories productCategoryid = products.getProductCategoryid();
-            if (productCategoryid != null) {
-                productCategoryid = em.getReference(productCategoryid.getClass(), productCategoryid.getCategoryId());
-                products.setProductCategoryid(productCategoryid);
-            }
             List<ProductStats> attachedProductStatsList = new ArrayList<ProductStats>();
             for (ProductStats productStatsListProductStatsToAttach : products.getProductStatsList()) {
                 productStatsListProductStatsToAttach = em.getReference(productStatsListProductStatsToAttach.getClass(), productStatsListProductStatsToAttach.getProductstatsid());
@@ -80,10 +75,6 @@ public class ProductsJpaController implements Serializable {
             }
             products.setOrderDetailsList(attachedOrderDetailsList);
             em.persist(products);
-            if (productCategoryid != null) {
-                productCategoryid.getProductsList().add(products);
-                productCategoryid = em.merge(productCategoryid);
-            }
             for (ProductStats productStatsListProductStats : products.getProductStatsList()) {
                 Products oldProductstatsProductidOfProductStatsListProductStats = productStatsListProductStats.getProductstatsProductid();
                 productStatsListProductStats.setProductstatsProductid(products);
@@ -135,8 +126,6 @@ public class ProductsJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Products persistentProducts = em.find(Products.class, products.getProductId());
-            ProductCategories productCategoryidOld = persistentProducts.getProductCategoryid();
-            ProductCategories productCategoryidNew = products.getProductCategoryid();
             List<ProductStats> productStatsListOld = persistentProducts.getProductStatsList();
             List<ProductStats> productStatsListNew = products.getProductStatsList();
             List<Wishlists> wishlistsListOld = persistentProducts.getWishlistsList();
@@ -171,10 +160,6 @@ public class ProductsJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (productCategoryidNew != null) {
-                productCategoryidNew = em.getReference(productCategoryidNew.getClass(), productCategoryidNew.getCategoryId());
-                products.setProductCategoryid(productCategoryidNew);
-            }
             List<ProductStats> attachedProductStatsListNew = new ArrayList<ProductStats>();
             for (ProductStats productStatsListNewProductStatsToAttach : productStatsListNew) {
                 productStatsListNewProductStatsToAttach = em.getReference(productStatsListNewProductStatsToAttach.getClass(), productStatsListNewProductStatsToAttach.getProductstatsid());
@@ -197,14 +182,6 @@ public class ProductsJpaController implements Serializable {
             orderDetailsListNew = attachedOrderDetailsListNew;
             products.setOrderDetailsList(orderDetailsListNew);
             products = em.merge(products);
-            if (productCategoryidOld != null && !productCategoryidOld.equals(productCategoryidNew)) {
-                productCategoryidOld.getProductsList().remove(products);
-                productCategoryidOld = em.merge(productCategoryidOld);
-            }
-            if (productCategoryidNew != null && !productCategoryidNew.equals(productCategoryidOld)) {
-                productCategoryidNew.getProductsList().add(products);
-                productCategoryidNew = em.merge(productCategoryidNew);
-            }
             for (ProductStats productStatsListNewProductStats : productStatsListNew) {
                 if (!productStatsListOld.contains(productStatsListNewProductStats)) {
                     Products oldProductstatsProductidOfProductStatsListNewProductStats = productStatsListNewProductStats.getProductstatsProductid();
@@ -297,11 +274,6 @@ public class ProductsJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            ProductCategories productCategoryid = products.getProductCategoryid();
-            if (productCategoryid != null) {
-                productCategoryid.getProductsList().remove(products);
-                productCategoryid = em.merge(productCategoryid);
-            }
             em.remove(products);
             utx.commit();
         } catch (Exception ex) {
@@ -353,21 +325,25 @@ public class ProductsJpaController implements Serializable {
     
     public List<Products> findProductsByUserInputs(String searchQuery, String category, double min, double max, boolean excludeOutOfStockk) {
         EntityManager em = getEntityManager();
-        List<Products> result = new ArrayList<>();
+        List<Products> finalResult = new ArrayList<>();
         try {
-            CriteriaQuery cq = (CriteriaQuery) em.getCriteriaBuilder().createQuery();
-            Root e = cq.from(Products.class);
-            cq.where(em.getCriteriaBuilder().equal(e.get("productName"), "A8"));
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Products> cq = cb.createQuery(Products.class);
+            Root<Products> e = cq.from(Products.class);
+            cq.select(e);
+            cq.where(
+                    cb.like(cb.lower(e.<String>get("productName")), "%" + searchQuery.toLowerCase() + "%"),
+                    cb.like(cb.lower(e.<String>get("productCategory")), "%" + category.toLowerCase() + "%")
+            );
             Query query = em.createQuery(cq);
-            result = query.getResultList();
-            return result;
+            return query.getResultList();
         } catch (Exception e) {
-            
+            System.out.println(e);
         } finally {
             em.close();
         }
         
-        return result;
+        return null;
     }
 
     public int getProductsCount() {
