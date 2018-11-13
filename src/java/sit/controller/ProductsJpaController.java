@@ -350,6 +350,10 @@ public class ProductsJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Products> findProductsByUserInputs(String query, String category, double min, double max, boolean excludeOutOfStockk) {
+        return null; //Unfinished...
+    }
 
     public int getProductsCount() {
         EntityManager em = getEntityManager();

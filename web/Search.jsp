@@ -41,37 +41,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-form-label col-form-label-sm">Brand</label>
-                                <div class="form-group">
-                                    <select class="form-control form-control-sm mr-sm-2" name="brand">
-                                        <option>All</option>
-                                        <option>iPhone</option>
-                                        <option>iPad</option>
-                                        <option>Macs</option>
-                                        <option>Huawei</option>
-                                        <option>Oppo</option>
-                                        <option>Samsung</option>
-                                        <option>Vivo</option>
-                                        <option>Acer</option>
-                                        <option>Asus</option>
-                                        <option>Dell</option>
-                                        <option>Lenovo</option>
-                                        <option>MSI</option>
-                                        <option>Surface</option>
-                                        <option>Sony</option>
-                                        <option>Fujifilm</option>
-                                        <option>Canon</option>
-                                        <option>Nikon</option>
-                                        <option>Leica</option>
-                                        <option>Anitech</option>
-                                        <option>DJI</option>
-                                        <option>iRobot</option>
-                                        <option>Garmin</option>
-                                        <option>GoPro</option>
-                                    </select>
-                                </div>
-                            </div>
                             <label class="col-form-label">Price range</label>
                             <div class="form-group">
                                 <label class="col-form-label col-form-label-sm"><em class="text-muted ">Can be blank</em></label>

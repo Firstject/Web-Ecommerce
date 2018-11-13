@@ -7,17 +7,28 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
+import sit.controller.ProductsJpaController;
+import sit.model.Products;
 
 /**
  *
  * @author Firsty
  */
 public class SearchServlet extends HttpServlet {
-
+    
+    @PersistenceUnit(unitName = "ECommerce_WebPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,21 +41,18 @@ public class SearchServlet extends HttpServlet {
     
     private String searchQuery;
     private String category;
-    private String brand;
     private String priceMin;
     private String priceMax;
     private String excludeOutOfStock;
     
     protected String  actual_searchQuery;
     protected String  actual_category;
-    protected String  actual_brand;
     protected double  actual_priceMin;
     protected double  actual_priceMax;
     protected boolean actual_excludeOutOfStock;
     
     private final String  VALUE_DEFAULT_SEARCHQUERY = "";
     private final String  VALUE_DEFAULT_CATEGORY    = "All";
-    private final String  VALUE_DEFAULT_BRAND       = "All";   
     private final double  VALUE_DEFAULT_PRICEMIN    = 0;
     private final double  VALUE_DEFAULT_PRICEMAX    = 100000000l;
     private final boolean VALUE_DEFAULT_EXCLUDEOUTOFSTOCK = true; //Unused
@@ -61,14 +69,12 @@ public class SearchServlet extends HttpServlet {
         
         this.searchQuery       = request.getParameter("searchQuery");
         this.category          = request.getParameter("category");
-        this.brand             = request.getParameter("brand");
         this.priceMin          = request.getParameter("priceMin");
         this.priceMax          = request.getParameter("priceMax");
         this.excludeOutOfStock = request.getParameter("excludeOutOfStock");
         
         System.out.println("Search Query: " + searchQuery);
         System.out.println("Category: " + category);
-        System.out.println("Brand: " + brand);
         System.out.println("Minimum Price: " + priceMin);
         System.out.println("Maximun Price: " + priceMax);
         System.out.println("Exclude: " + excludeOutOfStock);
@@ -77,18 +83,18 @@ public class SearchServlet extends HttpServlet {
         
         if (isValidForSearch()) {
             setRequestAttributes();
-            System.out.println(this.toString());
             setRequestTitle();
-            getServletContext().getRequestDispatcher("/Search.jsp").forward(request, response);
+            setRequestResult(); //Find query result
+            getServletContext().getRequestDispatcher("/Search.jsp").forward(this.request, this.response);
             return;
         }
         
-        getServletContext().getRequestDispatcher("/HomePage").forward(request, response);
+        getServletContext().getRequestDispatcher("/HomePage").forward(this.request, this.response);
     }
 
     @Override
     public String toString() {
-        return "SearchServlet{" + "searchQuery=" + searchQuery + ", category=" + category + ", brand=" + brand + ", priceMin=" + priceMin + ", priceMax=" + priceMax + ", excludeOutOfStock=" + excludeOutOfStock + ", actual_searchQuery=" + actual_searchQuery + ", actual_category=" + actual_category + ", actual_brand=" + actual_brand + ", actual_priceMin=" + actual_priceMin + ", actual_priceMax=" + actual_priceMax + ", actual_excludeOutOfStock=" + actual_excludeOutOfStock + ", VALUE_DEFAULT_SEARCHQUERY=" + VALUE_DEFAULT_SEARCHQUERY + ", VALUE_DEFAULT_CATEGORY=" + VALUE_DEFAULT_CATEGORY + ", VALUE_DEFAULT_BRAND=" + VALUE_DEFAULT_BRAND + ", VALUE_DEFAULT_PRICEMIN=" + VALUE_DEFAULT_PRICEMIN + ", VALUE_DEFAULT_PRICEMAX=" + VALUE_DEFAULT_PRICEMAX + ", VALUE_DEFAULT_EXCLUDEOUTOFSTOCK=" + VALUE_DEFAULT_EXCLUDEOUTOFSTOCK + ", request=" + request + ", response=" + response + ", TITLE_NAME=" + TITLE_NAME + '}';
+        return "SearchServlet{" + "searchQuery=" + searchQuery + ", category=" + category + ", priceMin=" + priceMin + ", priceMax=" + priceMax + ", excludeOutOfStock=" + excludeOutOfStock + ", actual_searchQuery=" + actual_searchQuery + ", actual_category=" + actual_category + ", actual_priceMin=" + actual_priceMin + ", actual_priceMax=" + actual_priceMax + ", actual_excludeOutOfStock=" + actual_excludeOutOfStock + ", VALUE_DEFAULT_SEARCHQUERY=" + VALUE_DEFAULT_SEARCHQUERY + ", VALUE_DEFAULT_CATEGORY=" + VALUE_DEFAULT_CATEGORY + ", VALUE_DEFAULT_PRICEMIN=" + VALUE_DEFAULT_PRICEMIN + ", VALUE_DEFAULT_PRICEMAX=" + VALUE_DEFAULT_PRICEMAX + ", VALUE_DEFAULT_EXCLUDEOUTOFSTOCK=" + VALUE_DEFAULT_EXCLUDEOUTOFSTOCK + ", request=" + request + ", response=" + response + ", TITLE_NAME=" + TITLE_NAME + '}';
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -143,11 +149,6 @@ public class SearchServlet extends HttpServlet {
         } else {
             this.actual_category = category;
         }
-        if (this.brand == null || this.brand.isEmpty()) {
-            this.actual_brand = VALUE_DEFAULT_BRAND;
-        } else {
-            this.actual_brand = brand;
-        }
         if (this.priceMin == null || this.priceMin.isEmpty()) {
             this.actual_priceMin = VALUE_DEFAULT_PRICEMIN;
         } else {
@@ -174,7 +175,6 @@ public class SearchServlet extends HttpServlet {
     private void setRequestAttributes() {
         this.request.setAttribute("searchField", this.searchQuery);
         this.request.setAttribute("categoryField", this.category);
-        this.request.setAttribute("brandField", this.brand);
         this.request.setAttribute("minPriceField", this.priceMin);
         this.request.setAttribute("maxPriceField", this.priceMax);
     }
@@ -183,11 +183,7 @@ public class SearchServlet extends HttpServlet {
         //Actual title of the page <title></title>
         
         if (actual_searchQuery.trim().isEmpty()) { //If search query is not specified, either category title or brand title will be used.
-            if (!actual_category.equalsIgnoreCase(VALUE_DEFAULT_CATEGORY)) {
-                this.request.setAttribute(TITLE_NAME, actual_category);
-            } else {
-                this.request.setAttribute(TITLE_NAME, actual_brand);
-            }
+            this.request.setAttribute(TITLE_NAME, actual_category);
         } else {
             this.request.setAttribute(TITLE_NAME, searchQuery);
         }
@@ -199,7 +195,6 @@ public class SearchServlet extends HttpServlet {
         //If all field is its default field of SET VALUES, then it's invalid.
         if (actual_searchQuery.equalsIgnoreCase(VALUE_DEFAULT_SEARCHQUERY)
                 && actual_category.equalsIgnoreCase(VALUE_DEFAULT_CATEGORY)
-                && actual_brand.equalsIgnoreCase(VALUE_DEFAULT_BRAND)
                 && actual_priceMin == VALUE_DEFAULT_PRICEMIN
                 && actual_priceMax == VALUE_DEFAULT_PRICEMAX
                 && actual_excludeOutOfStock == VALUE_DEFAULT_EXCLUDEOUTOFSTOCK) {
@@ -207,5 +202,14 @@ public class SearchServlet extends HttpServlet {
         }
         
         return isValid;
+    }
+    
+    private void setRequestResult() {
+        ProductsJpaController productCtrl = new ProductsJpaController(utx, emf);
+        
+        List<Products> productList = productCtrl.findProductsByUserInputs(actual_searchQuery, actual_category, actual_priceMin, actual_priceMax, actual_excludeOutOfStock);
+        for (Products products : productList) {
+            System.out.println("products: " + products);
+        }
     }
 }
