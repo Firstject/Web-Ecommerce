@@ -7,6 +7,8 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -14,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import sit.controller.ProductsJpaController;
 import sit.model.Products;
@@ -34,8 +37,15 @@ public class ViewProductServlet extends HttpServlet {
     private String product_id; //Get from header
     private Products actual_product;
     
+    //Add to cart parameters
+    private String quantity;
+    private int actual_quantity;
+    private final String PRODUCT_ADDED_SUCCESS = "added"; //Used for add to cart and send error code.
+    private final String PRODUCT_ADDED_FAILED = "soldout"; //Used for add to cart and send error code.
+    
     HttpServletRequest request;
     HttpServletResponse response;
+    HttpSession session;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,12 +60,14 @@ public class ViewProductServlet extends HttpServlet {
             throws ServletException, IOException {
         this.request = request;
         this.response = response;
-        this.product_id = request.getParameter("productId");
+        this.product_id = this.request.getParameter("productId");
+        this.quantity = this.request.getParameter("quantity");
         
         if (this.product_id != null) {
             this.actual_product = getProduct(this.product_id);
         }
-        setRequest();
+        addToCart();
+        setRequest(); //Do last before forwarding to ViewCart page.
         
         getServletContext().getRequestDispatcher("/ViewProduct.jsp").forward(this.request, this.response);
     }
@@ -118,6 +130,51 @@ public class ViewProductServlet extends HttpServlet {
         } else {
             this.request.setAttribute("title", title);
         }
+    }
+
+    private void addToCart() {
+        //If quantity is not sent from 'Add to Cart', then return.
+        if (this.quantity == null) {
+            return;
+        }
+        
+        try {
+            this.actual_quantity = Integer.valueOf(this.quantity);
+            //Check if quantity is valid (Must be between 1-255)
+            if (actual_quantity <= 1 && actual_quantity > 255) {
+                actual_quantity = 1;
+            }
+        } catch (NumberFormatException e) {
+            this.actual_quantity = 1;
+        }
+        
+        List<Products> productListSession;
+        
+        session = this.request.getSession(false);
+        if (session == null) {
+            this.request.getSession(true);
+            productListSession = new ArrayList<>();
+        } else {
+            productListSession = (List<Products>) session.getAttribute("cartProductList");
+            if (productListSession == null) {
+                productListSession = new ArrayList<>();
+            }
+        }
+        
+        //Check if item is not out of stock.
+        if (this.actual_product.getProductStock() > 0) {
+            //Add by quantity times
+            for (int i = 0; i < this.actual_quantity; i++) {
+                productListSession.add(this.actual_product);
+            }
+            //Notify a success code and set session.
+            request.setAttribute("productAddedStatus", PRODUCT_ADDED_SUCCESS);
+            request.setAttribute("productAddedAmount", actual_quantity);
+            session.setAttribute("cartProductList", productListSession);
+        } else {
+            request.setAttribute("productAddedStatus", PRODUCT_ADDED_FAILED);
+        }
+        
     }
 
 }

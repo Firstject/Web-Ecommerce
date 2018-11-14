@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -82,7 +83,39 @@
                                 <c:if test="${requestScope.productAddedStatus == 'added'}">
                                     <div class="alert alert-dismissible alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        Added ${product.productName}(<strong>${requestScope.productAddedAmount}</strong>) items to cart successfully! You can continue shopping or <a href="ViewCart" class="alert-link">Check out your item</a> now.
+                                        <c:set var="total" value="${0}"/>
+                                        <c:forEach items="${sessionScope.cartProductList}" var="article">
+                                            <c:set var="total" value="${total + article.productPrice}" />
+                                        </c:forEach>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="bs-component">
+                                                    <i class="fas fa-check" style="font-size: 24px; margin-top: 0px; margin-bottom: -8px;"></i>
+                                                    <strong>Added ${requestScope.productAddedAmount} item(s) to Cart.</strong>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="bs-component">
+                                                    <strong>Cart subtotal</strong> ${fn:length(sessionScope.cartProductList)} item(s): <br>
+                                                    <fmt:setLocale value="th_th"/>
+                                                    <small><fmt:formatNumber value="${total}" type="currency"/></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="bs-component">
+                                                    <div>
+                                                        <button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button>&nbsp;&nbsp;
+                                                        <button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${fn:length(sessionScope.cartProductList)} items)</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:if>     
+                                <c:if test="${requestScope.productAddedStatus == 'soldout'}">
+                                    <div class="alert alert-dismissible alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        Sorry, but that item is sold out.
                                     </div>
                                 </c:if>     
                                 <h1>${product.productName}</h1>
@@ -111,8 +144,8 @@
                                         Location: <small class="card-text">${product.productLocation}</small>
                                         <form action="ViewProduct" method="post">
                                             <div class="form-group form-inline">
-                                                Qty:
-                                                <select class="form-control" name="category">
+                                                Qty:&nbsp;
+                                                <select class="form-control" name="quantity">
                                                     <option>1</option>
                                                     <option>2</option>
                                                     <option>3</option>
@@ -146,7 +179,9 @@
                                                 </select>
                                             </div>
                                             <input type="hidden" name="productId" value="${requestScope.product.productId}">
-                                            <button type="submit" class="btn btn-warning btn-lg">Add to Cart</button>
+                                            <button type="submit" class="btn btn-warning btn-lg">
+                                                <i class="fa fa-cart-arrow-down"></i> Add to Cart
+                                            </button>
                                         </form>
                                     </div>
                                 </div>

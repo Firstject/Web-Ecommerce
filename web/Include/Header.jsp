@@ -66,7 +66,7 @@
                 <li class="nav-item form-inline">
                     <a class="nav-link" href="View_Cart"><i class="fas fa-shopping-cart"></i>
                         <c:if test="${fn:length(sessionScope.cartProductList) > 0}">
-                            <span class="badge badge-pill badge-danger">${fn:length(sessionScope.cartProductList)}</span>
+                            <span class="badge badge-pill badge-secondary">${fn:length(sessionScope.cartProductList)}</span>
                         </c:if>
                     </a>
                 </li>
