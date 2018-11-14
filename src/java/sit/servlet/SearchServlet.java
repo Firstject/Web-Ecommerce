@@ -87,12 +87,6 @@ public class SearchServlet extends HttpServlet {
         this.priceMax          = request.getParameter("priceMax");
         this.excludeOutOfStock = request.getParameter("excludeOutOfStock");
         
-        System.out.println("Search Query: " + searchQuery);
-        System.out.println("Category: " + category);
-        System.out.println("Minimum Price: " + priceMin);
-        System.out.println("Maximun Price: " + priceMax);
-        System.out.println("Exclude: " + excludeOutOfStock);
-        
         ValidateRequestParameter();
         
         if (isValidForSearch()) {
@@ -158,7 +152,7 @@ public class SearchServlet extends HttpServlet {
         } else {
             //Bonus: if user entered a search keyword containing category, it will fetch all data from that category instead.
             for (String clist : categoryList) {
-                if (clist.matches("(.*)" + searchQuery.toUpperCase() + "(.*)")) {
+                if (clist.matches(searchQuery.toUpperCase())) {
                     this.searchQuery = VALUE_DEFAULT_SEARCHQUERY;
                     this.actual_searchQuery = VALUE_DEFAULT_SEARCHQUERY;
                     category = clist;
@@ -229,17 +223,7 @@ public class SearchServlet extends HttpServlet {
     
     private void setRequestResult() {
         ProductsJpaController productCtrl = new ProductsJpaController(utx, emf);
-        
         List<Products> productList = productCtrl.findProductsByUserInputs(actual_searchQuery, actual_category, actual_priceMin, actual_priceMax, actual_excludeOutOfStock);
-        if (productList != null) {
-            System.out.println("products size: " + productList.size());
-            for (Products products : productList) {
-                System.out.println("products: " + products);
-            }
-        } else {
-            System.out.println("ProductList is Null");
-        }
-        
         this.request.setAttribute("productList", productList);
     }
 }
