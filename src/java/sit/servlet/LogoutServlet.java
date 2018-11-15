@@ -33,8 +33,8 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         
         if (session != null) {
-//            session.invalidate();
-            session.removeAttribute("user");//ONLY THOSE WHO ARE SMART ENOUGH TO USE THIS LINE OF CODE!
+            session.invalidate();
+//            session.removeAttribute("user");//ONLY THOSE WHO ARE SMART ENOUGH TO USE THIS LINE OF CODE!
         }
         
         response.sendRedirect(getServletContext().getContextPath());

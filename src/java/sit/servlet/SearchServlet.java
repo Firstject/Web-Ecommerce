@@ -78,8 +78,8 @@ public class SearchServlet extends HttpServlet {
     private String returnCategoryUrl;
     private String returnMinPrice;
     private String returnMaxPrice;
-    private final String DEFAULT_RETURN_SEARCH_URL = "searchQuery="; //Used for add to cart and send error code.
-    private final String DEFAULT_RETURN_CATEGORY_URL = "category=Apple"; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_SEARCH_URL = ""; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_CATEGORY_URL = "Apple"; //Used for add to cart and send error code.
     private final String DEFAULT_RETURN_MINPRICE_URL = ""; //Used for add to cart and send error code.
     private final String DEFAULT_RETURN_MAXPRICE_URL = ""; //Used for add to cart and send error code.
     private final String TITLE_NAME = "title"; //Used to define request parameter name

@@ -103,12 +103,18 @@
                                 <div class="col-lg-6">
                                     <div class="bs-component">
                                         <div>
-                                            <button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button>&nbsp;&nbsp;
-                                            <button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button>
+                                            <a href="ViewCart"><button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button></a>&nbsp;&nbsp;
+                                            <a href="CheckOut"><button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${requestScope.productAddedStatus == 'soldout'}">
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            Sorry, but that item is out of stock.
                         </div>
                     </c:if>
                     <h1>Search Products</h1>

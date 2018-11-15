@@ -118,7 +118,7 @@
                                 <c:if test="${requestScope.productAddedStatus == 'soldout'}">
                                     <div class="alert alert-dismissible alert-danger">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        Sorry, but that item is sold out.
+                                        Sorry, but that item is out of stock.
                                     </div>
                                 </c:if>     
                                 <h1>${product.productName}</h1>

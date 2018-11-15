@@ -25,8 +25,7 @@
                             <a href="Setting_Profile" class="list-group-item list-group-item-action active"><i class="fas fa-user"></i> Profile</a>
                             <a href="Setting_Account" class="list-group-item list-group-item-action"><i class="material-icons" style="font-size:16px">settings</i> Account</a>
                             <a href="Setting_Security" class="list-group-item list-group-item-action"><i class="material-icons" style="font-size:16px">security</i> Security</a>
-                            <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-bookmark"></i> Wishlist</a>
-                            <a href="ViewCart" class="list-group-item list-group-item-action"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                            <a href="ViewCart" class="list-group-item list-group-item-action"><i class="fas fa-shopping-cart"></i> Shopping Cart</a>
                             <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-history"></i> Purchase History</a>
                         </div>
                     </div>
@@ -48,6 +47,8 @@
                             </c:if>
                             <h1>Profile</h1>
                             <hr>
+                            <label>Your profile and shipping address will be used when checking out an order.</label>
+                            <br>
                             <input type="hidden" value="" name="submit" />
                             <div class="form-group row">
                                 <div class="col-lg-5">
