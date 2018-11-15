@@ -36,6 +36,14 @@ public class ViewProductServlet extends HttpServlet {
     private String title = "Unknown product"; //Default
     private String product_id; //Get from header
     private Products actual_product;
+    private String returnSearchUrl;
+    private String returnCategoryUrl;
+    private String returnMinPrice;
+    private String returnMaxPrice;
+    private final String DEFAULT_RETURN_SEARCH_URL = "searchQuery="; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_CATEGORY_URL = "category=Apple"; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_MINPRICE_URL = "priceMin="; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_MAXPRICE_URL = "priceMax="; //Used for add to cart and send error code.
     
     //Add to cart parameters
     private String quantity;
@@ -66,10 +74,19 @@ public class ViewProductServlet extends HttpServlet {
         if (this.product_id != null) {
             this.actual_product = getProduct(this.product_id);
         }
+        if (quantity == null) {
+            fetchReturnUrl();
+        }
         addToCart();
         setRequest(); //Do last before forwarding to ViewCart page.
         
-        getServletContext().getRequestDispatcher("/ViewProduct.jsp").forward(this.request, this.response);
+        if (quantity != null) {
+            getServletContext().getRequestDispatcher("/Search?searchQuery=" + returnSearchUrl + "&category=" + returnCategoryUrl + "&priceMin=" + returnMinPrice + "&priceMax=" + returnMaxPrice).forward(this.request, this.response);
+            
+//            response.sendRedirect("Search?" + this.returnSearchUrl);
+        } else {
+            getServletContext().getRequestDispatcher("/ViewProduct.jsp").forward(this.request, this.response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -163,10 +180,19 @@ public class ViewProductServlet extends HttpServlet {
         
         //Check if item is not out of stock.
         if (this.actual_product.getProductStock() > 0) {
-            //Add by quantity times
-            for (int i = 0; i < this.actual_quantity; i++) {
+            //Add product to cart. If there's an item that's already in the cart, do increase quantity.
+            if (productListSession.contains(this.actual_product)) {
+                for (Products p : productListSession) {
+                    if (this.actual_product.getProductId().equals(p.getProductId())) {
+                        p.setProductStock((short) (p.getProductStock() + actual_quantity));
+                        break;
+                    }
+                }
+            } else {
+                this.actual_product.setProductStock((short) actual_quantity);
                 productListSession.add(this.actual_product);
             }
+            
             //Notify a success code and set session.
             request.setAttribute("productAddedStatus", PRODUCT_ADDED_SUCCESS);
             request.setAttribute("productAddedAmount", actual_quantity);
@@ -175,6 +201,41 @@ public class ViewProductServlet extends HttpServlet {
             request.setAttribute("productAddedStatus", PRODUCT_ADDED_FAILED);
         }
         
+    }
+
+    private void fetchReturnUrl() {
+        this.returnSearchUrl = request.getParameter("searchQuery");
+        this.returnCategoryUrl = request.getParameter("category");
+        this.returnMinPrice = request.getParameter("priceMin");
+        this.returnMaxPrice = request.getParameter("priceMax");
+        
+        if (this.returnSearchUrl != null) {
+            request.setAttribute("searchQuery", this.returnSearchUrl);
+        } else {
+            this.returnSearchUrl = this.DEFAULT_RETURN_SEARCH_URL;
+            request.setAttribute("searchQuery", this.returnSearchUrl);
+        }
+        
+        if (this.returnCategoryUrl != null) {
+            request.setAttribute("category", this.returnCategoryUrl);
+        } else {
+            this.returnCategoryUrl = this.DEFAULT_RETURN_CATEGORY_URL;
+            request.setAttribute("category", this.returnCategoryUrl);
+        }
+        
+        if (this.returnMinPrice != null) {
+            request.setAttribute("priceMin", this.returnMinPrice);
+        } else {
+            this.returnMinPrice = this.DEFAULT_RETURN_MINPRICE_URL;
+            request.setAttribute("priceMin", this.returnMinPrice);
+        }
+        
+        if (this.returnMaxPrice != null) {
+            request.setAttribute("priceMax", this.returnMaxPrice);
+        } else {
+            this.returnMaxPrice = this.DEFAULT_RETURN_MAXPRICE_URL;
+            request.setAttribute("priceMax", this.returnMaxPrice);
+        }
     }
 
 }

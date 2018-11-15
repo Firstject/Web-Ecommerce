@@ -33,14 +33,14 @@
                                 <label class="col-form-label col-form-label-sm">Category</label>
                                 <div class="form-group">
                                     <select class="form-control form-control-sm mr-sm-2" name="category">
-                                        <option>All</option>
-                                        <option>Apple</option>
-                                        <option>Smartphone</option>
-                                        <option>Notebook</option>
-                                        <option>Tablet</option>
-                                        <option>Camera</option>
-                                        <option>Gadget</option>
-                                        <option>Accessory</option>
+                                        <option ${requestScope.category == 'All' ? 'selected' : ''}>All</option>
+                                        <option ${requestScope.category == 'Apple' ? 'selected' : ''}>Apple</option>
+                                        <option ${requestScope.category == 'Smartphone' ? 'selected' : ''}>Smartphone</option>
+                                        <option ${requestScope.category == 'Notebook' ? 'selected' : ''}>Notebook</option>
+                                        <option ${requestScope.category == 'Tablet' ? 'selected' : ''}>Tablet</option>
+                                        <option ${requestScope.category == 'Camera' ? 'selected' : ''}>Camera</option>
+                                        <option ${requestScope.category == 'Gadget' ? 'selected' : ''}>Gadget</option>
+                                        <option ${requestScope.category == 'Accessory' ? 'selected' : ''}>Accessory</option>
                                     </select>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text form-control-sm">$</span>
                                     </div>
-                                    <input type="text" name="priceMin" class="form-control form-control-sm" placeholder="Minimum" aria-label="Amount (to the nearest dollar)">
+                                    <input type="text" name="priceMin" value="${requestScope.priceMin}" class="form-control form-control-sm" placeholder="Minimum" aria-label="Amount (to the nearest dollar)">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -59,15 +59,16 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text form-control-sm">$</span>
                                     </div>
-                                    <input type="text" name="priceMax" class="form-control form-control-sm" placeholder="Maximum" aria-label="Amount (to the nearest dollar)">
+                                    <input type="text" name="priceMax" value="${requestScope.priceMax}" class="form-control form-control-sm" placeholder="Maximum" aria-label="Amount (to the nearest dollar)">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="excludeOutOfStock" id="customCheck1" checked="">
-                                    <label class="custom-control-label" for="customCheck1">Exclude Out-of-Stock Items</label>
-                                </div>
-                            </div>
+                            <!--UNUSED EXCLUDE-->
+                            <!--<div class="form-group">-->
+                            <!--<div class="custom-control custom-checkbox">-->
+                            <!--<input type="checkbox" class="custom-control-input" name="excludeOutOfStock" id="customCheck1" checked="">-->
+                            <!--<label class="custom-control-label" for="customCheck1">Exclude Out-of-Stock Items</label>-->
+                            <!--</div>-->
+                            <!--</div>-->
                             <button class="btn btn-secondary btn-sm" type="submit">Search <i class="fas fa-search"></i> </button>
                         </fieldset>
                     </form>
@@ -83,9 +84,11 @@
                                 <c:if test="${requestScope.productAddedStatus == 'added'}">
                                     <div class="alert alert-dismissible alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <c:set var="total" value="${0}"/>
-                                        <c:forEach items="${sessionScope.cartProductList}" var="article">
-                                            <c:set var="total" value="${total + article.productPrice}" />
+                                        <c:set var="total" value="${0}" />
+                                        <c:set var="itemsCount" value="${0}" />
+                                        <c:forEach items="${sessionScope.cartProductList}" var="list">
+                                            <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
+                                            <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
                                         </c:forEach>
                                         <div class="row">
                                             <div class="col-lg-3">
@@ -96,7 +99,7 @@
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="bs-component">
-                                                    <strong>Cart subtotal</strong> ${fn:length(sessionScope.cartProductList)} item(s): <br>
+                                                    <strong>Cart subtotal</strong> ${itemsCount} item(s): <br>
                                                     <fmt:setLocale value="th_th"/>
                                                     <small><fmt:formatNumber value="${total}" type="currency"/></small>
                                                 </div>
@@ -105,7 +108,7 @@
                                                 <div class="bs-component">
                                                     <div>
                                                         <button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button>&nbsp;&nbsp;
-                                                        <button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${fn:length(sessionScope.cartProductList)} items)</button>
+                                                        <button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button>
                                                     </div>
                                                 </div>
                                             </div>

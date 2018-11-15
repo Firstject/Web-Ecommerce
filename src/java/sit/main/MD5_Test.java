@@ -20,15 +20,8 @@ public class MD5_Test {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        TimeAgo time = new TimeAgo();
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, -1);
-        System.out.println("current date: " + date);
-        System.out.println("cal getTime: " + cal.getTime());
-        System.out.println("date compare to" + Math.abs(cal.getTimeInMillis() - date.getTime()));
-        System.out.println("time.compareToDuration(date, cal.getTime()) " + time.compareToDuration(date, cal.getTime()));
-        
+        short numberShort = 1;
+        int add = 10;
+        System.out.println("NumberAdd: " + (numberShort + 10));
     }
 }

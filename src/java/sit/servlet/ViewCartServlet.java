@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,13 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Firsty
  */
-public class LogoutServlet extends HttpServlet {
+public class ViewCartServlet extends HttpServlet {
+
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,14 +32,10 @@ public class LogoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        this.request = request;
+        this.response = response;
         
-        if (session != null) {
-//            session.invalidate();
-            session.removeAttribute("user");//ONLY THOSE WHO ARE SMART ENOUGH TO USE THIS LINE OF CODE!
-        }
-        
-        response.sendRedirect(getServletContext().getContextPath());
+        getServletContext().getRequestDispatcher("/ViewCart.jsp").forward(this.request, this.response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

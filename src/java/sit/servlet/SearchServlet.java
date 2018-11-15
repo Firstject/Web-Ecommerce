@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Enumeration;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
@@ -74,6 +74,14 @@ public class SearchServlet extends HttpServlet {
     HttpServletRequest request;
     HttpServletResponse response;
     
+    private String returnSearchUrl;
+    private String returnCategoryUrl;
+    private String returnMinPrice;
+    private String returnMaxPrice;
+    private final String DEFAULT_RETURN_SEARCH_URL = "searchQuery="; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_CATEGORY_URL = "category=Apple"; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_MINPRICE_URL = ""; //Used for add to cart and send error code.
+    private final String DEFAULT_RETURN_MAXPRICE_URL = ""; //Used for add to cart and send error code.
     private final String TITLE_NAME = "title"; //Used to define request parameter name
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -88,6 +96,7 @@ public class SearchServlet extends HttpServlet {
         this.excludeOutOfStock = request.getParameter("excludeOutOfStock");
         
         ValidateRequestParameter();
+        fetchReturnUrl();
         
         if (isValidForSearch()) {
             setRequestAttributes();
@@ -155,7 +164,7 @@ public class SearchServlet extends HttpServlet {
                 if (clist.matches(searchQuery.toUpperCase())) {
                     this.searchQuery = VALUE_DEFAULT_SEARCHQUERY;
                     this.actual_searchQuery = VALUE_DEFAULT_SEARCHQUERY;
-                    category = clist;
+                    this.category = clist;
                     break;
                 }
             }
@@ -225,5 +234,42 @@ public class SearchServlet extends HttpServlet {
         ProductsJpaController productCtrl = new ProductsJpaController(utx, emf);
         List<Products> productList = productCtrl.findProductsByUserInputs(actual_searchQuery, actual_category, actual_priceMin, actual_priceMax, actual_excludeOutOfStock);
         this.request.setAttribute("productList", productList);
+    }
+    
+    private void fetchReturnUrl() {
+        this.returnSearchUrl = request.getParameter("searchQuery");
+        this.returnCategoryUrl = request.getParameter("category");
+        this.returnMinPrice = request.getParameter("priceMin");
+        this.returnMaxPrice = request.getParameter("priceMax");
+        
+        if (this.returnSearchUrl != null) {
+            request.setAttribute("searchQuery", this.returnSearchUrl);
+        } else {
+            this.returnSearchUrl = this.DEFAULT_RETURN_SEARCH_URL;
+            request.setAttribute("searchQuery", this.returnSearchUrl);
+        }
+        
+        if (this.returnCategoryUrl != null) {
+            request.setAttribute("category", this.returnCategoryUrl);
+        } else {
+            this.returnCategoryUrl = this.DEFAULT_RETURN_CATEGORY_URL;
+            request.setAttribute("category", this.returnCategoryUrl);
+        }
+        
+        if (this.returnMinPrice != null) {
+            request.setAttribute("priceMin", this.returnMinPrice);
+        } else {
+            this.returnMinPrice = this.DEFAULT_RETURN_MINPRICE_URL;
+            request.setAttribute("priceMin", this.returnMinPrice);
+        }
+        
+        if (this.returnMaxPrice != null) {
+            request.setAttribute("priceMax", this.returnMaxPrice);
+        } else {
+            this.returnMaxPrice = this.DEFAULT_RETURN_MAXPRICE_URL;
+            request.setAttribute("priceMax", this.returnMaxPrice);
+        }
+        
+        
     }
 }

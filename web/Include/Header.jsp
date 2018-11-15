@@ -5,7 +5,6 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="css/style.css">
@@ -20,17 +19,17 @@
                 <form action="Search" method="get" class="form-inline">
                     <div class="form-group">
                         <select class="form-control form-control-sm" name="category">
-                            <option>All</option>
-                            <option>Apple</option>
-                            <option>Smartphone</option>
-                            <option>Notebook</option>
-                            <option>Tablet</option>
-                            <option>Camera</option>
-                            <option>Gadget</option>
-                            <option>Accessory</option>
+                            <option ${requestScope.category == 'All' ? 'selected' : ''}>All</option>
+                            <option ${requestScope.category == 'Apple' ? 'selected' : ''}>Apple</option>
+                            <option ${requestScope.category == 'Smartphone' ? 'selected' : ''}>Smartphone</option>
+                            <option ${requestScope.category == 'Notebook' ? 'selected' : ''}>Notebook</option>
+                            <option ${requestScope.category == 'Tablet' ? 'selected' : ''}>Tablet</option>
+                            <option ${requestScope.category == 'Camera' ? 'selected' : ''}>Camera</option>
+                            <option ${requestScope.category == 'Gadget' ? 'selected' : ''}>Gadget</option>
+                            <option ${requestScope.category == 'Accessory' ? 'selected' : ''}>Accessory</option>
                         </select>
                     </div>
-                    <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="searchQuery" placeholder="Search Products">
+                    <input class="form-control form-control-sm mr-sm-2" style="width: 300px;" type="text" name="searchQuery" value="${requestScope.searchQuery}" placeholder="Search Products">
                     <button class="btn btn-secondary btn-sm " type="submit"><i class="fas fa-search"></i> </button>
                 </form>
             </div>
@@ -39,7 +38,7 @@
                 <c:choose>
                     <c:when test="${empty sessionScope.user}">
                         <li class="nav-item">
-                            <a class="nav-link" href="Login?returnUrl=${requestScope["javax.servlet.forward.request_uri"]}">Login</a>
+                            <a class="nav-link" href="Login?returnUrl=${requestScope['javax.servlet.forward.request_uri']}?${requestScope['javax.servlet.forward.query_string']}">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Register">Register</a>
@@ -50,7 +49,7 @@
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${sessionScope.user.username}</a>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                                 <a class="dropdown-item" href="Setting_Profile"><i class="fas fa-user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-shopping-cart"></i> Your Cart</a>
+                                <a class="dropdown-item" href="ViewCart"><i class="fas fa-shopping-cart"></i> Your Cart</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"></i> Your Orders</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="Help"><i class="material-icons" style="font-size:16px">help</i> Help</a>
@@ -64,9 +63,13 @@
                     <a class="nav-link" href="Setting_Theme"><i class="fas fa-paint-roller"></i></a>
                 </li>
                 <li class="nav-item form-inline">
-                    <a class="nav-link" href="View_Cart"><i class="fas fa-shopping-cart"></i>
-                        <c:if test="${fn:length(sessionScope.cartProductList) > 0}">
-                            <span class="badge badge-pill badge-secondary">${fn:length(sessionScope.cartProductList)}</span>
+                    <a class="nav-link" href="ViewCart"><i class="fas fa-shopping-cart"></i>
+                        <c:set var="itemsCount" value="${0}" />
+                        <c:forEach items="${sessionScope.cartProductList}" var="list">
+                            <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
+                        </c:forEach>
+                        <c:if test="${itemsCount > 0}">
+                            <span class="badge badge-pill badge-secondary">${itemsCount}</span>
                         </c:if>
                     </a>
                 </li>

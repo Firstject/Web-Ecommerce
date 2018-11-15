@@ -90,6 +90,10 @@
         <servlet-name>ViewProductServlet</servlet-name>
         <servlet-class>sit.servlet.ViewProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <servlet-class>sit.servlet.ViewCartServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -141,6 +145,10 @@
     <servlet-mapping>
         <servlet-name>ViewProductServlet</servlet-name>
         <url-pattern>/ViewProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <url-pattern>/ViewCart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
