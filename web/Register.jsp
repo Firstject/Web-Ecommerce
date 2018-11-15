@@ -78,11 +78,9 @@
                 <button type="submit" class="btn btn-primary">Register</button>
               </fieldset>
             </form>
+            <br>
+            <br>
+            <jsp:include page="Include/Footer.jsp" />
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
     </body>
 </html>

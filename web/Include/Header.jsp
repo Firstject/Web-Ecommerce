@@ -49,7 +49,16 @@
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${sessionScope.user.username}</a>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                                 <a class="dropdown-item" href="Setting_Profile"><i class="fas fa-user"></i> Profile</a>
-                                <a class="dropdown-item" href="ViewCart"><i class="fas fa-shopping-cart"></i> Your Cart</a>
+                                <a class="dropdown-item" href="ViewCart">
+                                    <i class="fas fa-shopping-cart"></i> Your Cart
+                                    <c:if test="${!empty sessionScope.cartProductList}">
+                                        <c:set var="itc" value="${0}" />
+                                        <c:forEach items="${sessionScope.cartProductList}" var="list">
+                                            <c:set var="itc" value="${itc + list.productStock}" />
+                                        </c:forEach>
+                                        <span class="badge badge-warning badge-pill">${itc}</span>
+                                    </c:if>
+                                </a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"></i> Your Orders</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="Help"><i class="material-icons" style="font-size:16px">help</i> Help</a>
@@ -69,7 +78,7 @@
                             <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
                         </c:forEach>
                         <c:if test="${itemsCount > 0}">
-                            <span class="badge badge-pill badge-secondary">${itemsCount}</span>
+                            <span class="badge badge-pill badge-warning">${itemsCount}</span>
                         </c:if>
                     </a>
                 </li>

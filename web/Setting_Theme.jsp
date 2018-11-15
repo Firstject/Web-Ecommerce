@@ -330,6 +330,7 @@
                     <br>
                 </div>
             </div>
+            <jsp:include page="Include/Footer.jsp" />
         </div>
     </body>
 </html>
