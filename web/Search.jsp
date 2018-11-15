@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -143,12 +144,35 @@
                                                 <p class="${list.productStock > 0 ? 'text-primary' : 'text-warning'}">${list.productStock > 0 ? 'In stock' : 'Sold out'}</p>
                                                 <small class="card-text">${list.productCategory}</small>
                                             </div>
+                                            <div align="center">
+                                                <form action="ViewProduct" method="post">
+                                                    <input type="hidden" name="category" value="${requestScope.category}" />
+                                                    <input type="hidden" name="quantity" value="1" />
+                                                    <input type="hidden" name="productId" value="${list.productId}" />
+                                                    <button type="submit" class="btn btn-warning btn-lg">
+                                                        <i class="fa fa-cart-arrow-down"></i> Add to Cart
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </div> 
+                    ${fn:length(requestScope.productList)} result(s) found.
+                    <c:if test="${empty requestScope.productList}">
+                        <div style="max-width: 600px; margin: 8px auto;">
+                            <img src="https://us.123rf.com/450wm/vectorknight/vectorknight1807/vectorknight180700074/105231216-upset-magnifying-glass-cute-not-found-symbol-and-unsuccessful-search-zoom-for-404-icon-no-suitable-r.jpg?ver=6" alt="No image" />
+                            <h1 class="text-primary">No results found.</h1>
+                            <p>Your search <b>${requestScope.searchQuery}</b> did not match any documents.</p>
+                            <br>
+                            <p>Suggestions:</p>
+                            Make sure all words are spelled correctly.<br>
+                            Try different keywords.<br>
+                            Try more general keywords.<br>
+                        </div>
+                    </c:if>
                     <br>
                     <br>
                     <br>
