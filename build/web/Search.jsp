@@ -134,7 +134,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <p class="card-text text-success">
                                                     <fmt:setLocale value="th_th"/>
-                                                    <fmt:formatNumber value="${list.productPrice}" type="currency"/>
+                                                    <i class="fa fa-tag"></i> <fmt:formatNumber value="${list.productPrice}" type="currency"/>
                                                 </p>
                                                 <a href="ViewProduct?productId=${list.productId}&searchQuery=${requestScope.searchQuery}&category=${requestScope.category}&priceMin=${requestScope.priceMin}&priceMax=${requestScope.priceMax}">
                                                     <button type="button" class="btn btn-primary">Detail</button>

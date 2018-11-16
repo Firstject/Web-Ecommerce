@@ -170,7 +170,8 @@
                                             <fmt:setLocale value="th_th"/>
                                             <b><fmt:formatNumber value="${total}" type="currency"/></b>
                                         </td>
-                                        <td></td>
+                                        <td>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -184,7 +185,12 @@
                         </c:otherwise>
                     </c:choose>
                     <br>
-                    <a href="HomePage"><button class="btn btn-primary" float="center">Return to shopping</button></a>
+                    <div class="d-flex justify-content-between">
+                        <a href="HomePage"><button class="btn btn-primary" float="center">Return to shopping</button></a>
+                        <c:if test="${!empty sessionScope.cartProductList}">
+                            <a href="CheckOut"><button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button></a>
+                        </c:if>
+                    </div>
                     <br>
                     <br>
                     <br>
