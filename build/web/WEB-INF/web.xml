@@ -38,6 +38,12 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoggerFilter</filter-name>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>sit.servlet.RegisterServlet</servlet-class>
@@ -94,6 +100,10 @@
         <servlet-name>ViewCartServlet</servlet-name>
         <servlet-class>sit.servlet.ViewCartServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <servlet-class>sit.servlet.CheckOutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -149,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>ViewCartServlet</servlet-name>
         <url-pattern>/ViewCart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckOutServlet</servlet-name>
+        <url-pattern>/CheckOut</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
