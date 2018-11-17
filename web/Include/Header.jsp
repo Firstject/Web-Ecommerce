@@ -56,7 +56,7 @@
                                         <c:forEach items="${sessionScope.cartProductList}" var="list">
                                             <c:set var="itc" value="${itc + list.productStock}" />
                                         </c:forEach>
-                                        <span class="badge badge-warning badge-pill">${itc}</span>
+                                        <span class="badge badge-${itc > 50 ? itc > 80 ? 'danger' : 'warning' : 'success'} badge-pill">${itc}</span>
                                     </c:if>
                                 </a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"></i> Your Orders</a>
@@ -78,7 +78,7 @@
                             <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
                         </c:forEach>
                         <c:if test="${itemsCount > 0}">
-                            <span class="badge badge-pill badge-warning">${itemsCount}</span>
+                            <span class="badge badge-pill badge-${itemsCount > 50 ? itemsCount > 80 ? 'danger' : 'warning' : 'success'}">${itemsCount}</span>
                         </c:if>
                     </a>
                 </li>

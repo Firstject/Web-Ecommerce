@@ -78,46 +78,6 @@
                     <br>
                 </div>
                 <div class="col-lg-10">
-                    <c:if test="${requestScope.productAddedStatus == 'added'}">
-                        <div class="alert alert-dismissible alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <c:set var="total" value="${0}" />
-                            <c:set var="itemsCount" value="${0}" />
-                            <c:forEach items="${sessionScope.cartProductList}" var="list">
-                                <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
-                                <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
-                            </c:forEach>
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="bs-component">
-                                        <i class="fas fa-check" style="font-size: 24px; margin-top: 0px; margin-bottom: -8px;"></i>
-                                        <strong>Added ${requestScope.productAddedAmount} item(s) to Cart.</strong>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="bs-component">
-                                        <strong>Cart subtotal</strong> ${itemsCount} item(s): <br>
-                                        <fmt:setLocale value="th_th"/>
-                                        <small><fmt:formatNumber value="${total}" type="currency"/></small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="bs-component">
-                                        <div>
-                                            <a href="ViewCart"><button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button></a>&nbsp;&nbsp;
-                                            <a href="CheckOut"><button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </c:if>
-                    <c:if test="${requestScope.productAddedStatus == 'soldout'}">
-                        <div class="alert alert-dismissible alert-danger">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            Sorry, but that item is out of stock.
-                        </div>
-                    </c:if>
                     <h1>Search Products</h1>
                     <hr>
                     <div class="row">
@@ -125,7 +85,7 @@
                             <div class="col-lg-4">
                                 <div class="bs-component">
                                     <div class="card border-info mb-3" style="max-width: 20rem;">
-                                        <a href="ViewProduct?productId=${list.productId}&searchQuery=${requestScope.searchQuery}&category=${requestScope.category}&priceMin=${requestScope.priceMin}&priceMax=${requestScope.priceMax}">
+                                        <a href="ViewProduct?productId=${list.productId}">
                                             <img style="height: 250px; width: 100%; display: block;" src="${list.productImage}" alt="Image unavailable">
                                         </a>
                                         <div class="card-body">
@@ -136,7 +96,7 @@
                                                     <fmt:setLocale value="th_th"/>
                                                     <i class="fa fa-tag"></i> <fmt:formatNumber value="${list.productPrice}" type="currency"/>
                                                 </p>
-                                                <a href="ViewProduct?productId=${list.productId}&searchQuery=${requestScope.searchQuery}&category=${requestScope.category}&priceMin=${requestScope.priceMin}&priceMax=${requestScope.priceMax}">
+                                                <a href="ViewProduct?productId=${list.productId}">
                                                     <button type="button" class="btn btn-primary">Detail</button>
                                                 </a>
                                             </div>
@@ -146,7 +106,6 @@
                                             </div>
                                             <div align="center">
                                                 <form action="ViewProduct" method="post">
-                                                    <input type="hidden" name="category" value="${requestScope.category}" />
                                                     <input type="hidden" name="quantity" value="1" />
                                                     <input type="hidden" name="productId" value="${list.productId}" />
                                                     <button type="submit" class="btn btn-warning btn-lg">

@@ -81,7 +81,7 @@
                     <div class="bs-component">
                         <c:choose>
                             <c:when test="${!empty product}">
-                                <c:if test="${requestScope.productAddedStatus == 'added'}">
+                                <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_SUCCESS'}">
                                     <div class="alert alert-dismissible alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         <c:set var="total" value="${0}" />
@@ -107,18 +107,24 @@
                                             <div class="col-lg-6">
                                                 <div class="bs-component">
                                                     <div>
-                                                        <button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button>&nbsp;&nbsp;
-                                                        <button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button>
+                                                        <a href="ViewCart"><button type="button" class="btn btn-secondary"><i class="fas fa-shopping-cart"></i> Cart</button></a>&nbsp;&nbsp;
+                                                        <a href="CheckOut"><button type="button" class="btn btn-warning"><i class="fa fa-check-square-o"></i> Proceed to check out (${itemsCount} items)</button></a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </c:if>     
-                                <c:if test="${requestScope.productAddedStatus == 'soldout'}">
+                                <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_OUT_OF_STOCK'}">
                                     <div class="alert alert-dismissible alert-danger">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         Sorry, but that item is out of stock.
+                                    </div>
+                                </c:if>     
+                                <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_FULL'}">
+                                    <div class="alert alert-dismissible alert-danger">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        Your cart cannot exceed 100 items. Please remove an item from <a href="ViewCart" target="_blank">View Cart</a> and try again.
                                     </div>
                                 </c:if>     
                                 <h1>${product.productName}</h1>
@@ -149,36 +155,9 @@
                                             <div class="form-group form-inline">
                                                 Qty:&nbsp;
                                                 <select class="form-control" name="quantity">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                    <option>6</option>
-                                                    <option>7</option>
-                                                    <option>8</option>
-                                                    <option>9</option>
-                                                    <option>10</option>
-                                                    <option>11</option>
-                                                    <option>12</option>
-                                                    <option>13</option>
-                                                    <option>14</option>
-                                                    <option>15</option>
-                                                    <option>16</option>
-                                                    <option>17</option>
-                                                    <option>18</option>
-                                                    <option>19</option>
-                                                    <option>20</option>
-                                                    <option>21</option>
-                                                    <option>22</option>
-                                                    <option>23</option>
-                                                    <option>24</option>
-                                                    <option>25</option>
-                                                    <option>26</option>
-                                                    <option>27</option>
-                                                    <option>28</option>
-                                                    <option>29</option>
-                                                    <option>30</option>
+                                                    <c:forEach begin="1" end="100" step="1" varStatus="vs">
+                                                        <option>${vs.count}</option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <input type="hidden" name="productId" value="${requestScope.product.productId}">

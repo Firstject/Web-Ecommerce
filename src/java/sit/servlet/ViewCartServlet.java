@@ -47,11 +47,13 @@ public class ViewCartServlet extends HttpServlet {
     private final int DEFAULT_PRODUCT_TARGET = 0;
     private final int DEFAULT_PRODUCT_QUANTITY = 1;
     private final int DEFAULT_PRODUCT_QUANTITY_MIN = 1;
-    private final int DEFAULT_PRODUCT_QUANTITY_MAX = 30;
+    private final int DEFAULT_PRODUCT_QUANTITY_MAX = 100;
+    private final int MAXIMUM_CART_ITEMS_ALLOWED = 100;
     //Error codes
     private final String SESSION_NULL_ERROR = "SESSION_NULL_ERROR";
     private final String UPDATE_SUCCESS = "UPDATE_SUCCESS";
     private final String PRODUCT_NOT_FOUND_ERROR = "PRODUCT_NOT_FOUND_ERROR";
+    private final String CART_EXCEED_LIMIT = "CART_EXCEED_LIMIT";
     private final String DELETE_SUCCESS = "DELETE_SUCCESS";
     private final String DELETE_ALL_SUCCESS = "DELETE_ALL_SUCCESS";
     private final String CART_ERROR = "CART_ERROR";
@@ -176,12 +178,24 @@ public class ViewCartServlet extends HttpServlet {
             }
             for (Products p : productList) {
                 if (p.getProductId() == target) {
+                    int quantityDifference = 0 - (p.getProductStock() - quantity);
+                    int count = quantityDifference; //Initialize total items checker in shopping cart 
                     this.updatedProductName = p.getProductName();
                     this.updatedProductId = p.getProductId();
-                    p.setProductStock((short) quantity);
-                    this.errorCode = UPDATE_SUCCESS;
-                    session.setAttribute("cartProductList", productList); //Update session
-                    return;
+                    //Check how many total items are in a shopping cart.
+                    for (Products p2 : productList) {
+                        count += p2.getProductStock();
+                    }
+                    //If exceeds limit, user won't be able to update product quantity
+                    if (count > MAXIMUM_CART_ITEMS_ALLOWED) {
+                        this.errorCode = CART_EXCEED_LIMIT;
+                        return;
+                    } else {
+                        this.errorCode = UPDATE_SUCCESS;
+                        p.setProductStock((short) quantity);
+                        session.setAttribute("cartProductList", productList); //Update session
+                        return;
+                    }
                 }
             }
             this.errorCode = PRODUCT_NOT_FOUND_ERROR;
@@ -208,7 +222,7 @@ public class ViewCartServlet extends HttpServlet {
                     this.updatedProductId = p.getProductId();
                     this.errorCode = DELETE_SUCCESS;
                     productList.remove(index);
-                    session.setAttribute("cartProductList", productList); //Update session
+                    session.setAttribute("cartProductList", productList);
                     return;
                 }
                 index++;

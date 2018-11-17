@@ -39,6 +39,14 @@
                             the Add to Cart button.</b>
                     </div>
                 </c:when>
+                <c:when test="${requestScope.errorCode == 'CART_EXCEED_LIMIT'}">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">That's too </h4>
+                        <p class="mb-0">Your cart cannot exceed 100 items!</p>
+                        <b>Reason: You're trying to update your shopping cart that might exceeds over 100 items. Please remove some item from your cart and try again.</b>
+                    </div>
+                </c:when>
                 <c:when test="${requestScope.errorCode == 'UPDATE_SUCCESS'}">
                     <div class="alert alert-dismissible alert-success">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -68,10 +76,6 @@
             </c:choose>
             <h1>Your cart</h1>
             <hr>
-            <label>The Cart is a temporary place to store a list of your items and reflects each item's most recent price.</label>
-            <p class="text-info">To change the quantity of a product, simply change or adjust the quantity value.<br>
-                After doing so, click on a green update cart button.</p>
-            <p class="text-danger">To remove a set of product, click "Remove".</p>
             <c:choose>
                 <c:when test="${!empty sessionScope.cartProductList}">
                     <table class="table table-hover" style="border-style: solid;">
@@ -111,7 +115,7 @@
                                                 <fieldset>
                                                     <input type="hidden" name="updateType" value="update" />
                                                     <input type="hidden" name="productTarget" value="${list.productId}" />
-                                                    <input type="number" name="productQuantity" value="${list.productStock}" min="1" max="30" class="col-lg-6"/>
+                                                    <input type="number" name="productQuantity" value="${list.productStock}" min="1" max="100" class="col-lg-6"/>
                                                     <button type="submit" class="btn btn-success btn-sm">Update</button>
                                                 </fieldset>
                                             </form>
@@ -157,6 +161,7 @@
                     </table>
                 </c:when>
                 <c:otherwise>
+                    <label>The Cart is a temporary place to store a list of your items and reflects each item's most recent price.</label>
                     <c:if test="${empty sessionScope.cartProductList}">
                         <div class="alert alert-info">
                             <strong>Your shopping cart is empty.</strong> You may want to check out some products.
