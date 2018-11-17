@@ -47,7 +47,7 @@ public class ViewCartServlet extends HttpServlet {
     private final int DEFAULT_PRODUCT_TARGET = 0;
     private final int DEFAULT_PRODUCT_QUANTITY = 1;
     private final int DEFAULT_PRODUCT_QUANTITY_MIN = 1;
-    private final int DEFAULT_PRODUCT_QUANTITY_MAX = 999;
+    private final int DEFAULT_PRODUCT_QUANTITY_MAX = 30;
     //Error codes
     private final String SESSION_NULL_ERROR = "SESSION_NULL_ERROR";
     private final String UPDATE_SUCCESS = "UPDATE_SUCCESS";

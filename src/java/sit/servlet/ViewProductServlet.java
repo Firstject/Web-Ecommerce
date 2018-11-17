@@ -81,7 +81,8 @@ public class ViewProductServlet extends HttpServlet {
         setRequest(); //Do last before forwarding to ViewCart page.
         
         if (quantity != null) {
-            getServletContext().getRequestDispatcher("/Search?searchQuery=" + returnSearchUrl + "&category=" + returnCategoryUrl + "&priceMin=" + returnMinPrice + "&priceMax=" + returnMaxPrice).forward(this.request, this.response);
+//            getServletContext().getRequestDispatcher("/Search?searchQuery=" + returnSearchUrl + "&category=" + returnCategoryUrl + "&priceMin=" + returnMinPrice + "&priceMax=" + returnMaxPrice).forward(this.request, this.response);
+            getServletContext().getRequestDispatcher("/ViewProduct.jsp").forward(this.request, this.response);
             
 //            response.sendRedirect("Search?" + this.returnSearchUrl);
         } else {

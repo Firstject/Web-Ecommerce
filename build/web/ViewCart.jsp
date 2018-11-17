@@ -111,7 +111,7 @@
                                                 <fieldset>
                                                     <input type="hidden" name="updateType" value="update" />
                                                     <input type="hidden" name="productTarget" value="${list.productId}" />
-                                                    <input type="number" name="productQuantity" value="${list.productStock}" min="1" max="999" class="col-lg-6"/>
+                                                    <input type="number" name="productQuantity" value="${list.productStock}" min="1" max="30" class="col-lg-6"/>
                                                     <button type="submit" class="btn btn-success btn-sm">Update</button>
                                                 </fieldset>
                                             </form>
