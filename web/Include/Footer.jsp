@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<footer id="footer">
+<!--<footer id="footer">
     <hr>
     <div class="row">
         <div class="col-lg-12">
@@ -18,5 +18,4 @@
             <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fontawesome.io/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
         </div>
     </div>
-
-</footer>
+</footer>-->
