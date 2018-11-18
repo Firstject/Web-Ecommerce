@@ -32,7 +32,7 @@
                 <div class="col-lg-9 card border-secondary" style="padding: 0px;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <a href="ViewCart"><h3 class="text-success"><i class="fa fa-check-circle"></i></i> Shopping Cart</h3></a>
+                            <a href="ViewCart"><h3 class="text-success"><i class="fa fa-check-circle"></i> Shopping Cart</h3></a>
                             <h3><i class="fa fa-chevron-right"></i></h3>
                             <h3><i class="material-icons">filter_2</i> Check Out</h3>
                             <h3 class="text-muted"><i class="fa fa-chevron-right"></i></h3>
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Security Code</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="123">
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234">
                                 </div>
                             </div>
                             <br>
