@@ -33,9 +33,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <a href="ViewCart"><h3 class="text-success"><i class="fa fa-check-circle"></i></i> Shopping Cart</h3></a>
-                            <p>a</p>
+                            <h3><i class="fa fa-chevron-right"></i></h3>
                             <h3><i class="material-icons">filter_2</i> Check Out</h3>
-                            <p>a</p>
+                            <h3 class="text-muted"><i class="fa fa-chevron-right"></i></h3>
                             <h3 class="text-muted"><i class="material-icons">filter_3</i> Finish</h3>
                         </div>
                         <div class="progress ml-3 mr-3">
@@ -58,8 +58,69 @@
                                 <label for="exampleTextarea">Address</label>
                                 <textarea class="form-control" id="exampleTextarea" rows="3">${sessionScope.user.city} ${sessionScope.user.address} ${sessionScope.user.country} ${sessionScope.user.zipCode}</textarea>
                             </div>
+                            <br>
+                            <br>
                             <legend>Payment Method</legend>
-                            
+                            <div class="form-check card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="on" checked="">
+                                            Credit Card
+                                        </label>
+                                        <div>
+                                            <i class="fab fa-cc-visa"></i>
+                                            <i class="fab fa-cc-mastercard"></i>
+                                            <i class="fab fa-cc-paypal"></i>
+                                            <i class="fab fa-cc-jcb"></i>
+                                            <i class="fab fa-cc-discover"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label>Card Number</label>
+                                <input type="text" class="form-control" placeholder="1111-2222-3333-4444">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-5">
+                                    <label>Exp Month</label>
+                                    <select class="form-control" id="exampleSelect1">
+                                        <option selected="">Month</option>
+                                        <option>January</option>
+                                        <option>February</option>
+                                        <option>March</option>
+                                        <option>April</option>
+                                        <option>May</option>
+                                        <option>June</option>
+                                        <option>July</option>
+                                        <option>August</option>
+                                        <option>September</option>
+                                        <option>October</option>
+                                        <option>November</option>
+                                        <option>December</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Exp Year</label>
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="Year">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Security Code</label>
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="123">
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="sendEmail" id="customCheck1" checked="">
+                                    <label class="custom-control-label" for="customCheck1">I'd like to receive payment notifications through email.</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-lg btn-block">Place Order</button>
+                            <small>By clicking the button, you agree to the <a href="#">Term of Service</a> and <a href="#">Conditions</a></small>
                         </fieldset>
                     </form>
                     <br>
@@ -69,7 +130,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="bs-component">
-                        <div class="card mb-3">
+                        <div class="card mb-3 border-primary">
                             <fmt:setLocale value="th_th"/>
                             <div class="card-body form-inline">
                                 <h5 class="card-title"><i class="fas fa-shopping-cart"></i> Cart Summary</h5> &nbsp;[<a href="ViewCart">edit</a>]

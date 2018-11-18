@@ -92,7 +92,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h3><i class="material-icons">filter_1</i></i> Shopping Cart</h3>
+                            <h3 class="text-muted"><i class="fa fa-chevron-right"></i></h3>
                             <h3 class="text-muted"><i class="material-icons">filter_2</i> Check Out</h3>
+                            <h3 class="text-muted"><i class="fa fa-chevron-right"></i></h3>
                             <h3 class="text-muted"><i class="material-icons">filter_3</i> Finish</h3>
                         </div>
                         <div class="progress ml-3 mr-3">

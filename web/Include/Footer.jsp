@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <footer id="footer">
+    <hr>
     <div class="row">
         <div class="col-lg-12">
             <ul class="list-unstyled">
