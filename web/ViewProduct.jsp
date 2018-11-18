@@ -78,18 +78,18 @@
                     <br>
                 </div>
                 <div class="col-lg-10">
+                    <c:set var="total" value="${0}" />
+                    <c:set var="itemsCount" value="${0}" />
+                    <c:forEach items="${sessionScope.cartProductList}" var="list">
+                        <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
+                        <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
+                    </c:forEach>
                     <div class="bs-component">
                         <c:choose>
                             <c:when test="${!empty product}">
                                 <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_SUCCESS'}">
                                     <div class="alert alert-dismissible alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <c:set var="total" value="${0}" />
-                                        <c:set var="itemsCount" value="${0}" />
-                                        <c:forEach items="${sessionScope.cartProductList}" var="list">
-                                            <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
-                                            <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
-                                        </c:forEach>
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <div class="bs-component">
@@ -124,7 +124,7 @@
                                 <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_FULL'}">
                                     <div class="alert alert-dismissible alert-danger">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        Your cart cannot exceed 100 items. Please remove an item from <a href="ViewCart" target="_blank">View Cart</a> and try again.
+                                        Your cart cannot exceed 100 items. Please remove an item from <a href="ViewCart" target="_blank">your Cart</a> and <a href="ViewProduct">try again.</a>
                                     </div>
                                 </c:if>     
                                 <h1>${product.productName}</h1>
@@ -152,6 +152,7 @@
                                         Category: <small class="card-text">${product.productCategory}</small><br>
                                         Location: <small class="card-text">${product.productLocation}</small>
                                         <form action="ViewProduct" method="post">
+                                            <input type="hidden" name="productId" value="${requestScope.product.productId}">
                                             <div class="form-group form-inline">
                                                 Qty:&nbsp;
                                                 <select class="form-control" name="quantity">
@@ -160,10 +161,10 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
-                                            <input type="hidden" name="productId" value="${requestScope.product.productId}">
                                             <button type="submit" class="btn btn-warning btn-lg">
                                                 <i class="fa fa-cart-arrow-down"></i> Add to Cart
                                             </button>
+
                                         </form>
                                     </div>
                                 </div>

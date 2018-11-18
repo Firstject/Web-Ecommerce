@@ -72,15 +72,11 @@
                                     <input type="text" name="city" class="form-control" id="exampleInputUser" value="${sessionScope.user.city}">
                                 </div>
                                 <div class="col-lg-5">
-                                    <label>State</label>
-                                    <input type="text" name="state" class="form-control" id="exampleInputUser" value="${sessionScope.user.userState}">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-5">
                                     <label>Address</label>
                                     <input type="text" name="address" class="form-control" id="exampleInputUser" value="${sessionScope.user.address}">
                                 </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-lg-5">
                                     <label>Country</label>
                                     <select class="form-control" name="country" value="${sessionScope.user.country}">
@@ -1081,12 +1077,12 @@
                                         </option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group row">
                                 <div class="col-lg-5">
                                     <label>Zip Code</label>
                                     <input type="text" name="zipcode" class="form-control" id="exampleInputUser" value="${sessionScope.user.zipCode}">
                                 </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-lg-5">
                                     <label>Phone Number</label>
                                     <input type="text" name="phonenumber" class="form-control" id="exampleInputUser" value="${sessionScope.user.phoneNumber}">

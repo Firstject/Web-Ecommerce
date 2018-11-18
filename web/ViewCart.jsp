@@ -17,6 +17,12 @@
         <jsp:include page="Include/Header.jsp" />
     </head>
     <body>
+        <c:set var="total" value="${0}" />
+        <c:set var="itemsCount" value="${0}" />
+        <c:forEach items="${sessionScope.cartProductList}" var="list">
+            <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
+            <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
+        </c:forEach>
         <br>
         <div class="container">
             <!--Generic error codes-->
@@ -42,7 +48,7 @@
                 <c:when test="${requestScope.errorCode == 'CART_EXCEED_LIMIT'}">
                     <div class="alert alert-dismissible alert-danger">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <h4 class="alert-heading">That's too </h4>
+                        <h4 class="alert-heading">Too many items in your cart!  </h4>
                         <p class="mb-0">Your cart cannot exceed 100 items!</p>
                         <b>Reason: You're trying to update your shopping cart that might exceeds over 100 items. Please remove some item from your cart and try again.</b>
                     </div>
@@ -74,7 +80,27 @@
                 </c:when>
                 <c:otherwise></c:otherwise>
             </c:choose>
-            <h1>Your cart</h1>
+            <div class="row">
+                <div class="col-lg-3">
+                <h1><i class="fa fa-cart-arrow-down"></i> Your cart</h1>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-${itemsCount > 50 ? itemsCount > 80 ? 'danger' : 'warning' : 'success'}" role="progressbar" style="width: ${itemsCount}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <strong>${itemsCount} / 100 item(s)</strong>
+                </div>
+                <div class="col-lg-9 card border-secondary" style="padding: 0px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h3><i class="material-icons">filter_1</i></i> Shopping Cart</h3>
+                            <h3 class="text-muted"><i class="material-icons">filter_2</i> Check Out</h3>
+                            <h3 class="text-muted"><i class="material-icons">filter_3</i> Finish</h3>
+                        </div>
+                        <div class="progress ml-3 mr-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr>
             <c:choose>
                 <c:when test="${!empty sessionScope.cartProductList}">
@@ -136,12 +162,6 @@
                                 </tr>
                             </c:forEach>
                             <tr class="table-default">
-                                <c:set var="total" value="${0}" />
-                                <c:set var="itemsCount" value="${0}" />
-                                <c:forEach items="${sessionScope.cartProductList}" var="list">
-                                    <c:set var="total" value="${total + (list.productPrice * list.productStock)}" />
-                                    <c:set var="itemsCount" value="${itemsCount + list.productStock}" />
-                                </c:forEach>
                                 <td></td>
                                 <td></td>
                                 <td></td>
