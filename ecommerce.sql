@@ -27,28 +27,6 @@ CREATE TABLE Users
 PRIMARY KEY (UserId)
 );
 
-CREATE TABLE Orders
-(
- Order_ID           INT NOT NULL ,
- Order_UserID       INT NOT NULL ,
- Order_Amount       INT NOT NULL ,
- Order_ShipName     VARCHAR(128) NOT NULL ,
- Order_ShipAddress  VARCHAR(128) NOT NULL ,
- Order_ShipAddress2 VARCHAR(128) NOT NULL ,
- Order_City         VARCHAR(64) NOT NULL ,
- Order_State        VARCHAR(32) NOT NULL ,
- Order_Zip          VARCHAR(16) NOT NULL ,
- Order_Address      VARCHAR(100) NOT NULL ,
- Order_Phone        VARCHAR(48) NOT NULL ,
- Order_Tax          FLOAT NOT NULL ,
- Order_Email        VARCHAR(100) NOT NULL ,
- Order_Date         TIMESTAMP NOT NULL ,
- Order_Shipped      SMALLINT NOT NULL ,
-
-PRIMARY KEY (Order_ID),
-FOREIGN KEY (Order_UserID) REFERENCES Users (UserId)
-);
-
 CREATE TABLE Products
 (
  Product_ID         INT NOT NULL ,
@@ -63,6 +41,17 @@ CREATE TABLE Products
  Product_Location   VARCHAR(255) ,
 
 PRIMARY KEY (Product_ID)
+);
+
+CREATE TABLE Orders
+(
+ Order_ID              INT NOT NULL ,
+ Order_ProductID       INT NOT NULL ,
+ Order_ProductQuantity INT ,
+ Order_ProductPrice    FLOAT ,
+
+PRIMARY KEY (Order_ID),
+FOREIGN KEY (Order_ProductID) REFERENCES Products (Product_ID)
 );
 
 CREATE TABLE AccountHistory
@@ -80,15 +69,15 @@ FOREIGN KEY (History_UserId) REFERENCES Users (UserId)
 
 CREATE TABLE OrderDetails
 (
- DetailID         INT NOT NULL ,
- Detail_OrderID   INT NOT NULL ,
- Detail_ProductID INT NOT NULL ,
- Detail_Name      VARCHAR(255) NOT NULL ,
- Detail_Price     FLOAT NOT NULL ,
- Detail_Quantity  INT NOT NULL ,
+ DetailID            INT NOT NULL ,
+ Detail_UserID       INT NOT NULL ,
+ Detail_OrderID      INT NOT NULL ,
+ Detail_UserRealName VARCHAR(100) ,
+ Detail_Address      VARCHAR(400) ,
+ Detail_TotalPrice   FLOAT ,
 
 PRIMARY KEY (DetailID),
-FOREIGN KEY (Detail_ProductID) REFERENCES Products(Product_ID),
+FOREIGN KEY (Detail_UserID) REFERENCES Users(UserId),
 FOREIGN KEY (Detail_OrderID) REFERENCES Orders(Order_ID)
 );
 
