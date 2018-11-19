@@ -50,13 +50,19 @@
                     <form action="CheckOut" method="post">
                         <fieldset>
                             <legend>Billing details</legend>
-                            <div class="form-group">
+                            <div class="form-group ${requestScope.errorCode == 'NAME_INVALID' ? 'has-danger' : ''}">
                                 <label>First & last name</label>
-                                <input type="text" class="form-control" value="${sessionScope.user.fname} ${sessionScope.user.lname}" placeholder="Enter your name">
+                                <input type="text" name="name" class="form-control ${requestScope.errorCode == 'NAME_INVALID' ? 'is-invalid' : ''}" value="${sessionScope.user.fname} ${sessionScope.user.lname}" placeholder="Enter your name">
+                                <c:if test="${requestScope.errorCode == 'NAME_INVALID'}">
+                                    <div class="invalid-feedback">Make sure your name and last name is valid and try submitting again.</div>
+                                </c:if>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group ${requestScope.errorCode == 'ADDRESS_INVALID' ? 'has-danger' : ''}">
                                 <label for="exampleTextarea">Address</label>
-                                <textarea class="form-control" id="exampleTextarea" rows="3">${sessionScope.user.city} ${sessionScope.user.address} ${sessionScope.user.country} ${sessionScope.user.zipCode}</textarea>
+                                <textarea class="form-control ${requestScope.errorCode == 'ADDRESS_INVALID' ? 'is-invalid' : ''}" name="address" id="exampleTextarea" rows="3">${sessionScope.user.city} ${sessionScope.user.address} ${sessionScope.user.country} ${sessionScope.user.zipCode}</textarea>
+                                <c:if test="${requestScope.errorCode == 'ADDRESS_INVALID'}">
+                                    <div class="invalid-feedback">You must provide us address for an ordering.</div>
+                                </c:if>
                             </div>
                             <br>
                             <br>
@@ -81,7 +87,7 @@
                             <br>
                             <div class="form-group">
                                 <label>Card Number</label>
-                                <input type="text" class="form-control" placeholder="1111-2222-3333-4444" minlength="12" required="">
+                                <input type="text" class="form-control" placeholder="1111-2222-3333-4444">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-5">
@@ -104,21 +110,22 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Exp Year</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="Year" minlength="2" required="">
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="Year" >
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Security Code</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234" minlength="3" required="">
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234" >
                                 </div>
                             </div>
                             <br>
                             <br>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="sendEmail" id="customCheck1" checked="">
+                                    <input type="checkbox" class="custom-control-input" name="sendMail" id="customCheck1" checked="">
                                     <label class="custom-control-label" for="customCheck1">I'd like to receive payment notifications through email.</label>
                                 </div>
                             </div>
+                            <input type="hidden" name="submit" value="submit">
                             <button type="submit" class="btn btn-success btn-lg btn-block">Place Order</button>
                             <small>By clicking the button, you agree to the <a href="#">Term of Service</a> and <a href="#">Conditions</a></small>
                         </fieldset>
@@ -141,7 +148,7 @@
                                         <strong class="card-subtitle">${list.productStock} x ${fn:substring(list.productName, 0, 21)}${fn:length(list.productName) > 21 ? '...' : ''}</strong>
                                         <strong><fmt:formatNumber value="${list.productPrice * list.productStock}" type="currency"/></strong>
                                     </div>
-                                    ${fn:substring(list.productDesc, 0, 40)}${fn:length(list.productDesc) > 40 ? '...' : ''}
+                                    <small>${fn:substring(list.productDesc, 0, 40)}${fn:length(list.productDesc) > 40 ? '...' : ''}</small>
                                 </div>
                                 <hr style="width: 80%; align-self: center;">
                             </c:forEach>

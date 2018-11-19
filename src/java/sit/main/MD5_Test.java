@@ -5,10 +5,7 @@
  */
 package sit.main;
 
-import java.util.Calendar;
-import java.util.Date;
-import sit.javaModel.MD5;
-import sit.javaModel.TimeAgo;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -20,8 +17,9 @@ public class MD5_Test {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        short numberShort = 1;
-        int add = 10;
-        System.out.println("NumberAdd: " + (numberShort + 10));
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Loop count: " + (i+1));
+        }
+        
     }
 }

@@ -24,9 +24,17 @@ public class CheckOutServlet extends HttpServlet {
     private String errorCode;
     private String returnPath;
     
+    private String name;
+    private String address;
+    private String sendEmail;
+    private String submit;
+    
     private static final String CHECKOUT_ERROR = "CHECKOUT_ERROR";
+    private static final String NAME_INVALID = "NAME_INVALID"; //Name is null or invalid
+    private static final String ADDRESS_INVALID = "ADDRESS_INVALID"; //Address is null or invalid
     private static final String PATH_TO_VIEWCART = "/ViewCart.jsp";
     private static final String PATH_TO_CHECKOUT = "/CheckOut.jsp";
+    private static final String PATH_TO_CHECKOUTSUCCESS = "/CheckOutSuccess.jsp";
     
     private List<Products> cart;
     
@@ -40,8 +48,11 @@ public class CheckOutServlet extends HttpServlet {
         this.response = response;
         
         setCurrentCart();
-        initRequest();
+        if (this.cart != null) {
+            setRequest();
+        }
         
+        tryRemoveCart();
         this.request.getServletContext().getRequestDispatcher(returnPath).forward(this.request, this.response);
     }
 
@@ -97,7 +108,38 @@ public class CheckOutServlet extends HttpServlet {
         }
     }
 
-    private void initRequest() {
-        this.errorCode = CHECKOUT_ERROR;
+    private void setRequest() {
+        this.name = this.request.getParameter("name");
+        this.address = this.request.getParameter("address");
+        this.sendEmail = this.request.getParameter("sendMail");
+        this.submit = this.request.getParameter("submit");
+        
+        if (this.name != null) {
+            this.name = name.trim();
+            if (name.isEmpty()) {
+                this.returnPath = PATH_TO_CHECKOUT; 
+                this.errorCode = NAME_INVALID;
+                this.request.setAttribute("errorCode", this.errorCode);
+                return;
+            }
+        }
+        if (this.address != null) {
+            this.address = address.trim();
+            if (address.isEmpty()) {
+                this.returnPath = PATH_TO_CHECKOUT; 
+                this.errorCode = ADDRESS_INVALID;
+                this.request.setAttribute("errorCode", this.errorCode);
+                return;
+            }
+        }
+        if (this.submit != null && !this.submit.isEmpty()) {
+            this.returnPath = PATH_TO_CHECKOUTSUCCESS; //End
+        }
+    }
+    
+    public void tryRemoveCart() {
+        if (this.returnPath.equalsIgnoreCase(CheckOutServlet.PATH_TO_CHECKOUTSUCCESS)) {
+            this.session.removeAttribute("cartProductList");
+        }
     }
 }
