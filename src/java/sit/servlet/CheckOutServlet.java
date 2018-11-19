@@ -28,6 +28,8 @@ public class CheckOutServlet extends HttpServlet {
     private static final String PATH_TO_VIEWCART = "/ViewCart.jsp";
     private static final String PATH_TO_CHECKOUT = "/CheckOut.jsp";
     
+    private List<Products> cart;
+    
     HttpSession session;
     HttpServletRequest request;
     HttpServletResponse response;
@@ -37,17 +39,7 @@ public class CheckOutServlet extends HttpServlet {
         this.request = request;
         this.response = response;
         
-        session = this.request.getSession(false);
-        if (session != null) {
-            List<Products> cart = (List<Products>) session.getAttribute("cartProductList");
-            if (cart == null) {
-                this.errorCode = CHECKOUT_ERROR;
-                this.returnPath = PATH_TO_VIEWCART;
-            } else {
-                this.returnPath = PATH_TO_CHECKOUT;
-            }
-        }
-        
+        setCurrentCart();
         initRequest();
         
         this.request.getServletContext().getRequestDispatcher(returnPath).forward(this.request, this.response);
@@ -91,9 +83,21 @@ public class CheckOutServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    private void setCurrentCart() {
+        this.session = this.request.getSession(false);
+        if (this.session != null) {
+            this.cart = (List<Products>) this.session.getAttribute("cartProductList");
+            if (this.cart == null || this.cart.isEmpty()) {
+                this.errorCode = CheckOutServlet.CHECKOUT_ERROR;
+                this.returnPath = CheckOutServlet.PATH_TO_VIEWCART;
+            } else {
+                this.returnPath = CheckOutServlet.PATH_TO_CHECKOUT;
+            }
+        }
+    }
 
     private void initRequest() {
         this.errorCode = CHECKOUT_ERROR;
     }
-
 }

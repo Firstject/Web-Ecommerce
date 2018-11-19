@@ -1,6 +1,4 @@
 DROP TABLE OrderDetails;
-DROP TABLE Wishlists;
-DROP TABLE ProductStats;
 DROP TABLE Orders;
 DROP TABLE Products;
 DROP TABLE AccountHistory;
@@ -67,29 +65,6 @@ CREATE TABLE Products
 PRIMARY KEY (Product_ID)
 );
 
-CREATE TABLE Wishlists
-(
- WishlistID int NOT NULL ,
- Wishlist_UserId     int NOT NULL ,
- Wishlist_ProductID int NOT NULL ,
-
-PRIMARY KEY (WishlistID),
-FOREIGN KEY (Wishlist_UserId) REFERENCES Users(UserId),
-FOREIGN KEY (Wishlist_ProductID) REFERENCES Products(Product_ID)
-);
-
-CREATE TABLE ProductStats
-(
- ProductStatsID         int NOT NULL ,
- StatType               varchar(16) NOT NULL ,
- ProductStats_ProductID int NOT NULL ,
- ProductStats_UserId    int NOT NULL ,
-
-PRIMARY KEY (ProductStatsID),
-FOREIGN KEY (ProductStats_UserId) REFERENCES Users(UserId),
-FOREIGN KEY (ProductStats_ProductID) REFERENCES Products(Product_ID)
-);
-
 CREATE TABLE AccountHistory
 (
  HistoryId      INT NOT NULL ,
@@ -121,7 +96,6 @@ FOREIGN KEY (Detail_OrderID) REFERENCES Orders(Order_ID)
 
 DELETE FROM Users;
 DELETE FROM Products;
-DELETE FROM ProductCategories;
 
 INSERT INTO Users(UserId,Username,FName,LName,Email,Password,City,User_State,Address,ZIP_Code,Phone_Number,Register_Date,Verify_Code) VALUES (1,'AlliLovely','Bobby','Freeman','tskirvin@optonline.net','25d55ad283aa40af464c76d713c7ad','San Diego','California','639 Ocello Street','92103','619-887-0185','2018-11-1 10:17:50.123','4479c8f1ccc6f4d6fa5ec46757903e5f');
 INSERT INTO Users(UserId,Username,FName,LName,Email,Password,City,User_State,Address,ZIP_Code,Phone_Number,Register_Date,Verify_Code) VALUES (2,'ArticleAir','Deanna','Lane','cremonini@live.com','48afaca63a3b3f8592271414e69744e5','Louisville','Kentucky','1918 Karen Lane','40207','502-895-2768','2018-11-1 12:30:40.124','a034b91f82c1c2137021ca6baf66690');

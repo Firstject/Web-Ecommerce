@@ -88,10 +88,6 @@ public class Products implements Serializable {
     @Size(max = 255)
     @Column(name = "PRODUCT_LOCATION")
     private String productLocation;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productstatsProductid")
-    private List<ProductStats> productStatsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlistProductid")
-    private List<Wishlists> wishlistsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProductid")
     private List<OrderDetails> orderDetailsList;
 
@@ -180,24 +176,6 @@ public class Products implements Serializable {
 
     public void setProductLocation(String productLocation) {
         this.productLocation = productLocation;
-    }
-
-    @XmlTransient
-    public List<ProductStats> getProductStatsList() {
-        return productStatsList;
-    }
-
-    public void setProductStatsList(List<ProductStats> productStatsList) {
-        this.productStatsList = productStatsList;
-    }
-
-    @XmlTransient
-    public List<Wishlists> getWishlistsList() {
-        return wishlistsList;
-    }
-
-    public void setWishlistsList(List<Wishlists> wishlistsList) {
-        this.wishlistsList = wishlistsList;
     }
 
     @XmlTransient

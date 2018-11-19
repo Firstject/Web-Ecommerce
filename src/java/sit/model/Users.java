@@ -120,10 +120,6 @@ public class Users implements Serializable {
     @Column(name = "ACTIVATE_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date activateDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productstatsUserid")
-    private List<ProductStats> productStatsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlistUserid")
-    private List<Wishlists> wishlistsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderUserid")
     private List<Orders> ordersList;
 
@@ -277,24 +273,6 @@ public class Users implements Serializable {
 
     public void setActivateDate(Date activateDate) {
         this.activateDate = activateDate;
-    }
-
-    @XmlTransient
-    public List<ProductStats> getProductStatsList() {
-        return productStatsList;
-    }
-
-    public void setProductStatsList(List<ProductStats> productStatsList) {
-        this.productStatsList = productStatsList;
-    }
-
-    @XmlTransient
-    public List<Wishlists> getWishlistsList() {
-        return wishlistsList;
-    }
-
-    public void setWishlistsList(List<Wishlists> wishlistsList) {
-        this.wishlistsList = wishlistsList;
     }
 
     @XmlTransient
