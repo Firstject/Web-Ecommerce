@@ -13,8 +13,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,10 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Products.findByProductLocation", query = "SELECT p FROM Products p WHERE p.productLocation = :productLocation")})
 public class Products implements Serializable {
 
-    @Size(max = 50)
-    @Column(name = "PRODUCT_CATEGORY")
-    private String productCategory;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -74,6 +68,9 @@ public class Products implements Serializable {
     @Size(max = 255)
     @Column(name = "PRODUCT_IMAGE")
     private String productImage;
+    @Size(max = 50)
+    @Column(name = "PRODUCT_CATEGORY")
+    private String productCategory;
     @Column(name = "PRODUCT_UPDATEDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date productUpdatedate;
@@ -88,8 +85,8 @@ public class Products implements Serializable {
     @Size(max = 255)
     @Column(name = "PRODUCT_LOCATION")
     private String productLocation;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailProductid")
-    private List<OrderDetails> orderDetailsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderProductid")
+    private List<Orders> ordersList;
 
     public Products() {
     }
@@ -146,6 +143,14 @@ public class Products implements Serializable {
         this.productImage = productImage;
     }
 
+    public String getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
     public Date getProductUpdatedate() {
         return productUpdatedate;
     }
@@ -179,12 +184,12 @@ public class Products implements Serializable {
     }
 
     @XmlTransient
-    public List<OrderDetails> getOrderDetailsList() {
-        return orderDetailsList;
+    public List<Orders> getOrdersList() {
+        return ordersList;
     }
 
-    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
-        this.orderDetailsList = orderDetailsList;
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 
     @Override
@@ -209,17 +214,7 @@ public class Products implements Serializable {
 
     @Override
     public String toString() {
-        return "Products{" + "productCategory=" + productCategory + ", productId=" + productId + ", productName=" + productName + ", productPrice=" + productPrice + '}';
+        return "sit.model.Products[ productId=" + productId + " ]";
     }
-
-    public String getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
-    }
-
-        
     
 }

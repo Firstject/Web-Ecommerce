@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.Orders;
+import sit.model.AccountHistory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -20,7 +20,7 @@ import sit.controller.exceptions.IllegalOrphanException;
 import sit.controller.exceptions.NonexistentEntityException;
 import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
-import sit.model.AccountHistory;
+import sit.model.OrderDetails;
 import sit.model.Users;
 
 /**
@@ -41,38 +41,29 @@ public class UsersJpaController implements Serializable {
     }
 
     public void create(Users users) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (users.getOrdersList() == null) {
-            users.setOrdersList(new ArrayList<Orders>());
-        }
         if (users.getAccountHistoryList() == null) {
             users.setAccountHistoryList(new ArrayList<AccountHistory>());
+        }
+        if (users.getOrderDetailsList() == null) {
+            users.setOrderDetailsList(new ArrayList<OrderDetails>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            List<Orders> attachedOrdersList = new ArrayList<Orders>();
-            for (Orders ordersListOrdersToAttach : users.getOrdersList()) {
-                ordersListOrdersToAttach = em.getReference(ordersListOrdersToAttach.getClass(), ordersListOrdersToAttach.getOrderId());
-                attachedOrdersList.add(ordersListOrdersToAttach);
-            }
-            users.setOrdersList(attachedOrdersList);
             List<AccountHistory> attachedAccountHistoryList = new ArrayList<AccountHistory>();
             for (AccountHistory accountHistoryListAccountHistoryToAttach : users.getAccountHistoryList()) {
                 accountHistoryListAccountHistoryToAttach = em.getReference(accountHistoryListAccountHistoryToAttach.getClass(), accountHistoryListAccountHistoryToAttach.getHistoryid());
                 attachedAccountHistoryList.add(accountHistoryListAccountHistoryToAttach);
             }
             users.setAccountHistoryList(attachedAccountHistoryList);
-            em.persist(users);
-            for (Orders ordersListOrders : users.getOrdersList()) {
-                Users oldOrderUseridOfOrdersListOrders = ordersListOrders.getOrderUserid();
-                ordersListOrders.setOrderUserid(users);
-                ordersListOrders = em.merge(ordersListOrders);
-                if (oldOrderUseridOfOrdersListOrders != null) {
-                    oldOrderUseridOfOrdersListOrders.getOrdersList().remove(ordersListOrders);
-                    oldOrderUseridOfOrdersListOrders = em.merge(oldOrderUseridOfOrdersListOrders);
-                }
+            List<OrderDetails> attachedOrderDetailsList = new ArrayList<OrderDetails>();
+            for (OrderDetails orderDetailsListOrderDetailsToAttach : users.getOrderDetailsList()) {
+                orderDetailsListOrderDetailsToAttach = em.getReference(orderDetailsListOrderDetailsToAttach.getClass(), orderDetailsListOrderDetailsToAttach.getDetailid());
+                attachedOrderDetailsList.add(orderDetailsListOrderDetailsToAttach);
             }
+            users.setOrderDetailsList(attachedOrderDetailsList);
+            em.persist(users);
             for (AccountHistory accountHistoryListAccountHistory : users.getAccountHistoryList()) {
                 Users oldHistoryUseridOfAccountHistoryListAccountHistory = accountHistoryListAccountHistory.getHistoryUserid();
                 accountHistoryListAccountHistory.setHistoryUserid(users);
@@ -80,6 +71,15 @@ public class UsersJpaController implements Serializable {
                 if (oldHistoryUseridOfAccountHistoryListAccountHistory != null) {
                     oldHistoryUseridOfAccountHistoryListAccountHistory.getAccountHistoryList().remove(accountHistoryListAccountHistory);
                     oldHistoryUseridOfAccountHistoryListAccountHistory = em.merge(oldHistoryUseridOfAccountHistoryListAccountHistory);
+                }
+            }
+            for (OrderDetails orderDetailsListOrderDetails : users.getOrderDetailsList()) {
+                Users oldDetailUseridOfOrderDetailsListOrderDetails = orderDetailsListOrderDetails.getDetailUserid();
+                orderDetailsListOrderDetails.setDetailUserid(users);
+                orderDetailsListOrderDetails = em.merge(orderDetailsListOrderDetails);
+                if (oldDetailUseridOfOrderDetailsListOrderDetails != null) {
+                    oldDetailUseridOfOrderDetailsListOrderDetails.getOrderDetailsList().remove(orderDetailsListOrderDetails);
+                    oldDetailUseridOfOrderDetailsListOrderDetails = em.merge(oldDetailUseridOfOrderDetailsListOrderDetails);
                 }
             }
             utx.commit();
@@ -106,19 +106,11 @@ public class UsersJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Users persistentUsers = em.find(Users.class, users.getUserid());
-            List<Orders> ordersListOld = persistentUsers.getOrdersList();
-            List<Orders> ordersListNew = users.getOrdersList();
             List<AccountHistory> accountHistoryListOld = persistentUsers.getAccountHistoryList();
             List<AccountHistory> accountHistoryListNew = users.getAccountHistoryList();
+            List<OrderDetails> orderDetailsListOld = persistentUsers.getOrderDetailsList();
+            List<OrderDetails> orderDetailsListNew = users.getOrderDetailsList();
             List<String> illegalOrphanMessages = null;
-            for (Orders ordersListOldOrders : ordersListOld) {
-                if (!ordersListNew.contains(ordersListOldOrders)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Orders " + ordersListOldOrders + " since its orderUserid field is not nullable.");
-                }
-            }
             for (AccountHistory accountHistoryListOldAccountHistory : accountHistoryListOld) {
                 if (!accountHistoryListNew.contains(accountHistoryListOldAccountHistory)) {
                     if (illegalOrphanMessages == null) {
@@ -127,16 +119,17 @@ public class UsersJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain AccountHistory " + accountHistoryListOldAccountHistory + " since its historyUserid field is not nullable.");
                 }
             }
+            for (OrderDetails orderDetailsListOldOrderDetails : orderDetailsListOld) {
+                if (!orderDetailsListNew.contains(orderDetailsListOldOrderDetails)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain OrderDetails " + orderDetailsListOldOrderDetails + " since its detailUserid field is not nullable.");
+                }
+            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<Orders> attachedOrdersListNew = new ArrayList<Orders>();
-            for (Orders ordersListNewOrdersToAttach : ordersListNew) {
-                ordersListNewOrdersToAttach = em.getReference(ordersListNewOrdersToAttach.getClass(), ordersListNewOrdersToAttach.getOrderId());
-                attachedOrdersListNew.add(ordersListNewOrdersToAttach);
-            }
-            ordersListNew = attachedOrdersListNew;
-            users.setOrdersList(ordersListNew);
             List<AccountHistory> attachedAccountHistoryListNew = new ArrayList<AccountHistory>();
             for (AccountHistory accountHistoryListNewAccountHistoryToAttach : accountHistoryListNew) {
                 accountHistoryListNewAccountHistoryToAttach = em.getReference(accountHistoryListNewAccountHistoryToAttach.getClass(), accountHistoryListNewAccountHistoryToAttach.getHistoryid());
@@ -144,18 +137,14 @@ public class UsersJpaController implements Serializable {
             }
             accountHistoryListNew = attachedAccountHistoryListNew;
             users.setAccountHistoryList(accountHistoryListNew);
-            users = em.merge(users);
-            for (Orders ordersListNewOrders : ordersListNew) {
-                if (!ordersListOld.contains(ordersListNewOrders)) {
-                    Users oldOrderUseridOfOrdersListNewOrders = ordersListNewOrders.getOrderUserid();
-                    ordersListNewOrders.setOrderUserid(users);
-                    ordersListNewOrders = em.merge(ordersListNewOrders);
-                    if (oldOrderUseridOfOrdersListNewOrders != null && !oldOrderUseridOfOrdersListNewOrders.equals(users)) {
-                        oldOrderUseridOfOrdersListNewOrders.getOrdersList().remove(ordersListNewOrders);
-                        oldOrderUseridOfOrdersListNewOrders = em.merge(oldOrderUseridOfOrdersListNewOrders);
-                    }
-                }
+            List<OrderDetails> attachedOrderDetailsListNew = new ArrayList<OrderDetails>();
+            for (OrderDetails orderDetailsListNewOrderDetailsToAttach : orderDetailsListNew) {
+                orderDetailsListNewOrderDetailsToAttach = em.getReference(orderDetailsListNewOrderDetailsToAttach.getClass(), orderDetailsListNewOrderDetailsToAttach.getDetailid());
+                attachedOrderDetailsListNew.add(orderDetailsListNewOrderDetailsToAttach);
             }
+            orderDetailsListNew = attachedOrderDetailsListNew;
+            users.setOrderDetailsList(orderDetailsListNew);
+            users = em.merge(users);
             for (AccountHistory accountHistoryListNewAccountHistory : accountHistoryListNew) {
                 if (!accountHistoryListOld.contains(accountHistoryListNewAccountHistory)) {
                     Users oldHistoryUseridOfAccountHistoryListNewAccountHistory = accountHistoryListNewAccountHistory.getHistoryUserid();
@@ -164,6 +153,17 @@ public class UsersJpaController implements Serializable {
                     if (oldHistoryUseridOfAccountHistoryListNewAccountHistory != null && !oldHistoryUseridOfAccountHistoryListNewAccountHistory.equals(users)) {
                         oldHistoryUseridOfAccountHistoryListNewAccountHistory.getAccountHistoryList().remove(accountHistoryListNewAccountHistory);
                         oldHistoryUseridOfAccountHistoryListNewAccountHistory = em.merge(oldHistoryUseridOfAccountHistoryListNewAccountHistory);
+                    }
+                }
+            }
+            for (OrderDetails orderDetailsListNewOrderDetails : orderDetailsListNew) {
+                if (!orderDetailsListOld.contains(orderDetailsListNewOrderDetails)) {
+                    Users oldDetailUseridOfOrderDetailsListNewOrderDetails = orderDetailsListNewOrderDetails.getDetailUserid();
+                    orderDetailsListNewOrderDetails.setDetailUserid(users);
+                    orderDetailsListNewOrderDetails = em.merge(orderDetailsListNewOrderDetails);
+                    if (oldDetailUseridOfOrderDetailsListNewOrderDetails != null && !oldDetailUseridOfOrderDetailsListNewOrderDetails.equals(users)) {
+                        oldDetailUseridOfOrderDetailsListNewOrderDetails.getOrderDetailsList().remove(orderDetailsListNewOrderDetails);
+                        oldDetailUseridOfOrderDetailsListNewOrderDetails = em.merge(oldDetailUseridOfOrderDetailsListNewOrderDetails);
                     }
                 }
             }
@@ -202,19 +202,19 @@ public class UsersJpaController implements Serializable {
                 throw new NonexistentEntityException("The users with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Orders> ordersListOrphanCheck = users.getOrdersList();
-            for (Orders ordersListOrphanCheckOrders : ordersListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the Orders " + ordersListOrphanCheckOrders + " in its ordersList field has a non-nullable orderUserid field.");
-            }
             List<AccountHistory> accountHistoryListOrphanCheck = users.getAccountHistoryList();
             for (AccountHistory accountHistoryListOrphanCheckAccountHistory : accountHistoryListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the AccountHistory " + accountHistoryListOrphanCheckAccountHistory + " in its accountHistoryList field has a non-nullable historyUserid field.");
+            }
+            List<OrderDetails> orderDetailsListOrphanCheck = users.getOrderDetailsList();
+            for (OrderDetails orderDetailsListOrphanCheckOrderDetails : orderDetailsListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the OrderDetails " + orderDetailsListOrphanCheckOrderDetails + " in its orderDetailsList field has a non-nullable detailUserid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

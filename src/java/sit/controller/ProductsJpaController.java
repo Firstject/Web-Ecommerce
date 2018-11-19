@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.OrderDetails;
+import sit.model.Orders;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -41,27 +41,27 @@ public class ProductsJpaController implements Serializable {
     }
 
     public void create(Products products) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (products.getOrderDetailsList() == null) {
-            products.setOrderDetailsList(new ArrayList<OrderDetails>());
+        if (products.getOrdersList() == null) {
+            products.setOrdersList(new ArrayList<Orders>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            List<OrderDetails> attachedOrderDetailsList = new ArrayList<OrderDetails>();
-            for (OrderDetails orderDetailsListOrderDetailsToAttach : products.getOrderDetailsList()) {
-                orderDetailsListOrderDetailsToAttach = em.getReference(orderDetailsListOrderDetailsToAttach.getClass(), orderDetailsListOrderDetailsToAttach.getDetailid());
-                attachedOrderDetailsList.add(orderDetailsListOrderDetailsToAttach);
+            List<Orders> attachedOrdersList = new ArrayList<Orders>();
+            for (Orders ordersListOrdersToAttach : products.getOrdersList()) {
+                ordersListOrdersToAttach = em.getReference(ordersListOrdersToAttach.getClass(), ordersListOrdersToAttach.getOrderId());
+                attachedOrdersList.add(ordersListOrdersToAttach);
             }
-            products.setOrderDetailsList(attachedOrderDetailsList);
+            products.setOrdersList(attachedOrdersList);
             em.persist(products);
-            for (OrderDetails orderDetailsListOrderDetails : products.getOrderDetailsList()) {
-                Products oldDetailProductidOfOrderDetailsListOrderDetails = orderDetailsListOrderDetails.getDetailProductid();
-                orderDetailsListOrderDetails.setDetailProductid(products);
-                orderDetailsListOrderDetails = em.merge(orderDetailsListOrderDetails);
-                if (oldDetailProductidOfOrderDetailsListOrderDetails != null) {
-                    oldDetailProductidOfOrderDetailsListOrderDetails.getOrderDetailsList().remove(orderDetailsListOrderDetails);
-                    oldDetailProductidOfOrderDetailsListOrderDetails = em.merge(oldDetailProductidOfOrderDetailsListOrderDetails);
+            for (Orders ordersListOrders : products.getOrdersList()) {
+                Products oldOrderProductidOfOrdersListOrders = ordersListOrders.getOrderProductid();
+                ordersListOrders.setOrderProductid(products);
+                ordersListOrders = em.merge(ordersListOrders);
+                if (oldOrderProductidOfOrdersListOrders != null) {
+                    oldOrderProductidOfOrdersListOrders.getOrdersList().remove(ordersListOrders);
+                    oldOrderProductidOfOrdersListOrders = em.merge(oldOrderProductidOfOrdersListOrders);
                 }
             }
             utx.commit();
@@ -88,36 +88,36 @@ public class ProductsJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Products persistentProducts = em.find(Products.class, products.getProductId());
-            List<OrderDetails> orderDetailsListOld = persistentProducts.getOrderDetailsList();
-            List<OrderDetails> orderDetailsListNew = products.getOrderDetailsList();
+            List<Orders> ordersListOld = persistentProducts.getOrdersList();
+            List<Orders> ordersListNew = products.getOrdersList();
             List<String> illegalOrphanMessages = null;
-            for (OrderDetails orderDetailsListOldOrderDetails : orderDetailsListOld) {
-                if (!orderDetailsListNew.contains(orderDetailsListOldOrderDetails)) {
+            for (Orders ordersListOldOrders : ordersListOld) {
+                if (!ordersListNew.contains(ordersListOldOrders)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain OrderDetails " + orderDetailsListOldOrderDetails + " since its detailProductid field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Orders " + ordersListOldOrders + " since its orderProductid field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            List<OrderDetails> attachedOrderDetailsListNew = new ArrayList<OrderDetails>();
-            for (OrderDetails orderDetailsListNewOrderDetailsToAttach : orderDetailsListNew) {
-                orderDetailsListNewOrderDetailsToAttach = em.getReference(orderDetailsListNewOrderDetailsToAttach.getClass(), orderDetailsListNewOrderDetailsToAttach.getDetailid());
-                attachedOrderDetailsListNew.add(orderDetailsListNewOrderDetailsToAttach);
+            List<Orders> attachedOrdersListNew = new ArrayList<Orders>();
+            for (Orders ordersListNewOrdersToAttach : ordersListNew) {
+                ordersListNewOrdersToAttach = em.getReference(ordersListNewOrdersToAttach.getClass(), ordersListNewOrdersToAttach.getOrderId());
+                attachedOrdersListNew.add(ordersListNewOrdersToAttach);
             }
-            orderDetailsListNew = attachedOrderDetailsListNew;
-            products.setOrderDetailsList(orderDetailsListNew);
+            ordersListNew = attachedOrdersListNew;
+            products.setOrdersList(ordersListNew);
             products = em.merge(products);
-            for (OrderDetails orderDetailsListNewOrderDetails : orderDetailsListNew) {
-                if (!orderDetailsListOld.contains(orderDetailsListNewOrderDetails)) {
-                    Products oldDetailProductidOfOrderDetailsListNewOrderDetails = orderDetailsListNewOrderDetails.getDetailProductid();
-                    orderDetailsListNewOrderDetails.setDetailProductid(products);
-                    orderDetailsListNewOrderDetails = em.merge(orderDetailsListNewOrderDetails);
-                    if (oldDetailProductidOfOrderDetailsListNewOrderDetails != null && !oldDetailProductidOfOrderDetailsListNewOrderDetails.equals(products)) {
-                        oldDetailProductidOfOrderDetailsListNewOrderDetails.getOrderDetailsList().remove(orderDetailsListNewOrderDetails);
-                        oldDetailProductidOfOrderDetailsListNewOrderDetails = em.merge(oldDetailProductidOfOrderDetailsListNewOrderDetails);
+            for (Orders ordersListNewOrders : ordersListNew) {
+                if (!ordersListOld.contains(ordersListNewOrders)) {
+                    Products oldOrderProductidOfOrdersListNewOrders = ordersListNewOrders.getOrderProductid();
+                    ordersListNewOrders.setOrderProductid(products);
+                    ordersListNewOrders = em.merge(ordersListNewOrders);
+                    if (oldOrderProductidOfOrdersListNewOrders != null && !oldOrderProductidOfOrdersListNewOrders.equals(products)) {
+                        oldOrderProductidOfOrdersListNewOrders.getOrdersList().remove(ordersListNewOrders);
+                        oldOrderProductidOfOrdersListNewOrders = em.merge(oldOrderProductidOfOrdersListNewOrders);
                     }
                 }
             }
@@ -156,12 +156,12 @@ public class ProductsJpaController implements Serializable {
                 throw new NonexistentEntityException("The products with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<OrderDetails> orderDetailsListOrphanCheck = products.getOrderDetailsList();
-            for (OrderDetails orderDetailsListOrphanCheckOrderDetails : orderDetailsListOrphanCheck) {
+            List<Orders> ordersListOrphanCheck = products.getOrdersList();
+            for (Orders ordersListOrphanCheckOrders : ordersListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the OrderDetails " + orderDetailsListOrphanCheckOrderDetails + " in its orderDetailsList field has a non-nullable detailProductid field.");
+                illegalOrphanMessages.add("This Products (" + products + ") cannot be destroyed since the Orders " + ordersListOrphanCheckOrders + " in its ordersList field has a non-nullable orderProductid field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -238,6 +238,7 @@ public class ProductsJpaController implements Serializable {
         
         return null;
     }
+    
 
     public int getProductsCount() {
         EntityManager em = getEntityManager();

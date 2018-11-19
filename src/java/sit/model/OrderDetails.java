@@ -29,9 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OrderDetails.findAll", query = "SELECT o FROM OrderDetails o")
     , @NamedQuery(name = "OrderDetails.findByDetailid", query = "SELECT o FROM OrderDetails o WHERE o.detailid = :detailid")
-    , @NamedQuery(name = "OrderDetails.findByDetailName", query = "SELECT o FROM OrderDetails o WHERE o.detailName = :detailName")
-    , @NamedQuery(name = "OrderDetails.findByDetailPrice", query = "SELECT o FROM OrderDetails o WHERE o.detailPrice = :detailPrice")
-    , @NamedQuery(name = "OrderDetails.findByDetailQuantity", query = "SELECT o FROM OrderDetails o WHERE o.detailQuantity = :detailQuantity")})
+    , @NamedQuery(name = "OrderDetails.findByDetailOrdernumber", query = "SELECT o FROM OrderDetails o WHERE o.detailOrdernumber = :detailOrdernumber")
+    , @NamedQuery(name = "OrderDetails.findByDetailUserrealname", query = "SELECT o FROM OrderDetails o WHERE o.detailUserrealname = :detailUserrealname")
+    , @NamedQuery(name = "OrderDetails.findByDetailAddress", query = "SELECT o FROM OrderDetails o WHERE o.detailAddress = :detailAddress")})
 public class OrderDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,23 +42,20 @@ public class OrderDetails implements Serializable {
     private Integer detailid;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "DETAIL_NAME")
-    private String detailName;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "DETAIL_PRICE")
-    private double detailPrice;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "DETAIL_QUANTITY")
-    private int detailQuantity;
+    @Column(name = "DETAIL_ORDERNUMBER")
+    private int detailOrdernumber;
+    @Size(max = 100)
+    @Column(name = "DETAIL_USERREALNAME")
+    private String detailUserrealname;
+    @Size(max = 400)
+    @Column(name = "DETAIL_ADDRESS")
+    private String detailAddress;
     @JoinColumn(name = "DETAIL_ORDERID", referencedColumnName = "ORDER_ID")
     @ManyToOne(optional = false)
     private Orders detailOrderid;
-    @JoinColumn(name = "DETAIL_PRODUCTID", referencedColumnName = "PRODUCT_ID")
+    @JoinColumn(name = "DETAIL_USERID", referencedColumnName = "USERID")
     @ManyToOne(optional = false)
-    private Products detailProductid;
+    private Users detailUserid;
 
     public OrderDetails() {
     }
@@ -67,11 +64,9 @@ public class OrderDetails implements Serializable {
         this.detailid = detailid;
     }
 
-    public OrderDetails(Integer detailid, String detailName, double detailPrice, int detailQuantity) {
+    public OrderDetails(Integer detailid, int detailOrdernumber) {
         this.detailid = detailid;
-        this.detailName = detailName;
-        this.detailPrice = detailPrice;
-        this.detailQuantity = detailQuantity;
+        this.detailOrdernumber = detailOrdernumber;
     }
 
     public Integer getDetailid() {
@@ -82,28 +77,28 @@ public class OrderDetails implements Serializable {
         this.detailid = detailid;
     }
 
-    public String getDetailName() {
-        return detailName;
+    public int getDetailOrdernumber() {
+        return detailOrdernumber;
     }
 
-    public void setDetailName(String detailName) {
-        this.detailName = detailName;
+    public void setDetailOrdernumber(int detailOrdernumber) {
+        this.detailOrdernumber = detailOrdernumber;
     }
 
-    public double getDetailPrice() {
-        return detailPrice;
+    public String getDetailUserrealname() {
+        return detailUserrealname;
     }
 
-    public void setDetailPrice(double detailPrice) {
-        this.detailPrice = detailPrice;
+    public void setDetailUserrealname(String detailUserrealname) {
+        this.detailUserrealname = detailUserrealname;
     }
 
-    public int getDetailQuantity() {
-        return detailQuantity;
+    public String getDetailAddress() {
+        return detailAddress;
     }
 
-    public void setDetailQuantity(int detailQuantity) {
-        this.detailQuantity = detailQuantity;
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
     }
 
     public Orders getDetailOrderid() {
@@ -114,12 +109,12 @@ public class OrderDetails implements Serializable {
         this.detailOrderid = detailOrderid;
     }
 
-    public Products getDetailProductid() {
-        return detailProductid;
+    public Users getDetailUserid() {
+        return detailUserid;
     }
 
-    public void setDetailProductid(Products detailProductid) {
-        this.detailProductid = detailProductid;
+    public void setDetailUserid(Users detailUserid) {
+        this.detailUserid = detailUserid;
     }
 
     @Override

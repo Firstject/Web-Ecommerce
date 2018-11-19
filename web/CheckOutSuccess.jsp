@@ -38,7 +38,7 @@
             <hr>
             <div class="text-center">
                 <h1>Thank you for your purchase!</h1>
-                <h4>Your order number is: 12345</h4>
+                <h4>Your order number is: ${requestScope.orderNumber}</h4>
                 <p>Your order has been placed and has been successfully processed!</p>
                 <p>You can view your order history by going to your account page and by clicking on the <a href="Setting_Profile">History</a></p>
                 <br>

@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import sit.model.Users;
+import sit.model.Products;
 import sit.model.OrderDetails;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +48,10 @@ public class OrdersJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            Users orderUserid = orders.getOrderUserid();
-            if (orderUserid != null) {
-                orderUserid = em.getReference(orderUserid.getClass(), orderUserid.getUserid());
-                orders.setOrderUserid(orderUserid);
+            Products orderProductid = orders.getOrderProductid();
+            if (orderProductid != null) {
+                orderProductid = em.getReference(orderProductid.getClass(), orderProductid.getProductId());
+                orders.setOrderProductid(orderProductid);
             }
             List<OrderDetails> attachedOrderDetailsList = new ArrayList<OrderDetails>();
             for (OrderDetails orderDetailsListOrderDetailsToAttach : orders.getOrderDetailsList()) {
@@ -60,9 +60,9 @@ public class OrdersJpaController implements Serializable {
             }
             orders.setOrderDetailsList(attachedOrderDetailsList);
             em.persist(orders);
-            if (orderUserid != null) {
-                orderUserid.getOrdersList().add(orders);
-                orderUserid = em.merge(orderUserid);
+            if (orderProductid != null) {
+                orderProductid.getOrdersList().add(orders);
+                orderProductid = em.merge(orderProductid);
             }
             for (OrderDetails orderDetailsListOrderDetails : orders.getOrderDetailsList()) {
                 Orders oldDetailOrderidOfOrderDetailsListOrderDetails = orderDetailsListOrderDetails.getDetailOrderid();
@@ -97,8 +97,8 @@ public class OrdersJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             Orders persistentOrders = em.find(Orders.class, orders.getOrderId());
-            Users orderUseridOld = persistentOrders.getOrderUserid();
-            Users orderUseridNew = orders.getOrderUserid();
+            Products orderProductidOld = persistentOrders.getOrderProductid();
+            Products orderProductidNew = orders.getOrderProductid();
             List<OrderDetails> orderDetailsListOld = persistentOrders.getOrderDetailsList();
             List<OrderDetails> orderDetailsListNew = orders.getOrderDetailsList();
             List<String> illegalOrphanMessages = null;
@@ -113,9 +113,9 @@ public class OrdersJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (orderUseridNew != null) {
-                orderUseridNew = em.getReference(orderUseridNew.getClass(), orderUseridNew.getUserid());
-                orders.setOrderUserid(orderUseridNew);
+            if (orderProductidNew != null) {
+                orderProductidNew = em.getReference(orderProductidNew.getClass(), orderProductidNew.getProductId());
+                orders.setOrderProductid(orderProductidNew);
             }
             List<OrderDetails> attachedOrderDetailsListNew = new ArrayList<OrderDetails>();
             for (OrderDetails orderDetailsListNewOrderDetailsToAttach : orderDetailsListNew) {
@@ -125,13 +125,13 @@ public class OrdersJpaController implements Serializable {
             orderDetailsListNew = attachedOrderDetailsListNew;
             orders.setOrderDetailsList(orderDetailsListNew);
             orders = em.merge(orders);
-            if (orderUseridOld != null && !orderUseridOld.equals(orderUseridNew)) {
-                orderUseridOld.getOrdersList().remove(orders);
-                orderUseridOld = em.merge(orderUseridOld);
+            if (orderProductidOld != null && !orderProductidOld.equals(orderProductidNew)) {
+                orderProductidOld.getOrdersList().remove(orders);
+                orderProductidOld = em.merge(orderProductidOld);
             }
-            if (orderUseridNew != null && !orderUseridNew.equals(orderUseridOld)) {
-                orderUseridNew.getOrdersList().add(orders);
-                orderUseridNew = em.merge(orderUseridNew);
+            if (orderProductidNew != null && !orderProductidNew.equals(orderProductidOld)) {
+                orderProductidNew.getOrdersList().add(orders);
+                orderProductidNew = em.merge(orderProductidNew);
             }
             for (OrderDetails orderDetailsListNewOrderDetails : orderDetailsListNew) {
                 if (!orderDetailsListOld.contains(orderDetailsListNewOrderDetails)) {
@@ -189,10 +189,10 @@ public class OrdersJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Users orderUserid = orders.getOrderUserid();
-            if (orderUserid != null) {
-                orderUserid.getOrdersList().remove(orders);
-                orderUserid = em.merge(orderUserid);
+            Products orderProductid = orders.getOrderProductid();
+            if (orderProductid != null) {
+                orderProductid.getOrdersList().remove(orders);
+                orderProductid = em.merge(orderProductid);
             }
             em.remove(orders);
             utx.commit();

@@ -19,7 +19,7 @@ import sit.controller.exceptions.PreexistingEntityException;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.model.OrderDetails;
 import sit.model.Orders;
-import sit.model.Products;
+import sit.model.Users;
 
 /**
  *
@@ -48,19 +48,19 @@ public class OrderDetailsJpaController implements Serializable {
                 detailOrderid = em.getReference(detailOrderid.getClass(), detailOrderid.getOrderId());
                 orderDetails.setDetailOrderid(detailOrderid);
             }
-            Products detailProductid = orderDetails.getDetailProductid();
-            if (detailProductid != null) {
-                detailProductid = em.getReference(detailProductid.getClass(), detailProductid.getProductId());
-                orderDetails.setDetailProductid(detailProductid);
+            Users detailUserid = orderDetails.getDetailUserid();
+            if (detailUserid != null) {
+                detailUserid = em.getReference(detailUserid.getClass(), detailUserid.getUserid());
+                orderDetails.setDetailUserid(detailUserid);
             }
             em.persist(orderDetails);
             if (detailOrderid != null) {
                 detailOrderid.getOrderDetailsList().add(orderDetails);
                 detailOrderid = em.merge(detailOrderid);
             }
-            if (detailProductid != null) {
-                detailProductid.getOrderDetailsList().add(orderDetails);
-                detailProductid = em.merge(detailProductid);
+            if (detailUserid != null) {
+                detailUserid.getOrderDetailsList().add(orderDetails);
+                detailUserid = em.merge(detailUserid);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -88,15 +88,15 @@ public class OrderDetailsJpaController implements Serializable {
             OrderDetails persistentOrderDetails = em.find(OrderDetails.class, orderDetails.getDetailid());
             Orders detailOrderidOld = persistentOrderDetails.getDetailOrderid();
             Orders detailOrderidNew = orderDetails.getDetailOrderid();
-            Products detailProductidOld = persistentOrderDetails.getDetailProductid();
-            Products detailProductidNew = orderDetails.getDetailProductid();
+            Users detailUseridOld = persistentOrderDetails.getDetailUserid();
+            Users detailUseridNew = orderDetails.getDetailUserid();
             if (detailOrderidNew != null) {
                 detailOrderidNew = em.getReference(detailOrderidNew.getClass(), detailOrderidNew.getOrderId());
                 orderDetails.setDetailOrderid(detailOrderidNew);
             }
-            if (detailProductidNew != null) {
-                detailProductidNew = em.getReference(detailProductidNew.getClass(), detailProductidNew.getProductId());
-                orderDetails.setDetailProductid(detailProductidNew);
+            if (detailUseridNew != null) {
+                detailUseridNew = em.getReference(detailUseridNew.getClass(), detailUseridNew.getUserid());
+                orderDetails.setDetailUserid(detailUseridNew);
             }
             orderDetails = em.merge(orderDetails);
             if (detailOrderidOld != null && !detailOrderidOld.equals(detailOrderidNew)) {
@@ -107,13 +107,13 @@ public class OrderDetailsJpaController implements Serializable {
                 detailOrderidNew.getOrderDetailsList().add(orderDetails);
                 detailOrderidNew = em.merge(detailOrderidNew);
             }
-            if (detailProductidOld != null && !detailProductidOld.equals(detailProductidNew)) {
-                detailProductidOld.getOrderDetailsList().remove(orderDetails);
-                detailProductidOld = em.merge(detailProductidOld);
+            if (detailUseridOld != null && !detailUseridOld.equals(detailUseridNew)) {
+                detailUseridOld.getOrderDetailsList().remove(orderDetails);
+                detailUseridOld = em.merge(detailUseridOld);
             }
-            if (detailProductidNew != null && !detailProductidNew.equals(detailProductidOld)) {
-                detailProductidNew.getOrderDetailsList().add(orderDetails);
-                detailProductidNew = em.merge(detailProductidNew);
+            if (detailUseridNew != null && !detailUseridNew.equals(detailUseridOld)) {
+                detailUseridNew.getOrderDetailsList().add(orderDetails);
+                detailUseridNew = em.merge(detailUseridNew);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -154,10 +154,10 @@ public class OrderDetailsJpaController implements Serializable {
                 detailOrderid.getOrderDetailsList().remove(orderDetails);
                 detailOrderid = em.merge(detailOrderid);
             }
-            Products detailProductid = orderDetails.getDetailProductid();
-            if (detailProductid != null) {
-                detailProductid.getOrderDetailsList().remove(orderDetails);
-                detailProductid = em.merge(detailProductid);
+            Users detailUserid = orderDetails.getDetailUserid();
+            if (detailUserid != null) {
+                detailUserid.getOrderDetailsList().remove(orderDetails);
+                detailUserid = em.merge(detailUserid);
             }
             em.remove(orderDetails);
             utx.commit();

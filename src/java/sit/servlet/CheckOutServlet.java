@@ -8,18 +8,35 @@ package sit.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import sit.controller.OrderDetailsJpaController;
+import sit.controller.OrdersJpaController;
+import sit.controller.exceptions.RollbackFailureException;
+import sit.model.OrderDetails;
+import sit.model.Orders;
 import sit.model.Products;
+import sit.model.Users;
 
 /**
  *
  * @author Firsty
  */
 public class CheckOutServlet extends HttpServlet {
+    
+    @PersistenceUnit(unitName = "ECommerce_WebPU")
+    EntityManagerFactory emf;
+    @Resource
+    UserTransaction utx;
     
     private String errorCode;
     private String returnPath;
@@ -28,6 +45,7 @@ public class CheckOutServlet extends HttpServlet {
     private String address;
     private String sendEmail;
     private String submit;
+    private int orderNumber;
     
     private static final String CHECKOUT_ERROR = "CHECKOUT_ERROR";
     private static final String NAME_INVALID = "NAME_INVALID"; //Name is null or invalid
@@ -35,23 +53,29 @@ public class CheckOutServlet extends HttpServlet {
     private static final String PATH_TO_VIEWCART = "/ViewCart.jsp";
     private static final String PATH_TO_CHECKOUT = "/CheckOut.jsp";
     private static final String PATH_TO_CHECKOUTSUCCESS = "/CheckOutSuccess.jsp";
+    private static final int ORDERDETAILS_START_ID = 60130;
     
     private List<Products> cart;
     
     HttpSession session;
     HttpServletRequest request;
     HttpServletResponse response;
+    OrdersJpaController ordersCtrl;
+    OrderDetailsJpaController orderDetailsCtrl;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception {
         this.request = request;
         this.response = response;
+        this.ordersCtrl = new OrdersJpaController(utx, emf);
+        this.orderDetailsCtrl = new OrderDetailsJpaController(utx, emf);
         
         setCurrentCart();
         if (this.cart != null) {
             setRequest();
         }
         
+        tryCheckout();
         tryRemoveCart();
         this.request.getServletContext().getRequestDispatcher(returnPath).forward(this.request, this.response);
     }
@@ -68,7 +92,11 @@ public class CheckOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -82,7 +110,11 @@ public class CheckOutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -137,9 +169,57 @@ public class CheckOutServlet extends HttpServlet {
         }
     }
     
+    public boolean isPathTowardCheckoutSuccess() {
+        return this.returnPath.equalsIgnoreCase(CheckOutServlet.PATH_TO_CHECKOUTSUCCESS);
+    }
+    
     public void tryRemoveCart() {
-        if (this.returnPath.equalsIgnoreCase(CheckOutServlet.PATH_TO_CHECKOUTSUCCESS)) {
+        if (isPathTowardCheckoutSuccess()) {
             this.session.removeAttribute("cartProductList");
         }
     }
+
+    private void tryCheckout() throws RollbackFailureException, Exception {
+        if (isPathTowardCheckoutSuccess()) {
+            int order_index = ordersCtrl.getOrdersCount() + 1;
+            int orderDetails_index = orderDetailsCtrl.getOrderDetailsCount() + 1;
+            this.orderNumber = CheckOutServlet.ORDERDETAILS_START_ID + (orderDetailsCtrl.getOrderDetailsCount() + 1);
+            for (Products c : this.cart) {
+                Orders order = new Orders();
+                order.setOrderId(order_index);
+                order.setOrderProductid(c);
+                order.setOrderProductprice(c.getProductPrice());
+                order.setOrderProductquantity(Integer.valueOf(c.getProductStock()));
+                ordersCtrl.create(order); //Begin insert data
+                
+                OrderDetails orderDetail = new OrderDetails();
+                orderDetail.setDetailid(orderDetails_index);
+                orderDetail.setDetailOrderid(order);
+                orderDetail.setDetailUserid((Users) this.session.getAttribute("user"));
+                orderDetail.setDetailOrdernumber(orderNumber);
+                orderDetail.setDetailUserrealname(this.name);
+                orderDetail.setDetailAddress(address);
+                orderDetailsCtrl.create(orderDetail);
+                
+//                System.out.println("OrderID: " + order.getOrderId());
+//                System.out.println("Product: " + order.getOrderProductid());
+//                System.out.println("Price: " + order.getOrderProductprice());
+//                System.out.println("Quantity: " + order.getOrderProductquantity());
+//                System.out.println("     <AND>");
+//                System.out.println("OrderDetailID: " + orderDetail.getDetailid());
+//                System.out.println("OrderDetailOrderID: " + orderDetail.getDetailOrderid());
+//                System.out.println("OrderDetailUserID: " + orderDetail.getDetailUserid());
+//                System.out.println("OrderDetailFName LName: " + orderDetail.getDetailUserrealname());
+//                System.out.println("OrderDetailAddress: " + orderDetail.getDetailAddress());
+//                System.out.println("-------------");
+                
+                order_index++;
+                orderDetails_index++;
+            }
+        }
+        
+        this.request.setAttribute("orderNumber", this.orderNumber);
+    }
+    
+    
 }

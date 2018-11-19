@@ -169,6 +169,15 @@ public class AccountHistoryJpaController implements Serializable {
             em.close();
         }
     }
+
+    public AccountHistory findAccountHistory(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(AccountHistory.class, id);
+        } finally {
+            em.close();
+        }
+    }
     
     public List<AccountHistory> findAccountUserid(Users user) {
         EntityManager em = getEntityManager();
@@ -182,15 +191,6 @@ public class AccountHistoryJpaController implements Serializable {
             em.close();
         }
         return null;
-    }
-
-    public AccountHistory findAccountHistory(Integer id) {
-        EntityManager em = getEntityManager();
-        try {
-            return em.find(AccountHistory.class, id);
-        } finally {
-            em.close();
-        }
     }
 
     public int getAccountHistoryCount() {

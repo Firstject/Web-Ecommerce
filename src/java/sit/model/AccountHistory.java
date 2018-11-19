@@ -42,10 +42,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "AccountHistory.findByHistoryInfo", query = "SELECT a FROM AccountHistory a WHERE a.historyInfo = :historyInfo")})
 public class AccountHistory implements Serializable {
 
-    @Size(max = 128)
-    @Column(name = "HISTORY_INFO2")
-    private String historyInfo2;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -61,6 +57,9 @@ public class AccountHistory implements Serializable {
     @Size(max = 128)
     @Column(name = "HISTORY_INFO")
     private String historyInfo;
+    @Size(max = 128)
+    @Column(name = "HISTORY_INFO2")
+    private String historyInfo2;
     @JoinColumn(name = "HISTORY_USERID", referencedColumnName = "USERID")
     @ManyToOne(optional = false)
     private Users historyUserid;
@@ -104,6 +103,14 @@ public class AccountHistory implements Serializable {
         this.historyInfo = historyInfo;
     }
 
+    public String getHistoryInfo2() {
+        return historyInfo2;
+    }
+
+    public void setHistoryInfo2(String historyInfo2) {
+        this.historyInfo2 = historyInfo2;
+    }
+
     public Users getHistoryUserid() {
         return historyUserid;
     }
@@ -134,17 +141,7 @@ public class AccountHistory implements Serializable {
 
     @Override
     public String toString() {
-        return "AccountHistory{" + "historyid=" + historyid + ", historyType=" + historyType + ", historyDate=" + historyDate + ", historyInfo=" + historyInfo + ", historyUserid=" + historyUserid + '}';
+        return "sit.model.AccountHistory[ historyid=" + historyid + " ]";
     }
-
-    public String getHistoryInfo2() {
-        return historyInfo2;
-    }
-
-    public void setHistoryInfo2(String historyInfo2) {
-        this.historyInfo2 = historyInfo2;
-    }
-
-    
     
 }

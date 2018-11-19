@@ -52,9 +52,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByActivateDate", query = "SELECT u FROM Users u WHERE u.activateDate = :activateDate")})
 public class Users implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "historyUserid")
-    private List<AccountHistory> accountHistoryList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -120,8 +117,10 @@ public class Users implements Serializable {
     @Column(name = "ACTIVATE_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date activateDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderUserid")
-    private List<Orders> ordersList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "historyUserid")
+    private List<AccountHistory> accountHistoryList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detailUserid")
+    private List<OrderDetails> orderDetailsList;
 
     public Users() {
     }
@@ -276,12 +275,21 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Orders> getOrdersList() {
-        return ordersList;
+    public List<AccountHistory> getAccountHistoryList() {
+        return accountHistoryList;
     }
 
-    public void setOrdersList(List<Orders> ordersList) {
-        this.ordersList = ordersList;
+    public void setAccountHistoryList(List<AccountHistory> accountHistoryList) {
+        this.accountHistoryList = accountHistoryList;
+    }
+
+    @XmlTransient
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
+    }
+
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
     }
 
     @Override
@@ -306,18 +314,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" + "userid=" + userid + '}';
+        return "sit.model.Users[ userid=" + userid + " ]";
     }
-
-    @XmlTransient
-    public List<AccountHistory> getAccountHistoryList() {
-        return accountHistoryList;
-    }
-
-    public void setAccountHistoryList(List<AccountHistory> accountHistoryList) {
-        this.accountHistoryList = accountHistoryList;
-    }
-
-    
     
 }
