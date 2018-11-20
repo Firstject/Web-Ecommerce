@@ -6,6 +6,7 @@
 package sit.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,10 +32,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OrderDetails.findAll", query = "SELECT o FROM OrderDetails o")
     , @NamedQuery(name = "OrderDetails.findByDetailid", query = "SELECT o FROM OrderDetails o WHERE o.detailid = :detailid")
+    , @NamedQuery(name = "OrderDetails.findByDetailUserid", query = "SELECT o FROM OrderDetails o WHERE o.detailUserid = :detailUserid ORDER BY o.detailOrderdate DESC")
     , @NamedQuery(name = "OrderDetails.findByDetailOrdernumber", query = "SELECT o FROM OrderDetails o WHERE o.detailOrdernumber = :detailOrdernumber")
     , @NamedQuery(name = "OrderDetails.findByDetailUserrealname", query = "SELECT o FROM OrderDetails o WHERE o.detailUserrealname = :detailUserrealname")
     , @NamedQuery(name = "OrderDetails.findByDetailAddress", query = "SELECT o FROM OrderDetails o WHERE o.detailAddress = :detailAddress")})
 public class OrderDetails implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "DETAIL_TOTALPRICE")
+    private Double detailTotalprice;
+
+    @Column(name = "DETAIL_ORDERDATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date detailOrderdate;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -140,6 +152,22 @@ public class OrderDetails implements Serializable {
     @Override
     public String toString() {
         return "sit.model.OrderDetails[ detailid=" + detailid + " ]";
+    }
+
+    public Date getDetailOrderdate() {
+        return detailOrderdate;
+    }
+
+    public void setDetailOrderdate(Date detailOrderdate) {
+        this.detailOrderdate = detailOrderdate;
+    }
+
+    public Double getDetailTotalprice() {
+        return detailTotalprice;
+    }
+
+    public void setDetailTotalprice(Double detailTotalprice) {
+        this.detailTotalprice = detailTotalprice;
     }
     
 }

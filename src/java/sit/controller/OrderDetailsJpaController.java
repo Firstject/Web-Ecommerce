@@ -6,11 +6,13 @@
 package sit.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
@@ -208,6 +210,34 @@ public class OrderDetailsJpaController implements Serializable {
         }
     }
 
+    public List<OrderDetails> findOrderDetailsByUserID(Users user) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("OrderDetails.findByDetailUserid");
+            query.setParameter("detailUserid", user);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
+        return null;
+    }
+    
+    public List<OrderDetails> findOrderDetailByOrderNumber(int number) {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createNamedQuery("OrderDetails.findByDetailOrdernumber");
+            query.setParameter("detailOrdernumber", number);
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
+        return null;
+    }
+    
     public int getOrderDetailsCount() {
         EntityManager em = getEntityManager();
         try {
@@ -220,5 +250,5 @@ public class OrderDetailsJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

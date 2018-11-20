@@ -44,6 +44,18 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoggerFilter</filter-name>
+        <servlet-name>Setting_OrderHistoryServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoggerFilter</filter-name>
+        <servlet-name>Setting_OrderDetailServlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>sit.servlet.RegisterServlet</servlet-class>
@@ -104,6 +116,14 @@
         <servlet-name>CheckOutServlet</servlet-name>
         <servlet-class>sit.servlet.CheckOutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Setting_OrderHistoryServlet</servlet-name>
+        <servlet-class>sit.servlet.Setting_OrderHistoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Setting_OrderDetailServlet</servlet-name>
+        <servlet-class>sit.servlet.Setting_OrderDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -163,6 +183,14 @@
     <servlet-mapping>
         <servlet-name>CheckOutServlet</servlet-name>
         <url-pattern>/CheckOut</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Setting_OrderHistoryServlet</servlet-name>
+        <url-pattern>/Setting_OrderHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Setting_OrderDetailServlet</servlet-name>
+        <url-pattern>/Setting_OrderDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

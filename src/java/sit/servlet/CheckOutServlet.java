@@ -7,6 +7,7 @@ package sit.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -184,6 +185,7 @@ public class CheckOutServlet extends HttpServlet {
             int order_index = ordersCtrl.getOrdersCount() + 1;
             int orderDetails_index = orderDetailsCtrl.getOrderDetailsCount() + 1;
             this.orderNumber = CheckOutServlet.ORDERDETAILS_START_ID + (orderDetailsCtrl.getOrderDetailsCount() + 1);
+            Date currentDate = new Date();
             for (Products c : this.cart) {
                 Orders order = new Orders();
                 order.setOrderId(order_index);
@@ -197,21 +199,15 @@ public class CheckOutServlet extends HttpServlet {
                 orderDetail.setDetailOrderid(order);
                 orderDetail.setDetailUserid((Users) this.session.getAttribute("user"));
                 orderDetail.setDetailOrdernumber(orderNumber);
+                orderDetail.setDetailOrderdate(currentDate);
                 orderDetail.setDetailUserrealname(this.name);
                 orderDetail.setDetailAddress(address);
+                double totalPrice = 0;
+                for (Products c2 : cart) {
+                    totalPrice = totalPrice + (c2.getProductPrice() * c2.getProductStock());
+                }
+                orderDetail.setDetailTotalprice(totalPrice);
                 orderDetailsCtrl.create(orderDetail);
-                
-//                System.out.println("OrderID: " + order.getOrderId());
-//                System.out.println("Product: " + order.getOrderProductid());
-//                System.out.println("Price: " + order.getOrderProductprice());
-//                System.out.println("Quantity: " + order.getOrderProductquantity());
-//                System.out.println("     <AND>");
-//                System.out.println("OrderDetailID: " + orderDetail.getDetailid());
-//                System.out.println("OrderDetailOrderID: " + orderDetail.getDetailOrderid());
-//                System.out.println("OrderDetailUserID: " + orderDetail.getDetailUserid());
-//                System.out.println("OrderDetailFName LName: " + orderDetail.getDetailUserrealname());
-//                System.out.println("OrderDetailAddress: " + orderDetail.getDetailAddress());
-//                System.out.println("-------------");
                 
                 order_index++;
                 orderDetails_index++;

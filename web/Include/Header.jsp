@@ -59,7 +59,7 @@
                                         <span class="badge badge-${itc > 50 ? itc > 80 ? 'danger' : 'warning' : 'success'} badge-pill">${itc}</span>
                                     </c:if>
                                 </a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"></i> Your Orders</a>
+                                <a class="dropdown-item" href="Setting_OrderHistory"><i class="fas fa-shipping-fast"></i> Order History</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="Help"><i class="material-icons" style="font-size:16px">help</i> Help</a>
                                 <a class="dropdown-item" href="Setting_Account"><i class="material-icons" style="font-size:16px">settings</i> Settings</a>

@@ -87,7 +87,7 @@
                             <br>
                             <div class="form-group">
                                 <label>Card Number</label>
-                                <input type="text" class="form-control" placeholder="1111-2222-3333-4444">
+                                <input type="text" class="form-control" placeholder="1111-2222-3333-4444" required="">
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-5">
@@ -110,11 +110,11 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Exp Year</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="Year" >
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="Year" required="">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Security Code</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234" >
+                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234" required="">
                                 </div>
                             </div>
                             <br>

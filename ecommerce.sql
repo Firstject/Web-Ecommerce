@@ -73,8 +73,10 @@ CREATE TABLE OrderDetails
  Detail_UserID       INT NOT NULL ,
  Detail_OrderID      INT NOT NULL ,
  Detail_OrderNumber  INT NOT NULL ,
+ Detail_OrderDate    TIMESTAMP ,
  Detail_UserRealName VARCHAR(100) ,
  Detail_Address      VARCHAR(400) ,
+ Detail_TotalPrice   FLOAT ,
 
 PRIMARY KEY (DetailID),
 FOREIGN KEY (Detail_UserID) REFERENCES Users(UserId),
