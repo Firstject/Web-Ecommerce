@@ -148,7 +148,6 @@ public class ViewProductServlet extends HttpServlet {
         
         try {
             this.actual_quantity = Integer.valueOf(this.quantity);
-            
             //Check if quantity is valid (Must be between minimum and maximum)
             if (actual_quantity <= MINIMUM_ADD_VALUE || actual_quantity > MAXIMUM_ADD_VALUE) {
                 actual_quantity = 1;
