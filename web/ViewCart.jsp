@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Cart | Cart-Commerce</title>
         <jsp:include page="Include/Head.jsp" />
-        <jsp:include page="Include/Header.jsp" />
+        <jsp:include page="Include/Header.jsp" />   
     </head>
     <body>
         <c:set var="total" value="${0}" />
@@ -76,6 +76,21 @@
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">We've cleaned up your shopping cart!</h4>
                         <p class="mb-0">All products has been removed from your shopping cart.</p>
+                    </div>
+                </c:when>
+                <c:when test="${requestScope.errorCode == 'READD_SUCCESS'}">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">Products has been re-added!</h4>
+                        <p class="mb-0">The cart has been filled with the items from your previous order.</p>
+                    </div>
+                </c:when>
+                <c:when test="${requestScope.errorCode == 'READD_SUCCESS_WITH_WARNING'}">
+                    <div class="alert alert-dismissible alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <h4 class="alert-heading">Products has been re-added, but...</h4>
+                        <p class="mb-0">The cart has been filled with the items from your previous order. But...</p>
+                        <p class="mb-0">Due to maximum capacity the shopping cart can hold, some item was not added to cart.</p>
                     </div>
                 </c:when>
                 <c:otherwise></c:otherwise>

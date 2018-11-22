@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -34,14 +35,15 @@ public class Setting_OrderDetailServlet extends HttpServlet {
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
-    
+
     private String orderNumber;
+    private String errorCode;
     private List<OrderDetails> orderDetailsList;
-    
+
     private final String READD_SUCCESS = "READD_SUCCESS";
     private final String READD_SUCCESS_WITH_WARNING = "READD_SUCCESS_WITH_WARNING";
     private final int CART_LIMIT = 100;
-    
+
     private HttpServletRequest request;
     private HttpServletResponse response;
     private OrderDetailsJpaController orderDetailsCtrl;
@@ -51,9 +53,9 @@ public class Setting_OrderDetailServlet extends HttpServlet {
         this.request = request;
         this.response = response;
         this.orderDetailsCtrl = new OrderDetailsJpaController(utx, emf);
-        
+
         getOrderDetail();
-        
+
         //Re_order
         String reAdd = request.getParameter("reAdd");
         String orderNumberReAdd = request.getParameter("orderNumberReAdd");
@@ -62,23 +64,21 @@ public class Setting_OrderDetailServlet extends HttpServlet {
                 try {
                     List<OrderDetails> odList = orderDetailsCtrl.findOrderDetailByOrderNumber(Integer.valueOf(orderNumberReAdd));
                     List<Products> cartProductList;
-                    
+
+                    this.errorCode = READD_SUCCESS; //Leave this be. If this value is changed, then re-adding order is fail due to cart limit exceeded.
                     HttpSession session = request.getSession(false);
                     cartProductList = (List<Products>) session.getAttribute("cartProductList");
                     if (cartProductList == null) {
-                         cartProductList = new ArrayList<>();
+                        cartProductList = new ArrayList<>();
                     }
                     for (OrderDetails o : odList) {
-                        cartProductList.add(o.getDetailOrderid().getOrderProductid());
+                        o.getDetailOrderid().getOrderProductid().setProductStock((short)(int)o.getDetailOrderid().getOrderProductquantity());
+                        cartProductList = addToCart_get(cartProductList, o.getDetailOrderid().getOrderProductid());
                     }
-                    //If the items exceeds limit, removes oldest product in your cart until space is freed.
-//                    Iterator itr = cartProductList.iterator();
-//                    while (itr.hasNext()) {
-//                        
-//                    }
-//                    
-                    session.setAttribute("cartProductList", cartProductList);
                     
+                    session.setAttribute("cartProductList", cartProductList);
+                    this.request.setAttribute("errorCode", this.errorCode);
+
                     getServletContext().getRequestDispatcher("/ViewCart.jsp").forward(this.request, this.response);
                     return;
                 } catch (IOException | NumberFormatException | ServletException e) {
@@ -87,6 +87,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
             }
         }
         
+
         getServletContext().getRequestDispatcher("/Setting_OrderDetail.jsp").forward(this.request, this.response);
     }
 
@@ -131,7 +132,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
 
     private void getOrderDetail() {
         this.orderNumber = request.getParameter("orderNumber");
-        
+
         if (orderNumber != null) {
             try {
                 int actual_orderNumber = Integer.valueOf(orderNumber);
@@ -141,8 +142,38 @@ public class Setting_OrderDetailServlet extends HttpServlet {
                     this.request.setAttribute("orderNumber", orderDetailsList.get(0).getDetailOrdernumber());
                     this.request.setAttribute("orderDate", orderDetailsList.get(0).getDetailOrderdate());
                 }
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+            }
         }
     }
     
+    private List<Products> addToCart_get(List<Products> cart, Products p) {
+        //Iterating over cart and get total quantity. 
+        int itemCount = 0;
+        for (Products cCartItems : cart) {
+            itemCount += cCartItems.getProductStock();
+        }
+        for (Products c : cart) {
+            //If existing product is found, update quantity.
+            //Otherwise, add to cart
+            
+            if (c.getProductId().equals(p.getProductId())) {
+                //If the items exceeds limit, fill up with the remaining quantity to maximum.
+                if ((itemCount + p.getProductStock()) > CART_LIMIT) {
+                    this.errorCode = READD_SUCCESS_WITH_WARNING;
+                    return cart;
+                } else {
+                    c.setProductStock((short) (c.getProductStock() + p.getProductStock()));
+                }
+                return cart;
+            }
+        }
+        if (!((itemCount + p.getProductStock()) > CART_LIMIT)) {
+            cart.add(p);
+        } else {
+            this.errorCode = READD_SUCCESS_WITH_WARNING;
+        }
+        return cart;
+    }
+
 }

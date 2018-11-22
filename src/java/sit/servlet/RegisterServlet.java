@@ -57,6 +57,15 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
+        String Fname = request.getParameter("fname");
+        String Lname = request.getParameter("lname");
+        String City = request.getParameter("city");
+        String State = request.getParameter("state");
+        String Address = request.getParameter("address");
+        String Country = request.getParameter("country");
+        String ZipCode = request.getParameter("zipcode");
+        String PhoneNumber = request.getParameter("phonenumber");
+        
         UsersJpaController usersCtrl = new UsersJpaController(utx, emf);
         MD5 md = new MD5();
 //        -------------------------------
@@ -83,6 +92,14 @@ public class RegisterServlet extends HttpServlet {
             if(!"".equals(errorCode)) {
                 request.setAttribute("usernameField", username);
                 request.setAttribute("emailField", email);
+                request.setAttribute("fname", Fname);
+                request.setAttribute("lname", Lname);
+                request.setAttribute("city", City);
+                request.setAttribute("address", Address);
+                request.setAttribute("country", Country);
+                request.setAttribute("zipCode", ZipCode);
+                request.setAttribute("phoneNumber", PhoneNumber);
+                
                 request.setAttribute("errorCode", errorCode); //Error code send to jsp view
                 request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode)); //Error Description send to jsp view
                 getServletContext().getRequestDispatcher("/Register.jsp").forward(request, response);
@@ -98,6 +115,7 @@ public class RegisterServlet extends HttpServlet {
             user.setPassword(md.cryptWithMD5(password1));
             user.setVerifyCode(verifyCode);
             user.setRegisterDate(new Date());
+            user = um.updateUserInfo(user, Fname, Lname, City, State, Address, Country, ZipCode, PhoneNumber);
             
             /* Create database */
             usersCtrl.create(user);

@@ -275,7 +275,7 @@ public class UsersJpaController implements Serializable {
             query.setParameter("username", "%" + username.toLowerCase() + "%");
             return (Users) query.getSingleResult();
         } catch (Exception e) {
-            System.out.println(e);
+            
         } finally {
             em.close();
         }

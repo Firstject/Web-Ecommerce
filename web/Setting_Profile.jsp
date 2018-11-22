@@ -78,1000 +78,1000 @@
                             <div class="form-group row">
                                 <div class="col-lg-5">
                                     <label>Country</label>
-                                    <select class="form-control" name="country" value="${sessionScope.user.country}">
-                                        <option value="United States">
+                                    <select class="form-control" name="country" value="${requestScope.country}">
+                                        <option ${sessionScope.user.country == 'United States' ? 'selected' : ''} value="United States">
                                             United States
                                         </option>
 
-                                        <option value="Afghanistan">
+                                        <option ${sessionScope.user.country == 'Afghanistan' ? 'selected' : ''} value="Afghanistan">
                                             Afghanistan
                                         </option>
 
-                                        <option value="Aland Islands">
+                                        <option ${sessionScope.user.country == 'Aland Islands' ? 'selected' : ''} value="Aland Islands">
                                             Aland Islands
                                         </option>
 
-                                        <option value="Albania">
+                                        <option ${sessionScope.user.country == 'Albania' ? 'selected' : ''} value="Albania">
                                             Albania
                                         </option>
 
-                                        <option value="Algeria">
+                                        <option ${sessionScope.user.country == 'Algeria' ? 'selected' : ''} value="Algeria">
                                             Algeria
                                         </option>
 
-                                        <option value="American Samoa">
+                                        <option ${sessionScope.user.country == 'American Samoa' ? 'selected' : ''} value="American Samoa">
                                             American Samoa
                                         </option>
 
-                                        <option value="Andorra">
+                                        <option ${sessionScope.user.country == 'Andorra' ? 'selected' : ''} value="Andorra">
                                             Andorra
                                         </option>
 
-                                        <option value="Angola">
+                                        <option ${sessionScope.user.country == 'Angola' ? 'selected' : ''} value="Angola">
                                             Angola
                                         </option>
 
-                                        <option value="Anguilla">
+                                        <option ${sessionScope.user.country == 'Anguilla' ? 'selected' : ''} value="Anguilla">
                                             Anguilla
                                         </option>
 
-                                        <option value="Antarctica">
+                                        <option ${sessionScope.user.country == 'Antarctica' ? 'selected' : ''} value="Antarctica">
                                             Antarctica
                                         </option>
 
-                                        <option value="Antigua and Barbuda">
+                                        <option ${sessionScope.user.country == 'Antigua and Barbuda' ? 'selected' : ''} value="Antigua and Barbuda">
                                             Antigua and Barbuda
                                         </option>
 
-                                        <option value="Argentina">
+                                        <option ${sessionScope.user.country == 'Argentina' ? 'selected' : ''} value="Argentina">
                                             Argentina
                                         </option>
 
-                                        <option value="Armenia">
+                                        <option ${sessionScope.user.country == 'Armenia' ? 'selected' : ''} value="Armenia">
                                             Armenia
                                         </option>
 
-                                        <option value="Aruba">
+                                        <option ${sessionScope.user.country == 'Aruba' ? 'selected' : ''} value="Aruba">
                                             Aruba
                                         </option>
 
-                                        <option value="Australia">
+                                        <option ${sessionScope.user.country == 'Australia' ? 'selected' : ''} value="Australia">
                                             Australia
                                         </option>
 
-                                        <option value="Austria">
+                                        <option ${sessionScope.user.country == 'Austria' ? 'selected' : ''} value="Austria">
                                             Austria
                                         </option>
 
-                                        <option value="Azerbaijan">
+                                        <option ${sessionScope.user.country == 'Azerbaijan' ? 'selected' : ''} value="Azerbaijan">
                                             Azerbaijan
                                         </option>
 
-                                        <option value="Bahamas">
+                                        <option ${sessionScope.user.country == 'Bahamas' ? 'selected' : ''} value="Bahamas">
                                             Bahamas
                                         </option>
 
-                                        <option value="Bonaire, Sint Eustatius and Saba">
+                                        <option ${sessionScope.user.country == 'Bonaire, Sint Eustatius and Saba' ? 'selected' : ''} value="Bonaire, Sint Eustatius and Saba">
                                             Bonaire, Sint Eustatius and Saba
                                         </option>
 
-                                        <option value="Bahrain">
+                                        <option ${sessionScope.user.country == 'Bahrain' ? 'selected' : ''} value="Bahrain">
                                             Bahrain
                                         </option>
 
-                                        <option value="Bangladesh">
+                                        <option ${sessionScope.user.country == 'Bangladesh' ? 'selected' : ''} value="Bangladesh">
                                             Bangladesh
                                         </option>
 
-                                        <option value="Barbados">
+                                        <option ${sessionScope.user.country == 'Barbados' ? 'selected' : ''} value="Barbados">
                                             Barbados
                                         </option>
 
-                                        <option value="Belarus">
+                                        <option ${sessionScope.user.country == 'Belarus' ? 'selected' : ''} value="Belarus">
                                             Belarus
                                         </option>
 
-                                        <option value="Belgium">
+                                        <option ${sessionScope.user.country == 'Belgium' ? 'selected' : ''} value="Belgium">
                                             Belgium
                                         </option>
 
-                                        <option value="Belize">
+                                        <option ${sessionScope.user.country == 'Belize' ? 'selected' : ''} value="Belize">
                                             Belize
                                         </option>
 
-                                        <option value="Benin">
+                                        <option ${sessionScope.user.country == 'Benin' ? 'selected' : ''} value="Benin">
                                             Benin
                                         </option>
 
-                                        <option value="Bermuda">
+                                        <option ${sessionScope.user.country == 'Bermuda' ? 'selected' : ''} value="Bermuda">
                                             Bermuda
                                         </option>
 
-                                        <option value="Bhutan">
+                                        <option ${sessionScope.user.country == 'Bhutan' ? 'selected' : ''} value="Bhutan">
                                             Bhutan
                                         </option>
 
-                                        <option value="Bolivia">
+                                        <option ${sessionScope.user.country == 'Bolivia' ? 'selected' : ''} value="Bolivia">
                                             Bolivia
                                         </option>
 
-                                        <option value="Bosnia and Herzegovina">
+                                        <option ${sessionScope.user.country == 'Bosnia and Herzegovina' ? 'selected' : ''} value="Bosnia and Herzegovina">
                                             Bosnia and Herzegovina
                                         </option>
 
-                                        <option value="Botswana">
+                                        <option ${sessionScope.user.country == 'Botswana' ? 'selected' : ''} value="Botswana">
                                             Botswana
                                         </option>
 
-                                        <option value="Bouvet Island">
+                                        <option ${sessionScope.user.country == 'Bouvet Island' ? 'selected' : ''} value="Bouvet Island">
                                             Bouvet Island
                                         </option>
 
-                                        <option value="Brazil">
+                                        <option ${sessionScope.user.country == 'Brazil' ? 'selected' : ''} value="Brazil">
                                             Brazil
                                         </option>
 
-                                        <option value="British Indian Ocean Territory">
+                                        <option ${sessionScope.user.country == 'British Indian Ocean Territory' ? 'selected' : ''} value="British Indian Ocean Territory">
                                             British Indian Ocean Territory
                                         </option>
 
-                                        <option value="Brunei">
+                                        <option ${sessionScope.user.country == 'Brunei' ? 'selected' : ''} value="Brunei">
                                             Brunei
                                         </option>
 
-                                        <option value="Bulgaria">
+                                        <option ${sessionScope.user.country == 'Bulgaria' ? 'selected' : ''} value="Bulgaria">
                                             Bulgaria
                                         </option>
 
-                                        <option value="Burkina Faso">
+                                        <option ${sessionScope.user.country == 'Burkina Faso' ? 'selected' : ''} value="Burkina Faso">
                                             Burkina Faso
                                         </option>
 
-                                        <option value="Burundi">
+                                        <option ${sessionScope.user.country == 'Burundi' ? 'selected' : ''} value="Burundi">
                                             Burundi
                                         </option>
 
-                                        <option value="Cambodia">
+                                        <option ${sessionScope.user.country == 'Cambodia' ? 'selected' : ''} value="Cambodia">
                                             Cambodia
                                         </option>
 
-                                        <option value="Cameroon">
+                                        <option ${sessionScope.user.country == 'Cameroon' ? 'selected' : ''} value="Cameroon">
                                             Cameroon
                                         </option>
 
-                                        <option value="Canada">
+                                        <option ${sessionScope.user.country == 'Canada' ? 'selected' : ''} value="Canada">
                                             Canada
                                         </option>
 
-                                        <option value="Cape Verde">
+                                        <option ${sessionScope.user.country == 'Cape Verde' ? 'selected' : ''} value="Cape Verde">
                                             Cape Verde
                                         </option>
 
-                                        <option value="Cayman Islands">
+                                        <option ${sessionScope.user.country == 'Cayman Islands' ? 'selected' : ''} value="Cayman Islands">
                                             Cayman Islands
                                         </option>
 
-                                        <option value="Central African Republic">
+                                        <option ${sessionScope.user.country == 'Central African Republic' ? 'selected' : ''} value="Central African Republic">
                                             Central African Republic
                                         </option>
 
-                                        <option value="Chad">
+                                        <option ${sessionScope.user.country == 'Chad' ? 'selected' : ''} value="Chad">
                                             Chad
                                         </option>
 
-                                        <option value="Chile">
+                                        <option ${sessionScope.user.country == 'Chile' ? 'selected' : ''} value="Chile">
                                             Chile
                                         </option>
 
-                                        <option value="China">
+                                        <option ${sessionScope.user.country == 'China' ? 'selected' : ''} value="China">
                                             China
                                         </option>
 
-                                        <option value="Christmas Island">
+                                        <option ${sessionScope.user.country == 'Christmas Island' ? 'selected' : ''} value="Christmas Island">
                                             Christmas Island
                                         </option>
 
-                                        <option value="Cocos (Keeling) Islands">
+                                        <option ${sessionScope.user.country == 'Cocos (Keeling) Islands' ? 'selected' : ''} value="Cocos (Keeling) Islands">
                                             Cocos (Keeling) Islands
                                         </option>
 
-                                        <option value="Colombia">
+                                        <option ${sessionScope.user.country == 'Colombia' ? 'selected' : ''} value="Colombia">
                                             Colombia
                                         </option>
 
-                                        <option value="Comoros">
+                                        <option ${sessionScope.user.country == 'Comoros' ? 'selected' : ''} value="Comoros">
                                             Comoros
                                         </option>
 
-                                        <option value="Congo">
+                                        <option ${sessionScope.user.country == 'Congo' ? 'selected' : ''} value="Congo">
                                             Congo
                                         </option>
 
-                                        <option value="Congo, The Democratic Republic of the">
+                                        <option ${sessionScope.user.country == 'Congo, The Democratic Republic of the' ? 'selected' : ''} value="Congo, The Democratic Republic of the">
                                             Congo, The Democratic Republic of the
                                         </option>
 
-                                        <option value="Cook Islands">
+                                        <option ${sessionScope.user.country == 'Cook Islands' ? 'selected' : ''} value="Cook Islands">
                                             Cook Islands
                                         </option>
 
-                                        <option value="Costa Rica">
+                                        <option ${sessionScope.user.country == 'Costa Rica' ? 'selected' : ''} value="Costa Rica">
                                             Costa Rica
                                         </option>
 
-                                        <option value="Cote d'Ivoire">
+                                        <option ${sessionScope.user.country == 'Cote d\'Ivoire' ? 'selected' : ''} value="Cote d'Ivoire">
                                             Cote d'Ivoire
                                         </option>
 
-                                        <option value="Croatia">
+                                        <option ${sessionScope.user.country == 'Croatia' ? 'selected' : ''} value="Croatia">
                                             Croatia
                                         </option>
 
-                                        <option value="Cuba">
+                                        <option ${sessionScope.user.country == 'Cuba' ? 'selected' : ''} value="Cuba">
                                             Cuba
                                         </option>
 
-                                        <option value="Cyprus">
+                                        <option ${sessionScope.user.country == 'Cyprus' ? 'selected' : ''} value="Cyprus">
                                             Cyprus
                                         </option>
 
-                                        <option value="Czech Republic">
+                                        <option ${sessionScope.user.country == 'Czech Republic' ? 'selected' : ''} value="Czech Republic">
                                             Czech Republic
                                         </option>
 
-                                        <option value="Denmark">
+                                        <option ${sessionScope.user.country == 'Denmark' ? 'selected' : ''} value="Denmark">
                                             Denmark
                                         </option>
 
-                                        <option value="Djibouti">
+                                        <option ${sessionScope.user.country == 'Djibouti' ? 'selected' : ''} value="Djibouti">
                                             Djibouti
                                         </option>
 
-                                        <option value="Dominica">
+                                        <option ${sessionScope.user.country == 'Dominica' ? 'selected' : ''} value="Dominica">
                                             Dominica
                                         </option>
 
-                                        <option value="Dominican Republic">
+                                        <option ${sessionScope.user.country == 'Dominican Republic' ? 'selected' : ''} value="Dominican Republic">
                                             Dominican Republic
                                         </option>
 
-                                        <option value="Ecuador">
+                                        <option ${sessionScope.user.country == 'Ecuador' ? 'selected' : ''} value="Ecuador">
                                             Ecuador
                                         </option>
 
-                                        <option value="Egypt">
+                                        <option ${sessionScope.user.country == 'Egypt' ? 'selected' : ''} value="Egypt">
                                             Egypt
                                         </option>
 
-                                        <option value="El Salvador">
+                                        <option ${sessionScope.user.country == 'El Salvador' ? 'selected' : ''} value="El Salvador">
                                             El Salvador
                                         </option>
 
-                                        <option value="Equatorial Guinea">
+                                        <option ${sessionScope.user.country == 'Equatorial Guinea' ? 'selected' : ''} value="Equatorial Guinea">
                                             Equatorial Guinea
                                         </option>
 
-                                        <option value="Eritrea">
+                                        <option ${sessionScope.user.country == 'Eritrea' ? 'selected' : ''} value="Eritrea">
                                             Eritrea
                                         </option>
 
-                                        <option value="Estonia">
+                                        <option ${sessionScope.user.country == 'Estonia' ? 'selected' : ''} value="Estonia">
                                             Estonia
                                         </option>
 
-                                        <option value="Ethiopia">
+                                        <option ${sessionScope.user.country == 'Ethiopia' ? 'selected' : ''} value="Ethiopia">
                                             Ethiopia
                                         </option>
 
-                                        <option value="Falkland Islands (Malvinas)">
+                                        <option ${sessionScope.user.country == 'Falkland Islands (Malvinas)' ? 'selected' : ''} value="Falkland Islands (Malvinas)">
                                             Falkland Islands (Malvinas)
                                         </option>
 
-                                        <option value="Faroe Islands">
+                                        <option ${sessionScope.user.country == 'Faroe Islands' ? 'selected' : ''} value="Faroe Islands">
                                             Faroe Islands
                                         </option>
 
-                                        <option value="Fiji">
+                                        <option ${sessionScope.user.country == 'Fiji' ? 'selected' : ''} value="Fiji">
                                             Fiji
                                         </option>
 
-                                        <option value="Finland">
+                                        <option ${sessionScope.user.country == 'Finland' ? 'selected' : ''} value="Finland">
                                             Finland
                                         </option>
 
-                                        <option value="France">
+                                        <option ${sessionScope.user.country == 'France' ? 'selected' : ''} value="France">
                                             France
                                         </option>
 
-                                        <option value="French Guiana">
+                                        <option ${sessionScope.user.country == 'French Guiana' ? 'selected' : ''} value="French Guiana">
                                             French Guiana
                                         </option>
 
-                                        <option value="French Polynesia">
+                                        <option ${sessionScope.user.country == 'French Polynesia' ? 'selected' : ''} value="French Polynesia">
                                             French Polynesia
                                         </option>
 
-                                        <option value="French Southern Territories">
+                                        <option ${sessionScope.user.country == 'French Southern Territories' ? 'selected' : ''} value="French Southern Territories">
                                             French Southern Territories
                                         </option>
 
-                                        <option value="Gabon">
+                                        <option ${sessionScope.user.country == 'Gabon' ? 'selected' : ''} value="Gabon">
                                             Gabon
                                         </option>
 
-                                        <option value="Gambia">
+                                        <option ${sessionScope.user.country == 'Gambia' ? 'selected' : ''} value="Gambia">
                                             Gambia
                                         </option>
 
-                                        <option value="Georgia">
+                                        <option ${sessionScope.user.country == 'Georgia' ? 'selected' : ''} value="Georgia">
                                             Georgia
                                         </option>
 
-                                        <option value="Germany">
+                                        <option ${sessionScope.user.country == 'Germany' ? 'selected' : ''} value="Germany">
                                             Germany
                                         </option>
 
-                                        <option value="Ghana">
+                                        <option ${sessionScope.user.country == 'Ghana' ? 'selected' : ''} value="Ghana">
                                             Ghana
                                         </option>
 
-                                        <option value="Gibraltar">
+                                        <option ${sessionScope.user.country == 'Gibraltar' ? 'selected' : ''} value="Gibraltar">
                                             Gibraltar
                                         </option>
 
-                                        <option value="Greece">
+                                        <option ${sessionScope.user.country == 'Greece' ? 'selected' : ''} value="Greece">
                                             Greece
                                         </option>
 
-                                        <option value="Greenland">
+                                        <option ${sessionScope.user.country == 'Greenland' ? 'selected' : ''} value="Greenland">
                                             Greenland
                                         </option>
 
-                                        <option value="Grenada">
+                                        <option ${sessionScope.user.country == 'Grenada' ? 'selected' : ''} value="Grenada">
                                             Grenada
                                         </option>
 
-                                        <option value="Guadeloupe">
+                                        <option ${sessionScope.user.country == 'Guadeloupe' ? 'selected' : ''} value="Guadeloupe">
                                             Guadeloupe
                                         </option>
 
-                                        <option value="Guam">
+                                        <option ${sessionScope.user.country == 'Guam' ? 'selected' : ''} value="Guam">
                                             Guam
                                         </option>
 
-                                        <option value="Guatemala">
+                                        <option ${sessionScope.user.country == 'Guatemala' ? 'selected' : ''} value="Guatemala">
                                             Guatemala
                                         </option>
 
-                                        <option value="Guernsey">
+                                        <option ${sessionScope.user.country == 'Guernsey' ? 'selected' : ''} value="Guernsey">
                                             Guernsey
                                         </option>
 
-                                        <option value="Guinea">
+                                        <option ${sessionScope.user.country == 'Guinea' ? 'selected' : ''} value="Guinea">
                                             Guinea
                                         </option>
 
-                                        <option value="Guinea-Bissau">
+                                        <option ${sessionScope.user.country == 'Guinea-Bissau' ? 'selected' : ''} value="Guinea-Bissau">
                                             Guinea-Bissau
                                         </option>
 
-                                        <option value="Guyana">
+                                        <option ${sessionScope.user.country == 'Guyana' ? 'selected' : ''} value="Guyana">
                                             Guyana
                                         </option>
 
-                                        <option value="Haiti">
+                                        <option ${sessionScope.user.country == 'Haiti' ? 'selected' : ''} value="Haiti">
                                             Haiti
                                         </option>
 
-                                        <option value="Heard Island and McDonald Islands">
+                                        <option ${sessionScope.user.country == 'Heard Island and McDonald Islands' ? 'selected' : ''} value="Heard Island and McDonald Islands">
                                             Heard Island and McDonald Islands
                                         </option>
 
-                                        <option value="Vatican City">
+                                        <option ${sessionScope.user.country == 'Vatican City' ? 'selected' : ''} value="Vatican City">
                                             Vatican City
                                         </option>
 
-                                        <option value="Honduras">
+                                        <option ${sessionScope.user.country == 'Honduras' ? 'selected' : ''} value="Honduras">
                                             Honduras
                                         </option>
 
-                                        <option value="Hong Kong">
+                                        <option ${sessionScope.user.country == 'Hong Kong' ? 'selected' : ''} value="Hong Kong">
                                             Hong Kong
                                         </option>
 
-                                        <option value="Hungary">
+                                        <option ${sessionScope.user.country == 'Hungary' ? 'selected' : ''} value="Hungary">
                                             Hungary
                                         </option>
 
-                                        <option value="Iceland">
+                                        <option ${sessionScope.user.country == 'Iceland' ? 'selected' : ''} value="Iceland">
                                             Iceland
                                         </option>
 
-                                        <option value="India">
+                                        <option ${sessionScope.user.country == 'India' ? 'selected' : ''} value="India">
                                             India
                                         </option>
 
-                                        <option value="Indonesia">
+                                        <option ${sessionScope.user.country == 'Indonesia' ? 'selected' : ''} value="Indonesia">
                                             Indonesia
                                         </option>
 
-                                        <option value="Iran">
+                                        <option ${sessionScope.user.country == 'Iran' ? 'selected' : ''} value="Iran">
                                             Iran
                                         </option>
 
-                                        <option value="Iraq">
+                                        <option ${sessionScope.user.country == 'Iraq' ? 'selected' : ''} value="Iraq">
                                             Iraq
                                         </option>
 
-                                        <option value="Ireland">
+                                        <option ${sessionScope.user.country == 'Ireland' ? 'selected' : ''} value="Ireland">
                                             Ireland
                                         </option>
 
-                                        <option value="Isle of Man">
+                                        <option ${sessionScope.user.country == 'Isle of Man' ? 'selected' : ''} value="Isle of Man">
                                             Isle of Man
                                         </option>
 
-                                        <option value="Israel">
+                                        <option ${sessionScope.user.country == 'Israel' ? 'selected' : ''} value="Israel">
                                             Israel
                                         </option>
 
-                                        <option value="Italy">
+                                        <option ${sessionScope.user.country == 'Italy' ? 'selected' : ''} value="Italy">
                                             Italy
                                         </option>
 
-                                        <option value="Jamaica">
+                                        <option ${sessionScope.user.country == 'Jamaica' ? 'selected' : ''} value="Jamaica">
                                             Jamaica
                                         </option>
 
-                                        <option value="Japan">
+                                        <option ${sessionScope.user.country == 'Japan' ? 'selected' : ''} value="Japan">
                                             Japan
                                         </option>
 
-                                        <option value="Jersey">
+                                        <option ${sessionScope.user.country == 'Jersey' ? 'selected' : ''} value="Jersey">
                                             Jersey
                                         </option>
 
-                                        <option value="Jordan">
+                                        <option ${sessionScope.user.country == 'Jordan' ? 'selected' : ''} value="Jordan">
                                             Jordan
                                         </option>
 
-                                        <option value="Kazakhstan">
+                                        <option ${sessionScope.user.country == 'Kazakhstan' ? 'selected' : ''} value="Kazakhstan">
                                             Kazakhstan
                                         </option>
 
-                                        <option value="Kenya">
+                                        <option ${sessionScope.user.country == 'Kenya' ? 'selected' : ''} value="Kenya">
                                             Kenya
                                         </option>
 
-                                        <option value="Kiribati">
+                                        <option ${sessionScope.user.country == 'Kiribati' ? 'selected' : ''} value="Kiribati">
                                             Kiribati
                                         </option>
 
-                                        <option value="North Korea">
+                                        <option ${sessionScope.user.country == 'North Korea' ? 'selected' : ''} value="North Korea">
                                             North Korea
                                         </option>
 
-                                        <option value="South Korea">
+                                        <option ${sessionScope.user.country == 'South Korea' ? 'selected' : ''} value="South Korea">
                                             South Korea
                                         </option>
 
-                                        <option value="Kuwait">
+                                        <option ${sessionScope.user.country == 'Kuwait' ? 'selected' : ''} value="Kuwait">
                                             Kuwait
                                         </option>
 
-                                        <option value="Kyrgyzstan">
+                                        <option ${sessionScope.user.country == 'Kyrgyzstan' ? 'selected' : ''} value="Kyrgyzstan">
                                             Kyrgyzstan
                                         </option>
 
-                                        <option value="Laos">
+                                        <option ${sessionScope.user.country == 'Laos' ? 'selected' : ''} value="Laos">
                                             Laos
                                         </option>
 
-                                        <option value="Latvia">
+                                        <option ${sessionScope.user.country == 'Latvia' ? 'selected' : ''} value="Latvia">
                                             Latvia
                                         </option>
 
-                                        <option value="Lebanon">
+                                        <option ${sessionScope.user.country == 'Lebanon' ? 'selected' : ''} value="Lebanon">
                                             Lebanon
                                         </option>
 
-                                        <option value="Lesotho">
+                                        <option ${sessionScope.user.country == 'Lesotho' ? 'selected' : ''} value="Lesotho">
                                             Lesotho
                                         </option>
 
-                                        <option value="Liberia">
+                                        <option ${sessionScope.user.country == 'Liberia' ? 'selected' : ''} value="Liberia">
                                             Liberia
                                         </option>
 
-                                        <option value="Libya">
+                                        <option ${sessionScope.user.country == 'Libya' ? 'selected' : ''} value="Libya">
                                             Libya
                                         </option>
 
-                                        <option value="Liechtenstein">
+                                        <option ${sessionScope.user.country == 'Liechtenstein' ? 'selected' : ''} value="Liechtenstein">
                                             Liechtenstein
                                         </option>
 
-                                        <option value="Lithuania">
+                                        <option ${sessionScope.user.country == 'Lithuania' ? 'selected' : ''} value="Lithuania">
                                             Lithuania
                                         </option>
 
-                                        <option value="Luxembourg">
+                                        <option ${sessionScope.user.country == 'Luxembourg' ? 'selected' : ''} value="Luxembourg">
                                             Luxembourg
                                         </option>
 
-                                        <option value="Macao">
+                                        <option ${sessionScope.user.country == 'Macao' ? 'selected' : ''} value="Macao">
                                             Macao
                                         </option>
 
-                                        <option value="Macedonia, The Former Yugoslav Republic of">
+                                        <option ${sessionScope.user.country == 'Macedonia, The Former Yugoslav Republic of' ? 'selected' : ''} value="Macedonia, The Former Yugoslav Republic of">
                                             Macedonia, The Former Yugoslav Republic of
                                         </option>
 
-                                        <option value="Madagascar">
+                                        <option ${sessionScope.user.country == 'Madagascar' ? 'selected' : ''} value="Madagascar">
                                             Madagascar
                                         </option>
 
-                                        <option value="Malawi">
+                                        <option ${sessionScope.user.country == 'Malawi' ? 'selected' : ''} value="Malawi">
                                             Malawi
                                         </option>
 
-                                        <option value="Malaysia">
+                                        <option ${sessionScope.user.country == 'Malaysia' ? 'selected' : ''} value="Malaysia">
                                             Malaysia
                                         </option>
 
-                                        <option value="Maldives">
+                                        <option ${sessionScope.user.country == 'Maldives' ? 'selected' : ''} value="Maldives">
                                             Maldives
                                         </option>
 
-                                        <option value="Mali">
+                                        <option ${sessionScope.user.country == 'Mali' ? 'selected' : ''} value="Mali">
                                             Mali
                                         </option>
 
-                                        <option value="Malta">
+                                        <option ${sessionScope.user.country == 'Malta' ? 'selected' : ''} value="Malta">
                                             Malta
                                         </option>
 
-                                        <option value="Marshall Islands">
+                                        <option ${sessionScope.user.country == 'Marshall Islands' ? 'selected' : ''} value="Marshall Islands">
                                             Marshall Islands
                                         </option>
 
-                                        <option value="Martinique">
+                                        <option ${sessionScope.user.country == 'Martinique' ? 'selected' : ''} value="Martinique">
                                             Martinique
                                         </option>
 
-                                        <option value="Mauritania">
+                                        <option ${sessionScope.user.country == 'Mauritania' ? 'selected' : ''} value="Mauritania">
                                             Mauritania
                                         </option>
 
-                                        <option value="Mauritius">
+                                        <option ${sessionScope.user.country == 'Mauritius' ? 'selected' : ''} value="Mauritius">
                                             Mauritius
                                         </option>
 
-                                        <option value="Mayotte">
+                                        <option ${sessionScope.user.country == 'Mayotte' ? 'selected' : ''} value="Mayotte">
                                             Mayotte
                                         </option>
 
-                                        <option value="Mexico">
+                                        <option ${sessionScope.user.country == 'Mexico' ? 'selected' : ''} value="Mexico">
                                             Mexico
                                         </option>
 
-                                        <option value="Micronesia, Federated States of">
+                                        <option ${sessionScope.user.country == 'Micronesia, Federated States of' ? 'selected' : ''} value="Micronesia, Federated States of">
                                             Micronesia, Federated States of
                                         </option>
 
-                                        <option value="Moldova">
+                                        <option ${sessionScope.user.country == 'Moldova' ? 'selected' : ''} value="Moldova">
                                             Moldova
                                         </option>
 
-                                        <option value="Monaco">
+                                        <option ${sessionScope.user.country == 'Monaco' ? 'selected' : ''} value="Monaco">
                                             Monaco
                                         </option>
 
-                                        <option value="Mongolia">
+                                        <option ${sessionScope.user.country == 'Mongolia' ? 'selected' : ''} value="Mongolia">
                                             Mongolia
                                         </option>
 
-                                        <option value="Montenegro">
+                                        <option ${sessionScope.user.country == 'Montenegro' ? 'selected' : ''} value="Montenegro">
                                             Montenegro
                                         </option>
 
-                                        <option value="Montserrat">
+                                        <option ${sessionScope.user.country == 'Montserrat' ? 'selected' : ''} value="Montserrat">
                                             Montserrat
                                         </option>
 
-                                        <option value="Morocco">
+                                        <option ${sessionScope.user.country == 'Morocco' ? 'selected' : ''} value="Morocco">
                                             Morocco
                                         </option>
 
-                                        <option value="Mozambique">
+                                        <option ${sessionScope.user.country == 'Mozambique' ? 'selected' : ''} value="Mozambique">
                                             Mozambique
                                         </option>
 
-                                        <option value="Myanmar">
+                                        <option ${sessionScope.user.country == 'Myanmar' ? 'selected' : ''} value="Myanmar">
                                             Myanmar
                                         </option>
 
-                                        <option value="Namibia">
+                                        <option ${sessionScope.user.country == 'Namibia' ? 'selected' : ''} value="Namibia">
                                             Namibia
                                         </option>
 
-                                        <option value="Nauru">
+                                        <option ${sessionScope.user.country == 'Nauru' ? 'selected' : ''} value="Nauru">
                                             Nauru
                                         </option>
 
-                                        <option value="Nepal">
+                                        <option ${sessionScope.user.country == 'Nepal' ? 'selected' : ''} value="Nepal">
                                             Nepal
                                         </option>
 
-                                        <option value="Netherlands">
+                                        <option ${sessionScope.user.country == 'Netherlands' ? 'selected' : ''} value="Netherlands">
                                             Netherlands
                                         </option>
 
-                                        <option value="Netherlands Antilles">
+                                        <option ${sessionScope.user.country == 'Netherlands Antilles' ? 'selected' : ''} value="Netherlands Antilles">
                                             Netherlands Antilles
                                         </option>
 
-                                        <option value="New Caledonia">
+                                        <option ${sessionScope.user.country == 'New Caledonia' ? 'selected' : ''} value="New Caledonia">
                                             New Caledonia
                                         </option>
 
-                                        <option value="New Zealand">
+                                        <option ${sessionScope.user.country == 'New Zealand' ? 'selected' : ''} value="New Zealand">
                                             New Zealand
                                         </option>
 
-                                        <option value="Nicaragua">
+                                        <option ${sessionScope.user.country == 'Nicaragua' ? 'selected' : ''} value="Nicaragua">
                                             Nicaragua
                                         </option>
 
-                                        <option value="Niger">
+                                        <option ${sessionScope.user.country == 'Niger' ? 'selected' : ''} value="Niger">
                                             Niger
                                         </option>
 
-                                        <option value="Nigeria">
+                                        <option ${sessionScope.user.country == 'Nigeria' ? 'selected' : ''} value="Nigeria">
                                             Nigeria
                                         </option>
 
-                                        <option value="Niue">
+                                        <option ${sessionScope.user.country == 'Niue' ? 'selected' : ''} value="Niue">
                                             Niue
                                         </option>
 
-                                        <option value="Norfolk Island">
+                                        <option ${sessionScope.user.country == 'Norfolk Island' ? 'selected' : ''} value="Norfolk Island">
                                             Norfolk Island
                                         </option>
 
-                                        <option value="Northern Mariana Islands">
+                                        <option ${sessionScope.user.country == 'Northern Mariana Islands' ? 'selected' : ''} value="Northern Mariana Islands">
                                             Northern Mariana Islands
                                         </option>
 
-                                        <option value="Norway">
+                                        <option ${sessionScope.user.country == 'Norway' ? 'selected' : ''} value="Norway">
                                             Norway
                                         </option>
 
-                                        <option value="Oman">
+                                        <option ${sessionScope.user.country == 'Oman' ? 'selected' : ''} value="Oman">
                                             Oman
                                         </option>
 
-                                        <option value="Pakistan">
+                                        <option ${sessionScope.user.country == 'Pakistan' ? 'selected' : ''} value="Pakistan">
                                             Pakistan
                                         </option>
 
-                                        <option value="Palau">
+                                        <option ${sessionScope.user.country == 'Palau' ? 'selected' : ''} value="Palau">
                                             Palau
                                         </option>
 
-                                        <option value="Palestine, State of">
+                                        <option ${sessionScope.user.country == 'Palestine, State of' ? 'selected' : ''} value="Palestine, State of">
                                             Palestine, State of
                                         </option>
 
-                                        <option value="Panama">
+                                        <option ${sessionScope.user.country == 'Panama' ? 'selected' : ''} value="Panama">
                                             Panama
                                         </option>
 
-                                        <option value="Papua New Guinea">
+                                        <option ${sessionScope.user.country == 'Papua New Guinea' ? 'selected' : ''} value="Papua New Guinea">
                                             Papua New Guinea
                                         </option>
 
-                                        <option value="Paraguay">
+                                        <option ${sessionScope.user.country == 'Paraguay' ? 'selected' : ''} value="Paraguay">
                                             Paraguay
                                         </option>
 
-                                        <option value="Peru">
+                                        <option ${sessionScope.user.country == 'Peru' ? 'selected' : ''} value="Peru">
                                             Peru
                                         </option>
 
-                                        <option value="Philippines">
+                                        <option ${sessionScope.user.country == 'Philippines' ? 'selected' : ''} value="Philippines">
                                             Philippines
                                         </option>
 
-                                        <option value="Pitcairn">
+                                        <option ${sessionScope.user.country == 'Pitcairn' ? 'selected' : ''} value="Pitcairn">
                                             Pitcairn
                                         </option>
 
-                                        <option value="Poland">
+                                        <option ${sessionScope.user.country == 'Poland' ? 'selected' : ''} value="Poland">
                                             Poland
                                         </option>
 
-                                        <option value="Portugal">
+                                        <option ${sessionScope.user.country == 'Portugal' ? 'selected' : ''} value="Portugal">
                                             Portugal
                                         </option>
 
-                                        <option value="Puerto Rico">
+                                        <option ${sessionScope.user.country == 'Puerto Rico' ? 'selected' : ''} value="Puerto Rico">
                                             Puerto Rico
                                         </option>
 
-                                        <option value="Qatar">
+                                        <option ${sessionScope.user.country == 'Qatar' ? 'selected' : ''} value="Qatar">
                                             Qatar
                                         </option>
 
-                                        <option value="Reunion">
+                                        <option ${sessionScope.user.country == 'Reunion' ? 'selected' : ''} value="Reunion">
                                             Reunion
                                         </option>
 
-                                        <option value="Romania">
+                                        <option ${sessionScope.user.country == 'Romania' ? 'selected' : ''} value="Romania">
                                             Romania
                                         </option>
 
-                                        <option value="Russia">
+                                        <option ${sessionScope.user.country == 'Russia' ? 'selected' : ''} value="Russia">
                                             Russia
                                         </option>
 
-                                        <option value="Rwanda">
+                                        <option ${sessionScope.user.country == 'Rwanda' ? 'selected' : ''} value="Rwanda">
                                             Rwanda
                                         </option>
 
-                                        <option value="Saint Barthelemy">
+                                        <option ${sessionScope.user.country == 'Saint Barthelemy' ? 'selected' : ''} value="Saint Barthelemy">
                                             Saint Barthelemy
                                         </option>
 
-                                        <option value="Saint Helena">
+                                        <option ${sessionScope.user.country == 'Saint Helena' ? 'selected' : ''} value="Saint Helena">
                                             Saint Helena
                                         </option>
 
-                                        <option value="Saint Kitts and Nevis">
+                                        <option ${sessionScope.user.country == 'Saint Kitts and Nevis' ? 'selected' : ''} value="Saint Kitts and Nevis">
                                             Saint Kitts and Nevis
                                         </option>
 
-                                        <option value="Saint Lucia">
+                                        <option ${sessionScope.user.country == 'Saint Lucia' ? 'selected' : ''} value="Saint Lucia">
                                             Saint Lucia
                                         </option>
 
-                                        <option value="Saint Martin">
+                                        <option ${sessionScope.user.country == 'Saint Martin' ? 'selected' : ''} value="Saint Martin">
                                             Saint Martin
                                         </option>
 
-                                        <option value="Saint Pierre and Miquelon">
+                                        <option ${sessionScope.user.country == 'Saint Pierre and Miquelon' ? 'selected' : ''} value="Saint Pierre and Miquelon">
                                             Saint Pierre and Miquelon
                                         </option>
 
-                                        <option value="Saint Vincent and the Grenadines">
+                                        <option ${sessionScope.user.country == 'Saint Vincent and the Grenadines' ? 'selected' : ''} value="Saint Vincent and the Grenadines">
                                             Saint Vincent and the Grenadines
                                         </option>
 
-                                        <option value="Samoa">
+                                        <option ${sessionScope.user.country == 'Samoa' ? 'selected' : ''} value="Samoa">
                                             Samoa
                                         </option>
 
-                                        <option value="San Marino">
+                                        <option ${sessionScope.user.country == 'San Marino' ? 'selected' : ''} value="San Marino">
                                             San Marino
                                         </option>
 
-                                        <option value="Sao Tome and Principe">
+                                        <option ${sessionScope.user.country == 'Sao Tome and Principe' ? 'selected' : ''} value="Sao Tome and Principe">
                                             Sao Tome and Principe
                                         </option>
 
-                                        <option value="Saudi Arabia">
+                                        <option ${sessionScope.user.country == 'Saudi Arabia' ? 'selected' : ''} value="Saudi Arabia">
                                             Saudi Arabia
                                         </option>
 
-                                        <option value="Senegal">
+                                        <option ${sessionScope.user.country == 'Senegal' ? 'selected' : ''} value="Senegal">
                                             Senegal
                                         </option>
 
-                                        <option value="Serbia">
+                                        <option ${sessionScope.user.country == 'Serbia' ? 'selected' : ''} value="Serbia">
                                             Serbia
                                         </option>
 
-                                        <option value="Seychelles">
+                                        <option ${sessionScope.user.country == 'Seychelles' ? 'selected' : ''} value="Seychelles">
                                             Seychelles
                                         </option>
 
-                                        <option value="Sierra Leone">
+                                        <option ${sessionScope.user.country == 'Sierra Leone' ? 'selected' : ''} value="Sierra Leone">
                                             Sierra Leone
                                         </option>
 
-                                        <option value="Singapore">
+                                        <option ${sessionScope.user.country == 'Singapore' ? 'selected' : ''} value="Singapore">
                                             Singapore
                                         </option>
 
-                                        <option value="Slovakia">
+                                        <option ${sessionScope.user.country == 'Slovakia' ? 'selected' : ''} value="Slovakia">
                                             Slovakia
                                         </option>
 
-                                        <option value="Slovenia">
+                                        <option ${sessionScope.user.country == 'Slovenia' ? 'selected' : ''} value="Slovenia">
                                             Slovenia
                                         </option>
 
-                                        <option value="Solomon Islands">
+                                        <option ${sessionScope.user.country == 'Solomon Islands' ? 'selected' : ''} value="Solomon Islands">
                                             Solomon Islands
                                         </option>
 
-                                        <option value="Somalia">
+                                        <option ${sessionScope.user.country == 'Somalia' ? 'selected' : ''} value="Somalia">
                                             Somalia
                                         </option>
 
-                                        <option value="South Africa">
+                                        <option ${sessionScope.user.country == 'South Africa' ? 'selected' : ''} value="South Africa">
                                             South Africa
                                         </option>
 
-                                        <option value="South Georgia and the South Sandwich Islands">
+                                        <option ${sessionScope.user.country == 'South Georgia and the South Sandwich Islands' ? 'selected' : ''} value="South Georgia and the South Sandwich Islands">
                                             South Georgia and the South Sandwich Islands
                                         </option>
 
-                                        <option value="South Sudan">
+                                        <option ${sessionScope.user.country == 'South Sudan' ? 'selected' : ''} value="South Sudan">
                                             South Sudan
                                         </option>
 
-                                        <option value="Spain">
+                                        <option ${sessionScope.user.country == 'Spain' ? 'selected' : ''} value="Spain">
                                             Spain
                                         </option>
 
-                                        <option value="Sri Lanka">
+                                        <option ${sessionScope.user.country == 'Sri Lanka' ? 'selected' : ''} value="Sri Lanka">
                                             Sri Lanka
                                         </option>
 
-                                        <option value="Sudan">
+                                        <option ${sessionScope.user.country == 'Sudan' ? 'selected' : ''} value="Sudan">
                                             Sudan
                                         </option>
 
-                                        <option value="Suriname">
+                                        <option ${sessionScope.user.country == 'Suriname' ? 'selected' : ''} value="Suriname">
                                             Suriname
                                         </option>
 
-                                        <option value="Svalbard and Jan Mayen">
+                                        <option ${sessionScope.user.country == 'Svalbard and Jan Mayen' ? 'selected' : ''} value="Svalbard and Jan Mayen">
                                             Svalbard and Jan Mayen
                                         </option>
 
-                                        <option value="Swaziland">
+                                        <option ${sessionScope.user.country == 'Swaziland' ? 'selected' : ''} value="Swaziland">
                                             Swaziland
                                         </option>
 
-                                        <option value="Sweden">
+                                        <option ${sessionScope.user.country == 'Sweden' ? 'selected' : ''} value="Sweden">
                                             Sweden
                                         </option>
 
-                                        <option value="Switzerland">
+                                        <option ${sessionScope.user.country == 'Switzerland' ? 'selected' : ''} value="Switzerland">
                                             Switzerland
                                         </option>
 
-                                        <option value="Syria">
+                                        <option ${sessionScope.user.country == 'Syria' ? 'selected' : ''} value="Syria">
                                             Syria
                                         </option>
 
-                                        <option value="Taiwan">
+                                        <option ${sessionScope.user.country == 'Taiwan' ? 'selected' : ''} value="Taiwan">
                                             Taiwan
                                         </option>
 
-                                        <option value="Tajikistan">
+                                        <option ${sessionScope.user.country == 'Tajikistan' ? 'selected' : ''} value="Tajikistan">
                                             Tajikistan
                                         </option>
 
-                                        <option value="Tanzania">
+                                        <option ${sessionScope.user.country == 'Tanzania' ? 'selected' : ''} value="Tanzania">
                                             Tanzania
                                         </option>
 
-                                        <option value="Thailand">
+                                        <option ${sessionScope.user.country == 'Thailand' ? 'selected' : ''} value="Thailand">
                                             Thailand
                                         </option>
 
-                                        <option value="Timor-Leste">
+                                        <option ${sessionScope.user.country == 'Timor-Leste' ? 'selected' : ''} value="Timor-Leste">
                                             Timor-Leste
                                         </option>
 
-                                        <option value="Togo">
+                                        <option ${sessionScope.user.country == 'Togo' ? 'selected' : ''} value="Togo">
                                             Togo
                                         </option>
 
-                                        <option value="Tokelau">
+                                        <option ${sessionScope.user.country == 'Tokelau' ? 'selected' : ''} value="Tokelau">
                                             Tokelau
                                         </option>
 
-                                        <option value="Tonga">
+                                        <option ${sessionScope.user.country == 'Tonga' ? 'selected' : ''} value="Tonga">
                                             Tonga
                                         </option>
 
-                                        <option value="Trinidad and Tobago">
+                                        <option ${sessionScope.user.country == 'Trinidad and Tobago' ? 'selected' : ''} value="Trinidad and Tobago">
                                             Trinidad and Tobago
                                         </option>
 
-                                        <option value="Tunisia">
+                                        <option ${sessionScope.user.country == 'Tunisia' ? 'selected' : ''} value="Tunisia">
                                             Tunisia
                                         </option>
 
-                                        <option value="Turkey">
+                                        <option ${sessionScope.user.country == 'Turkey' ? 'selected' : ''} value="Turkey">
                                             Turkey
                                         </option>
 
-                                        <option value="Turkmenistan">
+                                        <option ${sessionScope.user.country == 'Turkmenistan' ? 'selected' : ''} value="Turkmenistan">
                                             Turkmenistan
                                         </option>
 
-                                        <option value="Turks and Caicos Islands">
+                                        <option ${sessionScope.user.country == 'Turks and Caicos Islands' ? 'selected' : ''} value="Turks and Caicos Islands">
                                             Turks and Caicos Islands
                                         </option>
 
-                                        <option value="Tuvalu">
+                                        <option ${sessionScope.user.country == 'Tuvalu' ? 'selected' : ''} value="Tuvalu">
                                             Tuvalu
                                         </option>
 
-                                        <option value="Uganda">
+                                        <option ${sessionScope.user.country == 'Uganda' ? 'selected' : ''} value="Uganda">
                                             Uganda
                                         </option>
 
-                                        <option value="Ukraine">
+                                        <option ${sessionScope.user.country == 'Ukraine' ? 'selected' : ''} value="Ukraine">
                                             Ukraine
                                         </option>
 
-                                        <option value="United Arab Emirates">
+                                        <option ${sessionScope.user.country == 'United Arab Emirates' ? 'selected' : ''} value="United Arab Emirates">
                                             United Arab Emirates
                                         </option>
 
-                                        <option value="United Kingdom">
+                                        <option ${sessionScope.user.country == 'United Kingdom' ? 'selected' : ''} value="United Kingdom">
                                             United Kingdom
                                         </option>
 
-                                        <option value="United States Minor Outlying Islands">
+                                        <option ${sessionScope.user.country == 'United States Minor Outlying Islands' ? 'selected' : ''} value="United States Minor Outlying Islands">
                                             United States Minor Outlying Islands
                                         </option>
 
-                                        <option value="Uruguay">
+                                        <option ${sessionScope.user.country == 'Uruguay' ? 'selected' : ''} value="Uruguay">
                                             Uruguay
                                         </option>
 
-                                        <option value="Uzbekistan">
+                                        <option ${sessionScope.user.country == 'Uzbekistan' ? 'selected' : ''} value="Uzbekistan">
                                             Uzbekistan
                                         </option>
 
-                                        <option value="Vanuatu">
+                                        <option ${sessionScope.user.country == 'Vanuatu' ? 'selected' : ''} value="Vanuatu">
                                             Vanuatu
                                         </option>
 
-                                        <option value="Venezuela">
+                                        <option ${sessionScope.user.country == 'Venezuela' ? 'selected' : ''} value="Venezuela">
                                             Venezuela
                                         </option>
 
-                                        <option value="Vietnam">
+                                        <option ${sessionScope.user.country == 'Vietnam' ? 'selected' : ''} value="Vietnam">
                                             Vietnam
                                         </option>
 
-                                        <option value="Virgin Islands, British">
+                                        <option ${sessionScope.user.country == 'Virgin Islands, British' ? 'selected' : ''} value="Virgin Islands, British">
                                             Virgin Islands, British
                                         </option>
 
-                                        <option value="Virgin Islands, U.S.">
+                                        <option ${sessionScope.user.country == 'Virgin Islands, U.S.' ? 'selected' : ''} value="Virgin Islands, U.S.">
                                             Virgin Islands, U.S.
                                         </option>
 
-                                        <option value="Wallis and Futuna">
+                                        <option ${sessionScope.user.country == 'Wallis and Futuna' ? 'selected' : ''} value="Wallis and Futuna">
                                             Wallis and Futuna
                                         </option>
 
-                                        <option value="Kosovo">
+                                        <option ${sessionScope.user.country == 'Kosovo' ? 'selected' : ''} value="Kosovo">
                                             Kosovo
                                         </option>
 
-                                        <option value="Western Sahara">
+                                        <option ${sessionScope.user.country == 'Western Sahara' ? 'selected' : ''} value="Western Sahara">
                                             Western Sahara
                                         </option>
 
-                                        <option value="Yemen">
+                                        <option ${sessionScope.user.country == 'Yemen' ? 'selected' : ''} value="Yemen">
                                             Yemen
                                         </option>
 
-                                        <option value="Zambia">
+                                        <option ${sessionScope.user.country == 'Zambia' ? 'selected' : ''} value="Zambia">
                                             Zambia
                                         </option>
 
-                                        <option value="Zimbabwe">
+                                        <option ${sessionScope.user.country == 'Zimbabwe' ? 'selected' : ''} value="Zimbabwe">
                                             Zimbabwe
                                         </option>
                                     </select>
