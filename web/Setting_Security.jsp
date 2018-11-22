@@ -62,6 +62,9 @@
                                                 <c:when test="${list.historyType == 'user.change_email'}">
                                                     <i class="material-icons" style="font-size:16px">email</i>
                                                 </c:when>
+                                                <c:when test="${list.historyType == 'user.order'}">
+                                                    <i class="fas fa-money-check-alt" style="color: lightskyblue"></i>
+                                                </c:when>
                                                 <c:otherwise>
                                                     <i class="fas fa-exclaimation-circle" style="color: green"></i>
                                                 </c:otherwise>
@@ -89,6 +92,10 @@
                                                         </c:when>
                                                         <c:when test="${list.historyType == 'user.change_email'}">
                                                             This user has changed email address.
+                                                        </c:when>
+                                                        <c:when test="${list.historyType == 'user.order'}">
+                                                            This user has paid for the chosen products. <br><br>
+                                                            <a href="Setting_OrderDetail?orderNumber=${list.historyInfo}">View details</a>
                                                         </c:when>
                                                         <c:otherwise>
                                                             Information Unavailable.

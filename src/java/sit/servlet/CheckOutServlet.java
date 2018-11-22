@@ -20,9 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import sit.controller.AccountHistoryJpaController;
 import sit.controller.OrderDetailsJpaController;
 import sit.controller.OrdersJpaController;
 import sit.controller.exceptions.RollbackFailureException;
+import sit.model.AccountHistory;
 import sit.model.OrderDetails;
 import sit.model.Orders;
 import sit.model.Products;
@@ -63,6 +65,7 @@ public class CheckOutServlet extends HttpServlet {
     HttpServletResponse response;
     OrdersJpaController ordersCtrl;
     OrderDetailsJpaController orderDetailsCtrl;
+    AccountHistoryJpaController accHistoryCtrl;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -70,6 +73,7 @@ public class CheckOutServlet extends HttpServlet {
         this.response = response;
         this.ordersCtrl = new OrdersJpaController(utx, emf);
         this.orderDetailsCtrl = new OrderDetailsJpaController(utx, emf);
+        this.accHistoryCtrl = new AccountHistoryJpaController(utx, emf);
         
         setCurrentCart();
         if (this.cart != null) {
@@ -186,6 +190,7 @@ public class CheckOutServlet extends HttpServlet {
             int orderDetails_index = orderDetailsCtrl.getOrderDetailsCount() + 1;
             this.orderNumber = CheckOutServlet.ORDERDETAILS_START_ID + (orderDetailsCtrl.getOrderDetailsCount() + 1);
             Date currentDate = new Date();
+            boolean isSecurityHistoryCreated = false;
             for (Products c : this.cart) {
                 Orders order = new Orders();
                 order.setOrderId(order_index);
@@ -208,6 +213,17 @@ public class CheckOutServlet extends HttpServlet {
                 }
                 orderDetail.setDetailTotalprice(totalPrice);
                 orderDetailsCtrl.create(orderDetail);
+                
+                if (!isSecurityHistoryCreated) {
+                    isSecurityHistoryCreated = true;
+                    AccountHistory accHistory = new AccountHistory();
+                    accHistory.setHistoryid(accHistoryCtrl.getAccountHistoryCount() + 1);
+                    accHistory.setHistoryUserid((Users) this.session.getAttribute("user"));
+                    accHistory.setHistoryDate(new Date());
+                    accHistory.setHistoryType("user.order");
+                    accHistory.setHistoryInfo("" + orderDetail.getDetailOrdernumber());
+                    accHistoryCtrl.create(accHistory);
+                }
                 
                 order_index++;
                 orderDetails_index++;
