@@ -41,6 +41,8 @@ public class ViewProductServlet extends HttpServlet {
     private String quantity;
     private Integer actual_quantity;
     private String productAddStatus;
+    private final Integer MINIMUM_ADD_VALUE = 1;
+    private final Integer MAXIMUM_ADD_VALUE = 100;
     private final String PRODUCT_ADDED_SUCCESS = "PRODUCT_ADDED_SUCCESS"; //Used for add to cart and send error code.
     private final String PRODUCT_ADDED_FULL = "PRODUCT_ADDED_FULL"; //Used for add to cart and send error code.
     private final String PRODUCT_ADDED_OUT_OF_STOCK = "PRODUCT_ADDED_OUT_OF_STOCK"; //Used for add to cart and send error code.
@@ -146,8 +148,9 @@ public class ViewProductServlet extends HttpServlet {
         
         try {
             this.actual_quantity = Integer.valueOf(this.quantity);
-            //Check if quantity is valid (Must be between 1-255)
-            if (actual_quantity <= 1 && actual_quantity > 255) {
+            
+            //Check if quantity is valid (Must be between minimum and maximum)
+            if (actual_quantity <= MINIMUM_ADD_VALUE || actual_quantity > MAXIMUM_ADD_VALUE) {
                 actual_quantity = 1;
             }
         } catch (NumberFormatException e) {
