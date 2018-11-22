@@ -99,7 +99,7 @@
                 <div class="col-lg-3">
                 <h1><i class="fa fa-cart-arrow-down"></i> Your cart</h1>
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-${itemsCount > 50 ? itemsCount > 80 ? 'danger' : 'warning' : 'success'}" role="progressbar" style="width: ${itemsCount}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-${itemsCount > 50 ? itemsCount > 80 ? 'danger' : 'warning' : 'success'}" role="progressbar" style="width: ${itemsCount}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <strong>${itemsCount} / 100 item(s)</strong>
                 </div>

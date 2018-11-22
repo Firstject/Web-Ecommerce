@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Security Code</label>
-                                    <input type="text" class="form-control" id="exampleInputUser" placeholder="1234" required="">
+                                    <input type="password" class="form-control" id="exampleInputUser" placeholder="xxx" required="" maxlength="3">
                                 </div>
                             </div>
                             <br>

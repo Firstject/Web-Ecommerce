@@ -24,6 +24,8 @@ import sit.controller.AccountHistoryJpaController;
 import sit.controller.OrderDetailsJpaController;
 import sit.controller.OrdersJpaController;
 import sit.controller.exceptions.RollbackFailureException;
+import sit.javaModel.EmailMsgManager;
+import sit.javaModel.SendMail;
 import sit.model.AccountHistory;
 import sit.model.OrderDetails;
 import sit.model.Orders;
@@ -230,7 +232,26 @@ public class CheckOutServlet extends HttpServlet {
             }
         }
         
+        sendOrderMail(orderNumber);
+        
         this.request.setAttribute("orderNumber", this.orderNumber);
+    }
+
+    private void sendOrderMail(int orderNumber) {
+        Users user = (Users)this.session.getAttribute("user");
+        final String TARGET_PATH = "/Setting_OrderDetail";
+        
+        if (this.sendEmail != null 
+                && this.sendEmail.equalsIgnoreCase("on") 
+                && user.getActivateDate() != null) {
+            EmailMsgManager emm = new EmailMsgManager();
+            
+            String subject;
+            subject = "Shipping Notification"; //Set subject name
+            String message;
+            message = emm.orderSent(user.getUsername(), request.getHeader("Host") + getServletContext().getContextPath(), TARGET_PATH, orderNumber); //Set message as HTML content
+            SendMail.send(user.getEmail(), subject, message); //SEND MAIL!
+        }
     }
     
     

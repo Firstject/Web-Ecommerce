@@ -24,10 +24,13 @@
             <hr>
             <p class="lead" align="center">You have successfully registered for Cart-Commerce.</p>
             <div style="text-align: center">
-            <font style="color: green">
+                <font style="color: green">
                 An email has been sent. Please check your email to verify your account.<br>
                 If it doesn’t appear within a few minutes, check your spam folder.<br>
-            </font>
+                </font>
+                <br>
+                <br>
+                <p class="text-primary">It may take up to 5 minutes for email to load on Gmail.</p>
             </div>
             <br>
             <center>
