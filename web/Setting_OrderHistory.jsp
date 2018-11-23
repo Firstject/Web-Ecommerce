@@ -41,45 +41,54 @@
                 <div class="col-lg-9">
                     <h1>Order History</h1>
                     <hr>
-                    <label>Recent orders are sorted by date descending.</label>
-                    <br>
-                    <table class="table table-hover" style="border-style: solid;">
-                        <thead>
-                            <tr>
-                                <th>Order Id</th>
-                                <th>Customer</th>
-                                <th>DATE</th>
-                                <th>STATUS</th>
-                                <th>TOTAL</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <c:forEach items="${requestScope.orderList}" var="list" varStatus="vs">
-                            <tr class="table-${vs.count mod 2 == 1 ? '' : 'light'}">
-                                <th>
-                                    <a href="Setting_OrderDetail?orderNumber=${list.detailOrdernumber}">#${list.detailOrdernumber}</a>
-                                </th>
-                                <td>
-                                    ${list.detailUserrealname}
-                                </td>
-                                <td>
-                                    ${list.detailOrderdate}
-                                </td>
-                                <td>
-                                    Awaiting Fulfillment
-                                </td>
-                                <td>
-                                    <fmt:formatNumber value="${list.detailTotalprice}" type="currency"/>
-                                </td>
-                                <td>
-                                    <a href="Setting_OrderDetail?orderNumber=${list.detailOrdernumber}">
-                                        <button type="button" class="btn btn-primary">View</button>
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                    <p>Entry found: ${fn:length(requestScope.orderList)}</p>
+                    <c:choose>
+                        <c:when test="${!empty requestScope.orderList}">
+                            <label>Recent orders are sorted by date descending.</label>
+                            <br>
+                            <table class="table table-hover" style="border-style: solid;">
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Customer</th>
+                                        <th>DATE</th>
+                                        <th>STATUS</th>
+                                        <th>TOTAL</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <c:forEach items="${requestScope.orderList}" var="list" varStatus="vs">
+                                    <tr class="table-${vs.count mod 2 == 1 ? '' : 'light'}">
+                                        <th>
+                                            <a href="Setting_OrderDetail?orderNumber=${list.detailOrdernumber}">#${list.detailOrdernumber}</a>
+                                        </th>
+                                        <td>
+                                            ${list.detailUserrealname}
+                                        </td>
+                                        <td>
+                                            ${list.detailOrderdate}
+                                        </td>
+                                        <td>
+                                            Awaiting Fulfillment
+                                        </td>
+                                        <td>
+                                            <fmt:formatNumber value="${list.detailTotalprice}" type="currency"/>
+                                        </td>
+                                        <td>
+                                            <a href="Setting_OrderDetail?orderNumber=${list.detailOrdernumber}">
+                                                <button type="button" class="btn btn-primary">View</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <p>Entry found: ${fn:length(requestScope.orderList)}</p>
+                        </c:when>
+                        <c:otherwise>
+                            <p>You have not placed any orders.</p>
+                            <a href="HomePage"><button type="button" class="btn btn-success">Go Shopping</button></a>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
             <jsp:include page="Include/Footer.jsp" />

@@ -85,7 +85,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
 
                     getServletContext().getRequestDispatcher("/ViewCart.jsp").forward(this.request, this.response);
                     return;
-                } catch (IOException | NumberFormatException | ServletException e) {
+                } catch (Exception e) {
                     System.out.println(e);
                 }
             }
