@@ -24,6 +24,7 @@ import javax.transaction.UserTransaction;
 import sit.controller.OrderDetailsJpaController;
 import sit.model.OrderDetails;
 import sit.model.Products;
+import sit.model.Users;
 
 /**
  *
@@ -47,12 +48,16 @@ public class Setting_OrderDetailServlet extends HttpServlet {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private OrderDetailsJpaController orderDetailsCtrl;
+    private HttpSession session;
+    private Users user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         this.request = request;
         this.response = response;
         this.orderDetailsCtrl = new OrderDetailsJpaController(utx, emf);
+        this.session = this.request.getSession(false);
+        this.user = (Users) this.session.getAttribute("user");
 
         getOrderDetail();
 
@@ -62,11 +67,10 @@ public class Setting_OrderDetailServlet extends HttpServlet {
         if (reAdd != null && orderNumberReAdd != null) {
             if ("reAdd".equalsIgnoreCase(reAdd)) {
                 try {
-                    List<OrderDetails> odList = orderDetailsCtrl.findOrderDetailByOrderNumber(Integer.valueOf(orderNumberReAdd));
+                    List<OrderDetails> odList = this.orderDetailsCtrl.findOrderDetailByOrderNumber(Integer.valueOf(orderNumberReAdd), this.user);
                     List<Products> cartProductList;
 
                     this.errorCode = READD_SUCCESS; //Leave this be. If this value is changed, then re-adding order is fail due to cart limit exceeded.
-                    HttpSession session = request.getSession(false);
                     cartProductList = (List<Products>) session.getAttribute("cartProductList");
                     if (cartProductList == null) {
                         cartProductList = new ArrayList<>();
@@ -136,13 +140,13 @@ public class Setting_OrderDetailServlet extends HttpServlet {
         if (orderNumber != null) {
             try {
                 int actual_orderNumber = Integer.valueOf(orderNumber);
-                this.orderDetailsList = orderDetailsCtrl.findOrderDetailByOrderNumber(actual_orderNumber);
+                this.orderDetailsList = orderDetailsCtrl.findOrderDetailByOrderNumber(actual_orderNumber, this.user);
                 if (this.orderDetailsList != null) {
                     this.request.setAttribute("orderList", this.orderDetailsList);
                     this.request.setAttribute("orderNumber", orderDetailsList.get(0).getDetailOrdernumber());
                     this.request.setAttribute("orderDate", orderDetailsList.get(0).getDetailOrderdate());
                 }
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
             }
         }
     }

@@ -32,8 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OrderDetails.findAll", query = "SELECT o FROM OrderDetails o")
     , @NamedQuery(name = "OrderDetails.findByDetailid", query = "SELECT o FROM OrderDetails o WHERE o.detailid = :detailid")
-    , @NamedQuery(name = "OrderDetails.findByDetailUserid", query = "SELECT o FROM OrderDetails o WHERE o.detailUserid = :detailUserid ORDER BY o.detailOrderdate DESC")
-    , @NamedQuery(name = "OrderDetails.findByDetailOrdernumber", query = "SELECT o FROM OrderDetails o WHERE o.detailOrdernumber = :detailOrdernumber")
+    , @NamedQuery(name = "OrderDetails.findByDetailUserid", query = "SELECT o FROM OrderDetails o "
+                                                                  + "WHERE o.detailUserid = :detailUserid "
+                                                                  + "ORDER BY o.detailOrderdate DESC")
+    , @NamedQuery(name = "OrderDetails.findByDetailOrdernumber", query = "SELECT o FROM OrderDetails o "
+                                                                       + "WHERE o.detailOrdernumber = :detailOrdernumber "
+                                                                       + "AND o.detailUserid = :detailUserid")
     , @NamedQuery(name = "OrderDetails.findByDetailUserrealname", query = "SELECT o FROM OrderDetails o WHERE o.detailUserrealname = :detailUserrealname")
     , @NamedQuery(name = "OrderDetails.findByDetailAddress", query = "SELECT o FROM OrderDetails o WHERE o.detailAddress = :detailAddress")})
 public class OrderDetails implements Serializable {
@@ -169,5 +173,5 @@ public class OrderDetails implements Serializable {
     public void setDetailTotalprice(Double detailTotalprice) {
         this.detailTotalprice = detailTotalprice;
     }
-    
+
 }

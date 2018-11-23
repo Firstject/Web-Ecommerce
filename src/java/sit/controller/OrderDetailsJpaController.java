@@ -224,11 +224,12 @@ public class OrderDetailsJpaController implements Serializable {
         return null;
     }
     
-    public List<OrderDetails> findOrderDetailByOrderNumber(int number) {
+    public List<OrderDetails> findOrderDetailByOrderNumber(int number, Users userid) {
         EntityManager em = getEntityManager();
         try {
             Query query = em.createNamedQuery("OrderDetails.findByDetailOrdernumber");
             query.setParameter("detailOrdernumber", number);
+            query.setParameter("detailUserid", userid);
             return query.getResultList();
         } catch (Exception e) {
             System.out.println(e);
