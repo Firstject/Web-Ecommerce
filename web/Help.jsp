@@ -26,6 +26,22 @@
                 </c:otherwise>
             </c:choose>
             <div class="form-inline justify-content-center">
+                <div class="card border-primary bg-light" style="min-width: 64rem; max-width: 64rem; margin: 20px;">
+                    <div class="card-header bg-primary"><a href="ViewCart" class="text-white"><strong>Getting Started</strong></a></div>
+                    <div class="card-body">
+                        <a href="ViewCart">
+                            <img src="http://voguepayblog.com/wp-content/uploads/2016/12/eCommerce-growth-with-Voguepay-2.png" alt="ViewCart"
+                                 style="width: 58rem; height: 18rem; margin-left: 24px; border-radius: 24px;">
+                        </a>
+                        <br>
+                        <br>
+                        <a href="HomePage" class="btn btn-success btn-lg btn-block">
+                            Browse Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-inline justify-content-center">
                 <div class="card border-primary" style="min-width: 20rem; max-width: 20rem; margin: 20px;">
                     <div class="card-header"><a href="Setting_OrderHistory">Your Orders</a></div>
                     <div class="card-body">
@@ -37,8 +53,8 @@
                             <li>View orders history</li>
                             <li>Re-add previous orders to cart</li>
                         </ul>
-                        <a href="Setting_OrderHistory">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">View Orders</button>
+                        <a href="Setting_OrderHistory" class="btn btn-primary btn-lg btn-block">
+                            View Orders
                         </a>
                     </div>
                 </div>
@@ -53,8 +69,8 @@
                             <li>Review your security detail</li>
                             <br>
                         </ul>
-                        <a href="Setting_Security">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Review Account</button>
+                        <a href="Setting_Security" class="btn btn-primary btn-lg btn-block">
+                            Review Account
                         </a>
                     </div>
                 </div>
@@ -69,8 +85,8 @@
                             <li>Change email or password</li>
                             <li>Update login information</li>
                         </ul>
-                        <a href="Setting_Account">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Edit Account</button>
+                        <a href="Setting_Account" class="btn btn-primary btn-lg btn-block">
+                            Edit Account
                         </a>
                     </div>
                 </div>
@@ -87,8 +103,8 @@
                             <li>Review your shopping cart</li>
                             <li>Update, remove your items</li>
                         </ul>
-                        <a href="ViewCart">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">View Shopping Cart</button>
+                        <a href="ViewCart" class="btn btn-primary btn-lg btn-block">
+                            View Shopping Cart
                         </a>
                     </div>
                 </div>
@@ -103,8 +119,8 @@
                             <li>Change the looks for your styles</li>
                             <li>Saved locally on your computer</li>
                         </ul>
-                        <a href="Setting_Theme">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Change Theme</button>
+                        <a href="Setting_Theme" class="btn btn-primary btn-lg btn-block">
+                            Change Theme
                         </a>
                     </div>
                 </div>
