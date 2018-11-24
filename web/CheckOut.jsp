@@ -121,8 +121,13 @@
                             <br>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="sendMail" id="customCheck1" checked="">
+                                    <input type="checkbox" class="custom-control-input" name="sendMail" id="customCheck1" >
                                     <label class="custom-control-label" for="customCheck1">I'd like to receive payment notifications through email.</label>
+                                    <c:if test="${empty sessionScope.user.activateDate}">
+                                        <br>
+                                        <small class="text-danger">*Your account is not activated! Please activate your account
+                                            in your setting before we can send order details through E-mail.</small>
+                                    </c:if>
                                 </div>
                             </div>
                             <input type="hidden" name="submit" value="submit">
