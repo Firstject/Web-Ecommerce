@@ -61,7 +61,7 @@
                                 </a>
                                 <a class="dropdown-item" href="Setting_OrderHistory"><i class="fas fa-shipping-fast"></i> Order History</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="Help"><i class="material-icons" style="font-size:16px">help</i> Help</a>
+                                <a class="dropdown-item" href="Help"><i class="fa fa-question-circle"></i> Help</a>
                                 <a class="dropdown-item" href="Setting_Account"><i class="material-icons" style="font-size:16px">settings</i> Settings</a>
                                 <a class="dropdown-item" href="Logout"><i class="fas fa-sign-out-alt"></i> Sign out</a>
                             </div>
@@ -81,6 +81,9 @@
                             <span class="badge badge-pill badge-${itemsCount > 50 ? itemsCount > 80 ? 'danger' : 'warning' : 'success'}">${itemsCount}</span>
                         </c:if>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Help"><i class="fa fa-question-circle"></i></a>
                 </li>
             </ul>
         </div>

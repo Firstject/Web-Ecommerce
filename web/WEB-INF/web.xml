@@ -124,6 +124,10 @@
         <servlet-name>Setting_OrderDetailServlet</servlet-name>
         <servlet-class>sit.servlet.Setting_OrderDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HelpServlet</servlet-name>
+        <servlet-class>sit.servlet.HelpServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>Setting_OrderDetailServlet</servlet-name>
         <url-pattern>/Setting_OrderDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HelpServlet</servlet-name>
+        <url-pattern>/Help</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -30,7 +30,7 @@
                 </font>
                 <br>
                 <br>
-                <p class="text-primary">It may take up to 5 minutes for email to load on Gmail.</p>
+                <p class="text-primary">It may take up to 5 minutes for an email to appear in your inbox.</p>
             </div>
             <br>
             <center>
