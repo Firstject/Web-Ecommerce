@@ -27,9 +27,9 @@
             </c:choose>
             <div class="form-inline justify-content-center">
                 <div class="card border-primary bg-light" style="min-width: 64rem; max-width: 64rem; margin: 20px;">
-                    <div class="card-header bg-primary"><a href="ViewCart" class="text-white"><strong>Getting Started</strong></a></div>
+                    <div class="card-header bg-primary"><a href="HomePage" class="text-white"><strong>Getting Started</strong></a></div>
                     <div class="card-body">
-                        <a href="ViewCart">
+                        <a href="HomePage">
                             <img src="http://voguepayblog.com/wp-content/uploads/2016/12/eCommerce-growth-with-Voguepay-2.png" alt="ViewCart"
                                  style="width: 58rem; height: 18rem; margin-left: 24px; border-radius: 24px;">
                         </a>

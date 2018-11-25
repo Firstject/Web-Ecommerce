@@ -38,6 +38,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
     UserTransaction utx;
 
     private String orderNumber;
+    private String orderAddress;
     private String errorCode;
     private List<OrderDetails> orderDetailsList;
 
@@ -144,6 +145,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
                 if (this.orderDetailsList != null) {
                     this.request.setAttribute("orderList", this.orderDetailsList);
                     this.request.setAttribute("orderNumber", orderDetailsList.get(0).getDetailOrdernumber());
+                    this.request.setAttribute("orderAddress", orderDetailsList.get(0).getDetailAddress());
                     this.request.setAttribute("orderDate", orderDetailsList.get(0).getDetailOrderdate());
                 }
             } catch (Exception e) {

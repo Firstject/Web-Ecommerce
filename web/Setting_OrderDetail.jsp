@@ -49,6 +49,8 @@
                         <c:when test="${!empty requestScope.orderList}">
                             <label>Order #${orderNumber} was placed on ${orderDate} and is currently awaiting fulfillment.</label>
                             <br>
+                            <label>Address: ${orderAddress}</label>
+                            <br>
                             <form action="Setting_OrderDetail" method="post">
                                 <fieldset>
                                     <input type="hidden" name="reAdd" value="reAdd">
