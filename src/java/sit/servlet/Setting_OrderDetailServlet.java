@@ -149,6 +149,7 @@ public class Setting_OrderDetailServlet extends HttpServlet {
                     this.request.setAttribute("orderDate", orderDetailsList.get(0).getDetailOrderdate());
                 }
             } catch (Exception e) {
+                
             }
         }
     }
