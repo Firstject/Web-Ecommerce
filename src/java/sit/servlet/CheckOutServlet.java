@@ -23,6 +23,7 @@ import javax.transaction.UserTransaction;
 import sit.controller.AccountHistoryJpaController;
 import sit.controller.OrderDetailsJpaController;
 import sit.controller.OrdersJpaController;
+import sit.controller.UsersJpaController;
 import sit.controller.exceptions.RollbackFailureException;
 import sit.javaModel.EmailMsgManager;
 import sit.javaModel.SendMail;
@@ -68,6 +69,7 @@ public class CheckOutServlet extends HttpServlet {
     OrdersJpaController ordersCtrl;
     OrderDetailsJpaController orderDetailsCtrl;
     AccountHistoryJpaController accHistoryCtrl;
+    UsersJpaController usersCtrl;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -76,6 +78,7 @@ public class CheckOutServlet extends HttpServlet {
         this.ordersCtrl = new OrdersJpaController(utx, emf);
         this.orderDetailsCtrl = new OrderDetailsJpaController(utx, emf);
         this.accHistoryCtrl = new AccountHistoryJpaController(utx, emf);
+        this.usersCtrl = new UsersJpaController(utx, emf);
         
         setCurrentCart();
         if (this.cart != null) {
@@ -84,6 +87,7 @@ public class CheckOutServlet extends HttpServlet {
         
         tryCheckout();
         tryRemoveCart();
+        updateSession();
         this.request.getServletContext().getRequestDispatcher(returnPath).forward(this.request, this.response);
     }
 
@@ -252,6 +256,11 @@ public class CheckOutServlet extends HttpServlet {
             message = emm.orderSent(user.getUsername(), request.getHeader("Host") + getServletContext().getContextPath(), TARGET_PATH, orderNumber); //Set message as HTML content
             SendMail.send(user.getEmail(), subject, message); //SEND MAIL!
         }
+    }
+
+    private void updateSession() {
+        Users user = this.usersCtrl.findUsers(((Users)this.session.getAttribute("user")).getUserid());
+        this.session.setAttribute("user", user);
     }
     
     
