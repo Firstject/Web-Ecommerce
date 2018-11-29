@@ -123,7 +123,12 @@ public class RenewPasswordServlet extends HttpServlet {
         
         request.setAttribute("a", a);
         request.setAttribute("b", b);
-        request.setAttribute("userToReset", usersCtrl.findUsers(Integer.valueOf(b)).getUsername());
+        try {
+            request.setAttribute("userToReset", usersCtrl.findUsers(Integer.valueOf(b)).getUsername());
+        } catch (NumberFormatException e) {
+            getServletContext().getRequestDispatcher("/Password_Reset.jsp").forward(request, response);
+            return;
+        }
         request.setAttribute("errorDesc", um.GetErrorCodeDescription(errorCode));
         getServletContext().getRequestDispatcher("/RenewPassword_Email.jsp").forward(request, response);
     }
