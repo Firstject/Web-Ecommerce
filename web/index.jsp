@@ -37,7 +37,7 @@
                         <div class="col-lg-5">
                             <div class="bs-component">
                                 <a href="ViewProduct?productId=119">
-                                    <img src="http://backoffice.bananastore.com/Warehouse/Product/Picture/753759189211-a1.jpg" alt="No image" style="height: 320px;">
+                                    <img src="https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/0/0/000267831_fenix_5s_sap_frost_1.jpg" alt="No image" style="height: 320px;">
                                 </a>
                             </div>
                         </div> 
@@ -88,7 +88,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=16">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/MQL22THA-001.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/42-alu-space-sport-black-nc-1up_GEO_TH_LANG_TH?wid=470&hei=556&fmt=png-alpha&.v=1594318657000" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -106,7 +106,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=76">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/192158626574-01.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://notebookspec.com/nbs/upload_notebook/20171220-110713_c.jpg">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -124,7 +124,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=41">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/4713883669788-01.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://img10.jd.co.th/n0/jfs/t31/85/91278850/190606/1ed85b34/5c590f41N05e29f5c.jpg!q70.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -142,7 +142,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=22">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/6901443225033-free5.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://consumer-img.huawei.com/content/dam/huawei-cbg-site/common/mkt/list-image/phones/p20/P20-listimg-black.png" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -163,7 +163,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=120">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/753759156985-001.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/P/W/PWB000224477.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -181,7 +181,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=108">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/8859221708781-001.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://res.cloudinary.com/cenergy-innovation-limited-head-office/image/fetch/c_scale,q_70,f_auto,h_740/https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/p/w/pwb000244345.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -199,7 +199,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=105">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/8859221708521-01.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://www.jib.co.th/img_master/product/original/20181016175020_30469_24_1.png" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -217,7 +217,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=106">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/8859221708736-01.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/p/w/pwb000237946.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -238,7 +238,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=24">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/6901443251674-free05.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://consumer-img.huawei.com/content/dam/huawei-cbg-site/common/mkt/list-image/phones/nova3/nova3-listimage.png" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -256,7 +256,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=111">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/6958265174452-new.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://res.cloudinary.com/cenergy-innovation-limited-head-office/image/fetch/c_scale,q_70,f_auto,h_740/https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/2/4/244156_y_1.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -274,7 +274,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=122">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/818279023077-new.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="https://d1dtruvuor2iuy.cloudfront.net/media/catalog/product/2/4/249825_bundle_1.jpg" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
@@ -292,7 +292,7 @@
                     <div class="bs-component">
                         <div class="card border-info mb-3" style="max-width: 20rem;">
                             <a href="ViewProduct?productId=192">
-                                <img style="height: 250px; width: 100%; display: block;" src="http://backoffice.bananastore.com/Warehouse/Product/Picture/847663022945-New.jpg" alt="Image unavailable">
+                                <img style="height: 250px; width: 100%; display: block;" src="http://cdn.shopify.com/s/files/1/0286/0456/products/travelcube.701_1200x1200.png?v=1544501653" alt="Image unavailable">
                             </a>
                             <div class="card-body text-center">
                                 <hr>
