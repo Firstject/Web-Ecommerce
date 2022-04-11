@@ -17,7 +17,7 @@
         <div class="container" style="max-width: 35rem;">
             <br>
             <br>
-            <div align="center"><img src="https://www.allaboutfnb.sg/wp-content/uploads/2018/05/successfully-verified-300x300.png" alt="Cart-Commerce"
+            <div align="center"><img src="https://icons-for-free.com/iconfiles/png/512/correct+mark+success+tick+valid+yes+icon-1320167819078544687.png" alt="Cart-Commerce"
                                      style="height: 128px; width: 128px;"></div>
             <h1 align="center">Verification Success!</h1>
             <hr>
