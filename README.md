@@ -38,6 +38,17 @@ To be added...
 ## IntelliJ IDEA
 To be added...
 
+# Mockup Database
+`ecommerce.sql` file can be executed in the database to create a premade data in this project. This can be re-executed as many times as you want.
+
+Username and password for log in
+| Username | Password |
+|-|-|
+| Allilovely | 12345678 |
+| ArticleAir | sonasona |
+| DiscoverMi | abcd1234 |
+| Fanshomi | iloveecommerce |
+
 # Updating Controller and Model classes from SQL
 If there is any change made on SQL file, all model and controller classes may need to be updated. 
 - Delete all entity classes from database and create it again.
