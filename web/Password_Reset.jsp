@@ -29,7 +29,7 @@
                     <c:choose>
                         <c:when test="${!empty errorDesc}">
                             <div class="alert alert-dismissible alert-danger">
-                              <button type="button" class="close" data-dismiss="alert">&times;</button>
+                              <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                               <strong>Oh snap!</strong> ${errorDesc}
                             </div>
                         </c:when>

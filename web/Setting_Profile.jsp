@@ -40,7 +40,7 @@
                         <fieldset>
                             <c:if test="${isProfileUpdated == true}">
                                 <div class="alert alert-dismissible alert-success">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                                     Your profile has been saved!
                                 </div>
                             </c:if>

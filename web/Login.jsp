@@ -26,7 +26,7 @@
             <h1 align="center">Sign in</h1>
             <c:if test="${isAuthenticated == false}">
                 <div class="alert alert-dismissible alert-danger">
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                   Incorrect username or password.
                 </div>
             </c:if>

@@ -89,7 +89,7 @@
                             <c:when test="${!empty product}">
                                 <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_SUCCESS'}">
                                     <div class="alert alert-dismissible alert-success">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <div class="bs-component">
@@ -117,13 +117,13 @@
                                 </c:if>     
                                 <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_OUT_OF_STOCK'}">
                                     <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                                         Sorry, but that item is out of stock.
                                     </div>
                                 </c:if>     
                                 <c:if test="${requestScope.productAddedStatus == 'PRODUCT_ADDED_FULL'}">
                                     <div class="alert alert-dismissible alert-danger">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                                         Your cart cannot exceed 100 items. Please remove an item from <a href="ViewCart" target="_blank">your Cart</a> and <a href="ViewProduct">try again.</a>
                                     </div>
                                 </c:if>     
@@ -171,7 +171,7 @@
                             </c:when>
                             <c:otherwise>
                                 <div class="alert alert-dismissible alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                                     We could not retrieve any product at this moment. Please try again later.
                                 </div>
                             </c:otherwise>

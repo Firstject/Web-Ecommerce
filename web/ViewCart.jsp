@@ -29,7 +29,7 @@
             <c:choose>
                 <c:when test="${requestScope.errorCode == 'SESSION_NULL_ERROR' || requestScope.errorCode == 'CART_ERROR'}">
                     <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">We want to keep you safe!</h4>
                         <p class="mb-0">Just in case you walked away and left your browser turned on, we have expired this session.</p>
                         <b>Reason: Your session has expired due to inactivity.</b>
@@ -37,7 +37,7 @@
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'PRODUCT_NOT_FOUND_ERROR'}">
                     <div class="alert alert-dismissible alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Whoops, our bad...</h4>
                         <p class="mb-0">Well, this is embarrassing. We can't find the product you asked for.</p>
                         <b>Reason: The item you were trying to update has been removed from your shopping cart. You can add the item to 
@@ -47,7 +47,7 @@
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'CART_EXCEED_LIMIT'}">
                     <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Too many items in your cart!  </h4>
                         <p class="mb-0">Your cart cannot exceed 100 items!</p>
                         <b>Reason: You're trying to update your shopping cart that might exceeds over 100 items. Please remove some item from your cart and try again.</b>
@@ -55,14 +55,14 @@
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'UPDATE_SUCCESS'}">
                     <div class="alert alert-dismissible alert-success">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Updated product successfully!</h4>
                         <p class="mb-0">${updatedProductName}'s quantity has been updated.</p>
                     </div>
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'DELETE_SUCCESS'}">
                     <div class="alert alert-dismissible alert-success">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Removed product successfully!</h4>
                         <p class="mb-0">${updatedProductName} has been removed from your shopping cart.
                             <a href="ViewProduct?productId=${updatedProductId}">
@@ -73,21 +73,21 @@
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'DELETE_ALL_SUCCESS'}">
                     <div class="alert alert-dismissible alert-success">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">We've cleaned up your shopping cart!</h4>
                         <p class="mb-0">All products has been removed from your shopping cart.</p>
                     </div>
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'READD_SUCCESS'}">
                     <div class="alert alert-dismissible alert-success">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Products has been re-added!</h4>
                         <p class="mb-0">The cart has been filled with the items from your previous order.</p>
                     </div>
                 </c:when>
                 <c:when test="${requestScope.errorCode == 'READD_SUCCESS_WITH_WARNING'}">
                     <div class="alert alert-dismissible alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                         <h4 class="alert-heading">Products has been re-added, but...</h4>
                         <p class="mb-0">The cart has been filled with the items from your previous order. But...</p>
                         <p class="mb-0">Due to maximum capacity the shopping cart can hold, some item was not added to cart.</p>

@@ -39,19 +39,19 @@
                 <div class="col-lg-9">
                     <c:if test="${isPasswordUpdated}">
                         <div class="alert alert-dismissible alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                             <strong>Your password was changed successfully!</strong>
                         </div>
                     </c:if>
                     <c:if test="${isInfoUpdated}">
                         <div class="alert alert-dismissible alert-warning">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                             <strong>There is a pending change of your email to ${sessionScope.user.email}. Please check your inbox for a confirmation link.</strong>
                         </div>
                     </c:if>
                     <c:if test="${!empty errorDesc}">
                         <div class="alert alert-dismissible alert-danger">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
                             <strong>${errorDesc}</strong>
                         </div>
                     </c:if>
